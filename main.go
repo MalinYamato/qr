@@ -40,7 +40,6 @@ import (
 	"github.com/dghubble/gologin/google"
 	"github.com/dghubble/sessions"
 	"golang.org/x/oauth2"
-	facebookOAuth2 "golang.org/x/oauth2/facebook"
 	googleOAuth2 "golang.org/x/oauth2/google"
 	"html/template"
 	"log"
@@ -69,6 +68,7 @@ type Status struct {
 	Status string `json:"status"`
 	Detail string `json:"detail"`
 }
+
 //
 //type VideoFormat struct {
 //	Codec   string `json:"codec"`
@@ -94,20 +94,19 @@ type Status struct {
 // Revert audio and video formats
 // into user changeable parameters.
 
- type MediaSession struct {
-	MediaServerURL string      `json:"idMediaServerURL"`
-	IdMediaSession string      `json:"idHandle"`
-	IdHandle       string      `json:"id"`
-	Id             string      `json:"id"`
-	IdRoom         string      `json:"room"`
-	Audio          bool        `json:"audio"`
-	Video          bool        `json:"video"`
-	PubOrSub       string      `json:"pubOrSub"`
-	OnOrOff        string      `json:"onOrOff"`
-//	VideoFormat    VideoFormat `json:"VideoFormat,omitempty"`
-//	AudioFormat    AudioFormat `json:"AudioFormast,omitempty"`
+type MediaSession struct {
+	MediaServerURL string `json:"idMediaServerURL"`
+	IdMediaSession string `json:"idHandle"`
+	IdHandle       string `json:"id"`
+	Id             string `json:"id"`
+	IdRoom         string `json:"room"`
+	Audio          bool   `json:"audio"`
+	Video          bool   `json:"video"`
+	PubOrSub       string `json:"pubOrSub"`
+	OnOrOff        string `json:"onOrOff"`
+	//	VideoFormat    VideoFormat `json:"VideoFormat,omitempty"`
+	//	AudioFormat    AudioFormat `json:"AudioFormast,omitempty"`
 }
-
 
 type Message struct {
 	Op         string  `json:"op"`
