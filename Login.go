@@ -83,10 +83,15 @@ func issueSession() http.Handler {
 		if err != nil {
 			log.Println("Login: could not set session ", err)
 		}
-	}
-	log.Printf("Login: Successful Login of %s Email: %s  FacebookID: %s Token: %s UserID %s ", user, person.Email, person.FacebookID, person.Token, person.UserID)
-	http.Redirect(w, req, "/session", http.StatusFound)
+		_admin.Email = googleUser.Email
+		_admin.UserID, _ = strconv.Atoi(googleUser.Id)
+		_admin.LastName = googleUser.FamilyName
+		_admin.FirstName = googleUser.GivenName
 
+		log.Printf("Login: Successful Login of %s %s Email: %s ID: %$ ",
+			googleUser.GivenName, googleUser.FamilyName, googleUser.Email, googleUser.Id)
+		http.Redirect(w, req, "/session", http.StatusFound)
+	}
 	return http.HandlerFunc(fn)
 }
 
@@ -100,29 +105,8 @@ func logoutHandler(w http.ResponseWriter, req *http.Request) {
 	http.Redirect(w, req, "/", http.StatusFound)
 }
 
-func requireLoginNonMember(next http.Handler) http.Handler {
-	fn := func(w http.ResponseWriter, req *http.Request) {
-		if !isAuthenticated(req) {
-			http.Redirect(w, req, "/", http.StatusFound)
-			return
-		}
-		next.ServeHTTP(w, req)
-	}
-	return http.HandlerFunc(fn)
-}
 func requireLogin(next http.Handler) http.Handler {
 	fn := func(w http.ResponseWriter, req *http.Request) {
-		session, _ := _sessionStore.Get(req, sessionName)
-		token := session.Values[sessionToken].(string)
-		var person Person
-		person, ok := _persons.findPersonByToken(token)
-		log.Println(" ok %s  %s", person.FirstName, person.Token, token, strconv.FormatBool(ok), strconv.FormatBool(person.Keep))
-		if person.Keep == false {
-			_persons.Delete(person)
-			_sessionStore.Destroy(w, sessionName)
-			http.Redirect(w, req, "/", http.StatusFound)
-			return
-		}
 		if !isAuthenticated(req) {
 			http.Redirect(w, req, "/", http.StatusFound)
 			return

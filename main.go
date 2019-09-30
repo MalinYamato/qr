@@ -40,6 +40,7 @@ import (
 	"github.com/dghubble/sessions"
 	"golang.org/x/oauth2"
 	googleOAuth2 "golang.org/x/oauth2/google"
+	"google.golang.org/api/classroom/v1"
 	"html/template"
 	"log"
 	"net/http"
@@ -134,6 +135,8 @@ func sessionHandler(w http.ResponseWriter, r *http.Request) {
 		Port      string
 		LoggedIn  string
 		LoggedOut string
+		Name      string
+		Email     string
 		Coupons   []Coupon
 	}{
 		Protocol:  _config.Protocol,
@@ -141,6 +144,8 @@ func sessionHandler(w http.ResponseWriter, r *http.Request) {
 		Port:      _config.Port,
 		LoggedIn:  "flex",
 		LoggedOut: "none",
+		Name:      _admin.FirstName + " " + _admin.LastName,
+		Email:     _admin.Email,
 		Coupons:   _coupons.getAll(),
 	})
 }
@@ -199,17 +204,14 @@ func getCookieAndTokenfromRequest(r *http.Request, onlyTooken bool) (token strin
 
 const _home = "home.html"
 
-var _persons Persons
 var _coupons Coupons
 var _documentRoot string
 var _sessionStore *sessions.CookieStore
 var _config Config
+var _admin Person
 
 func main() {
 	_coupons = Coupons{make(map[string]Coupon)}
-	var _persons Persons
-	log.Println("Load persons database...")
-	_persons.load()
 	if os.Getenv("RakuRunMode") == "Test" {
 		_config.load("qr_test.conf")
 	} else {
