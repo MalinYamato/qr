@@ -108,25 +108,17 @@ func serveHome(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 
-	var none []Person
+	var none []Coupon
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	template.Must(template.ParseFiles(_home)).Execute(w, struct {
-		Protocol  string
-		Host      string
-		Port      string
-		LoggedIn  string
-		LoggedOut string
-		Person    Person
-		Persons   []Coupon
+		Protocol string
+		Host     string
+		Port     string
 	}{
-		Protocol:  _config.Protocol,
-		Host:      _config.Host,
-		Port:      _config.Port,
-		LoggedIn:  "none",
-		LoggedOut: "flex",
-		Person:    Person{},
-		Persons:   none,
+		Protocol: _config.Protocol,
+		Host:     _config.Host,
+		Port:     _config.Port,
 	})
 }
 
@@ -145,7 +137,6 @@ func sessionHandler(w http.ResponseWriter, r *http.Request) {
 		log.Println("Main: sessionHandler: User does not exist for token ", person.Token)
 		w.Write([]byte("Authorization Failure! User does not exist, The following token is invalid: " + token))
 	}
-
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	template.Must(template.ParseFiles(_home)).Execute(w, struct {
 		Protocol  string
@@ -154,7 +145,7 @@ func sessionHandler(w http.ResponseWriter, r *http.Request) {
 		LoggedIn  string
 		LoggedOut string
 		Person    Person
-		Persons   []Coupons
+		Coupons   []Coupon
 	}{
 		Protocol:  _config.Protocol,
 		Host:      _config.Host,
@@ -162,7 +153,7 @@ func sessionHandler(w http.ResponseWriter, r *http.Request) {
 		LoggedIn:  "flex",
 		LoggedOut: "none",
 		Person:    person,
-		Persons:   _coupons.getAll(),
+		Coupons:   _coupons.getAll(),
 	})
 }
 
@@ -226,7 +217,7 @@ var _sessionStore *sessions.CookieStore
 var _config Config
 
 func main() {
-	_coupons = Coupon{make(map[id]Coupon)}
+	_coupons = Coupons{make(map[string]Coupon)}
 	if os.Getenv("RakuRunMode") == "Test" {
 		_config.load("raku_test.conf")
 	} else {

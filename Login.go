@@ -206,7 +206,6 @@ func requireLogin(next http.Handler) http.Handler {
 		session, _ := _sessionStore.Get(req, sessionName)
 		token := session.Values[sessionToken].(string)
 		var person Person
-		person.Keep = false
 		person, ok := _persons.findPersonByToken(token)
 		log.Println(" ok %s  %s", person.FirstName, person.Token, token, strconv.FormatBool(ok), strconv.FormatBool(person.Keep))
 		if person.Keep == false {
