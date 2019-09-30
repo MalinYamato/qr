@@ -32,12 +32,13 @@
 package main
 
 import (
-	"github.com/dghubble/gologin/google"
+	"github.com/dghubble/gologin/v2/google"
+
+	//"github.com/dghubble/gologin/google"
 	"github.com/rs/xid"
 	"log"
 	"net/http"
 	"strconv"
-	"strings"
 	"time"
 )
 
@@ -62,9 +63,7 @@ func timestamp() string {
 
 func issueSession() http.Handler {
 	fn := func(w http.ResponseWriter, req *http.Request) {
-
 		var sessionUserKey = "GoogleUser"
-
 		ctx := req.Context()
 		googleUser, err := google.UserFromContext(ctx)
 		if err != nil {
@@ -72,7 +71,6 @@ func issueSession() http.Handler {
 			return
 		}
 		secret := xid.New() // used as a secret to verify identity of users who sends websocket messages from the brwoser to the server
-		userID := xid.New() // used to identify a user to all other users, not a secret.
 		// remove possible old cookies
 		if isAuthenticated(req) {
 			log.Println("Login: There was an old cookie. Removing it")
@@ -85,105 +83,16 @@ func issueSession() http.Handler {
 		if err != nil {
 			log.Println("Login: could not set session ", err)
 		}
-		var user string
-		var v Person
-		var ok bool
-		v, ok = _persons.findPersonByGoogleID(googleUser.Id)
-		if ok && v.Keep {
-			person := Person{
-				Nic:               checkSet(v.Nic, "uregistered"),
-				Keep:              v.Keep,
-				FirstName:         checkSet(v.FirstName, googleUser.GivenName),
-				LastName:          checkSet(v.LastName, googleUser.FamilyName),
-				Email:             checkSet(v.Email, googleUser.Email),
-				Gender:            checkSet(v.Gender, googleUser.Gender),
-				BirthDate:         v.BirthDate,
-				Country:           checkSet(v.Country, googleUser.Locale),
-				Town:              v.Town,
-				Long:              checkSet(v.Long, ""),
-				Lat:               checkSet(v.Lat, ""),
-				PictureURL:        checkSet(v.PictureURL, googleUser.Picture),
-				SexualOrientation: v.SexualOrientation,
-				Languages:         v.Languages,
-				LanguagesList:     v.LanguagesList,
-				Profession:        v.Profession,
-				Education:         v.Education,
-				GoogleID:          googleUser.Id,
-				UserID:            v.UserID,
-				Token:             secret.String(),
-				Description:       v.Description,
-				Room:              v.Room,
-				RakuMail:          v.RakuMail,
-				Relationship:      v.Relationship,
-				Children:          v.Children,
-				FirstNamePublic:   v.FirstNamePublic,
-				LastNamePublic:    v.LastNamePublic,
-				Password:          v.Password}
-
-			if person.PictureURL == "" {
-				person.PictureURL = _config.url() + "/images/default.png"
-			}
-
-			person.LoggedIn = true
-			_persons.Save(person)
-			user = "registred user"
-		} else if !ok {
-			person := Person{
-				//Nic:               googleUser.GivenName,
-				Keep:              false,
-				FirstName:         googleUser.GivenName,
-				LastName:          googleUser.FamilyName,
-				Email:             googleUser.Email,
-				Gender:            googleUser.Gender,
-				BirthDate:         Date{"1900", "1", "1"},
-				Town:              "",
-				Country:           googleUser.Locale,
-				PictureURL:        googleUser.Picture,
-				SexualOrientation: "",
-				Languages:         map[string]string{},
-				LanguagesList:     []string{},
-				Profession:        "",
-				Education:         "",
-				GoogleID:          googleUser.Id,
-				UserID:            UserId(userID.String()),
-				Token:             secret.String(),
-				FirstNamePublic:   true,
-				LastNamePublic:    true,
-				Description:       "",
-				Room:              "Main"}
-
-			person.LoggedIn = true
-			_persons.Add(person)
-			http.Redirect(w, req, "/LaunchRegistration", http.StatusFound)
-			return
-		}
-		person, _ := _persons.findPersonByGoogleID(googleUser.Id)
-		log.Printf("Login: Successful Login of %s Email: %s  FacebookID: %s Token: %s UserID %s ", user, person.Email, person.FacebookID, person.Token, person.UserID)
-		http.Redirect(w, req, "/session", http.StatusFound)
-
 	}
+	log.Printf("Login: Successful Login of %s Email: %s  FacebookID: %s Token: %s UserID %s ", user, person.Email, person.FacebookID, person.Token, person.UserID)
+	http.Redirect(w, req, "/session", http.StatusFound)
+
 	return http.HandlerFunc(fn)
 }
 
 func logoutHandler(w http.ResponseWriter, req *http.Request) {
 	if req.Method == "POST" {
 		req.ParseForm()
-		session, _ := _sessionStore.Get(req, sessionName)
-		token := session.Values[sessionToken].(string)
-		var person Person
-		person, ok := _persons.findPersonByToken(token)
-		if ok {
-			person.LoggedIn = false
-			_persons.Save(person)
-			_hub.broadcast <- Message{Op: "UserLoggedOut", Token: "", Room: person.Room, Timestamp: timestamp(), Sender: person.UserID, Nic: person.getNic(), PictureURL: person.PictureURL, Content: "出室、またね " + person.getNic()}
-			if person.Keep == false {
-				log.Printf("Login: Logout user and remove Remove her profile Email %s  UserId %s Token %s", person.Email, person.UserID, person.Token)
-				_persons.Delete(person)
-
-			} else {
-				log.Printf("Login: Logout user but keep her Profile Email %s  UserId %s Token %s", person.Email, person.UserID, person.Token)
-			}
-		}
 		_sessionStore.Destroy(w, sessionName)
 	}
 	// redirect does not work for AJAX calls. Redirects have to be implemtend by client
