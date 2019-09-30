@@ -36,7 +36,6 @@ import (
 	"flag"
 	"fmt"
 	"github.com/dghubble/gologin"
-	"github.com/dghubble/gologin/facebook"
 	"github.com/dghubble/gologin/google"
 	"github.com/dghubble/sessions"
 	"golang.org/x/oauth2"
@@ -67,60 +66,6 @@ const (
 type Status struct {
 	Status string `json:"status"`
 	Detail string `json:"detail"`
-}
-
-//
-//type VideoFormat struct {
-//	Codec   string `json:"codec"`
-//	Width   int16  `json:"width"`   // in pixels
-//	Height  int16  `json:"height"`  // in pixels
-//	BitRate int16  `json:"bitRate"` // bits per second
-//}
-
-//type AudioFormat struct {
-//	Codec      string `json:"codec"`
-//	Channels   int16  `json:"channels"`
-//	BitRate    int16  `json:"bitRate"`    // bits per second
-//	BitDepth   int16  `json:"bitDepth"`   // vertical resolution,  PCM
-//	SampleRate int32  `json:"sampleRate"` // Number of vertical snapshots per second, PCM
-//}
-
-// publishers[].Targets[]
-
-// Media Session Protocol
-//
-//
-
-// Revert audio and video formats
-// into user changeable parameters.
-
-type MediaSession struct {
-	MediaServerURL string `json:"idMediaServerURL"`
-	IdMediaSession string `json:"idHandle"`
-	IdHandle       string `json:"id"`
-	Id             string `json:"id"`
-	IdRoom         string `json:"room"`
-	Audio          bool   `json:"audio"`
-	Video          bool   `json:"video"`
-	PubOrSub       string `json:"pubOrSub"`
-	OnOrOff        string `json:"onOrOff"`
-	//	VideoFormat    VideoFormat `json:"VideoFormat,omitempty"`
-	//	AudioFormat    AudioFormat `json:"AudioFormast,omitempty"`
-}
-
-type Message struct {
-	Op         string `json:"op"`
-	Token      string `json:"token"`
-	Room       string `json:"room"`
-	Nic        string `json:"nic,omitempty"`
-	Timestamp  string `json:"timestamp,omitempty"`
-	PictureURL string `json:"pictureURL,omitemtpy"`
-
-	//payload
-	Content      string       `json:"content"`
-	Messages     []Message    `json:messages,omitempty`
-	RoomUsers    []Person     `json:"roomUsers,omitempty"`
-	MediaSession MediaSession `json:"mediaSession,omitempty"`
 }
 
 func serveHome(w http.ResponseWriter, r *http.Request) {
@@ -167,37 +112,22 @@ func serveHome(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	template.Must(template.ParseFiles(_home)).Execute(w, struct {
-		Protocol      string
-		Host          string
-		Port          string
-		VideoProtocol string
-		VideoHost     string
-		VideoPort     string
-		LoggedIn      string
-		LoggedOut     string
-		Person        Person
-		Messages      []Message
-		Persons       []Person
-		Targets       []GreenBlue
+		Protocol  string
+		Host      string
+		Port      string
+		LoggedIn  string
+		LoggedOut string
+		Person    Person
+		Persons   []Coupon
 	}{
-		Protocol:      _config.Protocol,
-		Host:          _config.Host,
-		Port:          _config.Port,
-		VideoProtocol: _config.VideoProtocol,
-		VideoHost:     _config.VideoHost,
-		VideoPort:     _config.VideoPort,
-		LoggedIn:      "none",
-		LoggedOut:     "flex",
-		Person:        Person{},
-		Messages:      msgs,
-		Persons:       none,
-		Targets:       nil,
+		Protocol:  _config.Protocol,
+		Host:      _config.Host,
+		Port:      _config.Port,
+		LoggedIn:  "none",
+		LoggedOut: "flex",
+		Person:    Person{},
+		Persons:   none,
 	})
-}
-
-type GreenBlue struct {
-	Color  string
-	Target Person
 }
 
 func sessionHandler(w http.ResponseWriter, r *http.Request) {
@@ -215,72 +145,37 @@ func sessionHandler(w http.ResponseWriter, r *http.Request) {
 		log.Println("Main: sessionHandler: User does not exist for token ", person.Token)
 		w.Write([]byte("Authorization Failure! User does not exist, The following token is invalid: " + token))
 	}
-	room := _hub.messages[person.Room]
-	ifs := room.GetAllAsList()
-	var msgs []Message
-	msgs = make([]Message, len(ifs), len(ifs))
-	for i := 0; i < len(ifs); i++ {
-		msgs[i] = ifs[i].(Message)
-	}
-	var targets []GreenBlue
-	for k, _ := range _publishers[person.UserID] {
-		target, ok := _persons.findPersonByUserId(k)
-		if ok {
-			//	color := updateMPRStatus(person.UserID, target.UserID)
-			targets = append(targets, GreenBlue{BLUE, target})
-		}
-	}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	template.Must(template.ParseFiles(_home)).Execute(w, struct {
-		Protocol      string
-		Host          string
-		Port          string
-		VideoProtocol string
-		VideoHost     string
-		VideoPort     string
-		LoggedIn      string
-		LoggedOut     string
-		Person        Person
-		Messages      []Message
-		Persons       []Person
-		Targets       []GreenBlue
+		Protocol  string
+		Host      string
+		Port      string
+		LoggedIn  string
+		LoggedOut string
+		Person    Person
+		Persons   []Coupons
 	}{
-		Protocol:      _config.Protocol,
-		Host:          _config.Host,
-		Port:          _config.Port,
-		VideoProtocol: _config.VideoProtocol,
-		VideoHost:     _config.VideoHost,
-		VideoPort:     _config.VideoPort,
-		LoggedIn:      "flex",
-		LoggedOut:     "none",
-		Person:        person,
-		Messages:      msgs,
-		Persons:       _persons.getAllInRoom(person.Room),
-		Targets:       targets,
+		Protocol:  _config.Protocol,
+		Host:      _config.Host,
+		Port:      _config.Port,
+		LoggedIn:  "flex",
+		LoggedOut: "none",
+		Person:    person,
+		Persons:   _coupons.getAll(),
 	})
 }
 
-func NewMux(config *Config, hub *Hub) *http.ServeMux {
+func NewMux(config *Config) *http.ServeMux {
 	mux := http.NewServeMux()
 
 	mux.HandleFunc("/", serveHome)
 	mux.Handle("/session/", requireLogin(http.HandlerFunc(sessionHandler)))
 	mux.Handle("/profile", requireLogin(http.HandlerFunc(ProfileHandler)))
-	mux.Handle("/LaunchRegistration", requireLoginNonMember(http.HandlerFunc(LaunchRegistrationHandler)))
-	mux.Handle("/RegistrationManager", requireLoginNonMember(http.HandlerFunc(RegistrationHandler)))
 	mux.Handle("/ProfileUpdate", requireLoginNonMember(http.HandlerFunc(UpdateProfileHandler)))
-	mux.Handle("/MainProfile", requireLogin(http.HandlerFunc(LaunchProfileHandler)))
-	mux.Handle("/TargetManager", requireLogin(http.HandlerFunc(TargetManagerHandler)))
-	mux.Handle("/RoomManager", requireLogin(http.HandlerFunc(RoomManagerHandler)))
 	mux.Handle("/ImageManagerSave", requireLogin(http.HandlerFunc(ImageManager_SaveHandler)))
 	mux.Handle("/ImageManagerGet", requireLogin(http.HandlerFunc(ImageManger_GetHandler)))
 	mux.Handle("/ImageManagerDelete", requireLogin(http.HandlerFunc(ImageManager_DeleteHandler)))
-	mux.Handle("/VideoManager", requireLogin(http.HandlerFunc(VideoManager_handler)))
-
-	mux.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
-		serveWs(hub, w, r)
-	})
 	mux.HandleFunc("/logout", logoutHandler)
 
 	oauth2Config := &oauth2.Config{
@@ -295,19 +190,6 @@ func NewMux(config *Config, hub *Hub) *http.ServeMux {
 	mux.Handle("/google/login", google.StateHandler(stateConfig, google.LoginHandler(oauth2Config, nil)))
 	mux.Handle("/google/callback", google.StateHandler(stateConfig, google.CallbackHandler(oauth2Config, issueSession(), nil)))
 
-	oauth2ConfigFB := &oauth2.Config{
-		ClientID:     config.ClientID_FB,
-		ClientSecret: config.ClientSecret_FB,
-		RedirectURL:  config.url() + "/facebook/callback",
-		Endpoint:     facebookOAuth2.Endpoint,
-		//Scopes:       []string{"profile", "email"},
-	}
-	log.Println("Facebook Client ID ", config.ClientID_FB)
-	log.Println("Facebook Client secret ", config.ClientSecret_FB)
-
-	stateConfigFB := gologin.DefaultCookieConfig
-	mux.Handle("/facebook/login", facebook.StateHandler(stateConfigFB, facebook.LoginHandler(oauth2ConfigFB, nil)))
-	mux.Handle("/facebook/callback", facebook.StateHandler(stateConfigFB, facebook.CallbackHandler(oauth2ConfigFB, issueSessionFB(), nil)))
 	return mux
 }
 
@@ -338,16 +220,13 @@ func getCookieAndTokenfromRequest(r *http.Request, onlyTooken bool) (token strin
 
 const _home = "home.html"
 
-var _persons Persons
-var _hub *Hub
+var _coupons Coupons
 var _documentRoot string
 var _sessionStore *sessions.CookieStore
-var _publishers PublishersTargets
 var _config Config
 
 func main() {
-	_publishers = make(PublishersTargets)
-	_persons = Persons{make(map[UserId]Person)}
+	_coupons = Coupon{make(map[id]Coupon)}
 	if os.Getenv("RakuRunMode") == "Test" {
 		_config.load("raku_test.conf")
 	} else {
@@ -362,24 +241,19 @@ func main() {
 	_sessionStore = sessions.NewCookieStore([]byte(_config.ChatPrivateKey), nil)
 	dir, _ := os.Getwd()
 	_documentRoot = strings.Replace(dir, " ", "\\ ", -1)
-	queue := new(QueueStack)
 	var addr = flag.String("addr", ":"+_config.Port, "http service address")
 	flag.Parse()
 	log.Println("Create a hub and run it in a different thread")
-	_hub = newHub(*queue)
-	go _hub.run()
 	log.Println("Load persons database...")
-	_persons.load()
-	log.Println("Create RTC manager and run it in a different thread")
-	startRTCManager()
+	_coupons.load()
 	log.Println("Starting service at ", _config.url())
 	if _config.Protocol == "http" {
-		err := http.ListenAndServe(*addr, NewMux(&_config, _hub))
+		err := http.ListenAndServe(*addr, NewMux(&_config))
 		if err != nil {
 			log.Fatal("ListenAndServe: ", err)
 		}
 	} else { // https
-		err := http.ListenAndServeTLS(*addr, _config.SSLCert, _config.SSLPrivateKey, NewMux(&_config, _hub))
+		err := http.ListenAndServeTLS(*addr, _config.SSLCert, _config.SSLPrivateKey, NewMux(&_config))
 		if err != nil {
 			log.Fatal("ListenAndServe TLS: ", err)
 		}
