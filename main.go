@@ -109,19 +109,16 @@ type MediaSession struct {
 }
 
 type Message struct {
-	Op         string  `json:"op"`
-	Token      string  `json:"token"`
-	Room       string  `json:"room"`
-	Sender     UserId  `json:"sender"`
-	Targets    Targets `json:"targets,omitempty"`
-	Nic        string  `json:"nic,omitempty"`
-	Timestamp  string  `json:"timestamp,omitempty"`
-	PictureURL string  `json:"pictureURL,omitemtpy"`
+	Op         string `json:"op"`
+	Token      string `json:"token"`
+	Room       string `json:"room"`
+	Nic        string `json:"nic,omitempty"`
+	Timestamp  string `json:"timestamp,omitempty"`
+	PictureURL string `json:"pictureURL,omitemtpy"`
 
 	//payload
 	Content      string       `json:"content"`
 	Messages     []Message    `json:messages,omitempty`
-	Graph        Graph        `json:"graph,omitempty"`
 	RoomUsers    []Person     `json:"roomUsers,omitempty"`
 	MediaSession MediaSession `json:"mediaSession,omitempty"`
 }
@@ -165,13 +162,6 @@ func serveHome(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	room := _hub.messages["Main"]
-	ifs := room.GetAllAsList()
-	var msgs []Message
-	msgs = make([]Message, len(ifs), len(ifs))
-	for i := 0; i < len(ifs); i++ {
-		msgs[i] = ifs[i].(Message)
-	}
 
 	var none []Person
 
