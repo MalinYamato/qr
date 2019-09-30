@@ -35,7 +35,7 @@ fi
 echo "Installing and compiling $package"
     $GOROOT/bin/go get github.com/$package
 echo "Installing main program binary chat"
-    install -v -m +x $GOPATH/bin/* $document_root
+    install -v -m +x $GOPATH/bin/qr $document_root
 
 echo "Moving files from $package to $document_root"
     install -v -m +r $src/$package/etc/*.conf /etc/supervisor/conf.d

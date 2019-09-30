@@ -219,9 +219,9 @@ var _config Config
 func main() {
 	_coupons = Coupons{make(map[string]Coupon)}
 	if os.Getenv("RakuRunMode") == "Test" {
-		_config.load("raku_test.conf")
+		_config.load("qr_test.conf")
 	} else {
-		_config.load("raku.conf")
+		_config.load("qr.conf")
 	}
 	if _config.ClientID == "" {
 		log.Fatal("Missing Google Client ID")
