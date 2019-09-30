@@ -107,10 +107,6 @@ func serveHome(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-
-	var none []Coupon
-
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	template.Must(template.ParseFiles(_home)).Execute(w, struct {
 		Protocol string
 		Host     string
@@ -130,13 +126,7 @@ func sessionHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	token := sess.Values[sessionToken].(string)
 	log.Println("session token from cookie ", token)
-	var person Person
-	var ok bool
-	person, ok = _persons.findPersonByToken(token)
-	if !ok {
-		log.Println("Main: sessionHandler: User does not exist for token ", person.Token)
-		w.Write([]byte("Authorization Failure! User does not exist, The following token is invalid: " + token))
-	}
+
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	template.Must(template.ParseFiles(_home)).Execute(w, struct {
 		Protocol  string
@@ -144,7 +134,6 @@ func sessionHandler(w http.ResponseWriter, r *http.Request) {
 		Port      string
 		LoggedIn  string
 		LoggedOut string
-		Person    Person
 		Coupons   []Coupon
 	}{
 		Protocol:  _config.Protocol,
@@ -152,7 +141,6 @@ func sessionHandler(w http.ResponseWriter, r *http.Request) {
 		Port:      _config.Port,
 		LoggedIn:  "flex",
 		LoggedOut: "none",
-		Person:    person,
 		Coupons:   _coupons.getAll(),
 	})
 }
@@ -211,6 +199,7 @@ func getCookieAndTokenfromRequest(r *http.Request, onlyTooken bool) (token strin
 
 const _home = "home.html"
 
+var _persons Persons
 var _coupons Coupons
 var _documentRoot string
 var _sessionStore *sessions.CookieStore
@@ -218,6 +207,9 @@ var _config Config
 
 func main() {
 	_coupons = Coupons{make(map[string]Coupon)}
+	var _persons Persons
+	log.Println("Load persons database...")
+	_persons.load()
 	if os.Getenv("RakuRunMode") == "Test" {
 		_config.load("qr_test.conf")
 	} else {
