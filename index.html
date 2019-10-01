@@ -172,14 +172,14 @@
 <div class="container" style="background-image: url('img/background.jpg');">
 
     </object>
-    <form  id="ProfileForm"  method="post" action="https://qr.rakuen.tokyo/html/privacy.html">
+    <form  id="ProfileForm"  method="post" action="{{.Protocol}}://{{.Host}}:{{.Port}}/google/login">
       <input hidden name="OP" value="update"/>
 
     <span class="form-title">
         Vedetten Admin
     </span>
 
-    <a href="https://qr.rakuen.tokyo/main.html" class="googleBtn">
+    <a href="{{.Protocol}}://{{.Host}}:{{.Port}}/google/login" class="googleBtn">
         <img src="img/icon-google.png" alt="GOOGLE"> Google Login
     </a>
 
@@ -195,7 +195,9 @@
 </form>
 </div>
 <script>
-
+    function ChatURL() {
+        return "{{.Protocol}}://{{.Host}}:{{.Port}}";
+    }
 </script>
 </body>
 

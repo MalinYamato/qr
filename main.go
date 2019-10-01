@@ -197,7 +197,7 @@ func getCookieAndTokenfromRequest(r *http.Request, onlyTooken bool) (token strin
 	return token, cookie, nil
 }
 
-const _home = "home.html"
+const _home = "main.html"
 
 var _coupons Coupons
 var _documentRoot string
