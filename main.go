@@ -40,7 +40,6 @@ import (
 	"github.com/dghubble/sessions"
 	"golang.org/x/oauth2"
 	googleOAuth2 "golang.org/x/oauth2/google"
-	"google.golang.org/api/classroom/v1"
 	"html/template"
 	"log"
 	"net/http"
@@ -155,11 +154,7 @@ func NewMux(config *Config) *http.ServeMux {
 
 	mux.HandleFunc("/", serveHome)
 	mux.Handle("/session/", requireLogin(http.HandlerFunc(sessionHandler)))
-	mux.Handle("/profile", requireLogin(http.HandlerFunc(ProfileHandler)))
-	mux.Handle("/ProfileUpdate", requireLoginNonMember(http.HandlerFunc(UpdateProfileHandler)))
-	mux.Handle("/ImageManagerSave", requireLogin(http.HandlerFunc(ImageManager_SaveHandler)))
-	mux.Handle("/ImageManagerGet", requireLogin(http.HandlerFunc(ImageManger_GetHandler)))
-	mux.Handle("/ImageManagerDelete", requireLogin(http.HandlerFunc(ImageManager_DeleteHandler)))
+	mux.Handle("/coupon", requireLogin(http.HandlerFunc(CouponHandler)))
 	mux.HandleFunc("/logout", logoutHandler)
 
 	oauth2Config := &oauth2.Config{
