@@ -33,7 +33,7 @@ if [ -d "$src/$package" ]; then
 fi
 
 echo "Installing and compiling $package"
-    $GOROOT/bin/go get github.com/$package
+    /usr/bin/go get github.com/$package
 echo "Installing main program binary chat"
     install -v -m +x $GOPATH/bin/qr $document_root
 
