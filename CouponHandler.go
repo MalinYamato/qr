@@ -87,6 +87,9 @@ func CouponHandler(w http.ResponseWriter, r *http.Request) {
 			}
 		default:
 			{
+				log.Println("HandlingCoupon wrong Op %s", response.Op)
+				status.Status = ERROR
+				status.Detail = "HandlingCoupon wrong Op"
 			}
 		}
 	}
