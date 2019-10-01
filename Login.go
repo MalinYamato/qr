@@ -32,9 +32,9 @@
 package main
 
 import (
-	//"github.com/dghubble/gologin/v2/google"
+	"github.com/dghubble/gologin/v2/google"
 
-	"github.com/dghubble/gologin/google"
+	//"github.com/dghubble/gologin/google"
 	"github.com/rs/xid"
 	"log"
 	"net/http"

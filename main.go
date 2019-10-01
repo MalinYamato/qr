@@ -107,7 +107,7 @@ func serveHome(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	template.Must(template.ParseFiles(_home)).Execute(w, struct {
+	template.Must(template.ParseFiles(_login)).Execute(w, struct {
 		Protocol string
 		Host     string
 		Port     string
@@ -198,6 +198,7 @@ func getCookieAndTokenfromRequest(r *http.Request, onlyTooken bool) (token strin
 }
 
 const _home = "main.html"
+const _login = "login.html"
 
 var _coupons Coupons
 var _documentRoot string
@@ -223,8 +224,7 @@ func main() {
 	_documentRoot = strings.Replace(dir, " ", "\\ ", -1)
 	var addr = flag.String("addr", ":"+_config.Port, "http service address")
 	flag.Parse()
-	log.Println("Create a hub and run it in a different thread")
-	log.Println("Load persons database...")
+	log.Println("Load coupon database...")
 	_coupons.load()
 	log.Println("Starting service at ", _config.url())
 	if _config.Protocol == "http" {
