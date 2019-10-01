@@ -42,8 +42,7 @@ echo "Moving files from $package to $document_root"
     install -v -m +r $src/$package/*.html $document_root
     install -v -m +r $src/$package/js/* $document_root/js
     install -v -m +r $src/$package/css/* $document_root/css
-    install -v -m +r $src/$package/images/* $document_root/images
-    install -v -m +r $src/$package/*.html $document_root
+    install -v -m +r $src/$package/img/* $document_root/img
 if [ $# -gt 0 ]; then
     if [[ $1 = "c" ]]; then
         echo "Deleting current config files and installing default configs"
