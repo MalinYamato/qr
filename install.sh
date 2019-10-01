@@ -8,7 +8,7 @@ document_root="/var/www/$SITE"
 src=$GOPATH/src/github.com
 bin=/usr/local/bin
 package=MalinYamato/qr
-dirs=("css"  "images"  "js" )
+dirs=("css"  "img"  "js" )
 
 echo "If missing, Create document root $document_root"
 if [ ! -d "$document_root" ]; then
