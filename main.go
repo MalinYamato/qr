@@ -92,7 +92,7 @@ func serveHome(w http.ResponseWriter, r *http.Request) {
 		fp := path.Join(_documentRoot + r.URL.Path)
 		http.ServeFile(w, r, fp)
 		return
-	} else if strings.Contains(r.URL.Path, "/images") {
+	} else if strings.Contains(r.URL.Path, "/img") {
 		//log.Println("Serve ", DocumentRoot+r.URL.Path)
 		fp := path.Join(_documentRoot + r.URL.Path)
 		http.ServeFile(w, r, fp)
