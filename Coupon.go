@@ -121,7 +121,7 @@ func (coupons *Coupons) findCouponToken(token string) (c Coupon, ok bool) {
 	return Coupon{}, false
 }
 
-func (coupons *Coupons) findPersonByUserId(CouponId string) (coupon Coupon, ok bool) {
+func (coupons *Coupons) findCouponByCouponId(CouponId string) (coupon Coupon, ok bool) {
 	coupon, ok = coupons.__coupons[CouponId]
 	return
 }
@@ -175,7 +175,7 @@ func (coupons *Coupons) Save(c Coupon) bool {
 		panic(err)
 	}
 
-	log.Println("Number of persons ", len(coupons.__coupons))
+	log.Println("Number of coupons ", len(coupons.__coupons))
 	return true
 }
 func (coupons *Coupons) DeleteById(CouponID string) bool {
@@ -187,7 +187,7 @@ func (coupons *Coupons) Delete(coupon Coupon) bool {
 	return true
 }
 func (pers *Coupons) path() string {
-	return "./users"
+	return "./coupons"
 }
 
 //////////// Person //////////////
