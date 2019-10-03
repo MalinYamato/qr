@@ -5,132 +5,309 @@
     <meta charset="utf-8">
     <title>Login</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-teal.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!--
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    -->
+    <script type="text/javascript" src="js/qrcode.js"></script>
     <style>
 
         .container1 {
             width: 100%;
             min-height: 100vh;
-            display: -webkit-box;
-            display: -webkit-flex;
-            display: -moz-box;
-            display: -ms-flexbox;
-            display: flex;
-            flex-wrap: wrap;
+            # display: -webkit-flex;
+            # display: -moz-box;
+            # display: -ms-flexbox;
+            # display: flex;
+            # flex-wrap: wrap;
             justify-content: center;
             align-items: center;
-            padding: 15px;
+            padding: 1px;
             background-position: center;
             background-size: cover;
             background-repeat: no-repeat;;
         }
 
-        .form-title {
-            width: 100%;
-            display: block;
-            font-family: Montserrat-Medium;
-            font-size: 39px;
+        .header1 {
+            background-color: #2957a3;
             color: #ededed;
-            line-height: 1.2;
-            text-align: center;
-            margin-bottom: 15px;
+        }
+
+        .header2 {
+            background-color: #3984ec;
+            color: #ededed;
+        }
+
+        .logoutButton {
+            width: 80px;;
+            margin: 0px;
+            font-size: 20px
         }
 
         .couponTable {
-            background-color: #ececec;
         }
 
-        button {
-            #width: 100%;
+        .addCoupon {
+            margin-top: 10px;
+            background-color: rgba(237, 237, 237, 0);
+            font-size: 20px;
+            color: #f9f9f9;
         }
 
-        .colS {
-            # background-color: #ededed;
+        .formClass {
+            margin-left: 40px;
+            margin-right: 40px;
+            width: 50%;
+        }
+
+        .gi-2x {
+            font-size: 2em;
+        }
+
+        .gi-3x {
+            font-size: 3em;
+        }
+
+        .gi-4x {
+            font-size: 4em;
+        }
+
+        .gi-5x {
+            font-size: 5em;
+        }
+
+        #formId {
+            display: none;
+        }
+
+        .qrCodePane {
+        / / visibility: hidden;
+        / / position: relative;
+            top: 10px;
 
         }
 
-        .rowS {
-            width: 100%;
+        .qrCode {
+            height: 100px;
+            width: 100px;
         }
-
 
     </style>
 </head>
 
 <body>
-<div class="container1" style="background-image: url('img/background.jpg');">
-    <div class="container-fluid">
-        <div class="rowS row">
-            <div class="colS col-sm-4"></div>
-            <div class="colS col-sm-4"></div>
 
-            <div class="cokS col-sm-4">
-                <button class=".button" onclick="logout()">Logout</button>
-            </div>
+<div class="container1" style="background-image: url('img/background.jpg');">
+
+    <div class=" header1 w3-container w3-padding-small">
+        <div class=" malinko  w3-right">
+            <i class="fa fa-volume-up"></i>
+            <i class="fa fa-wifi"></i>
+            <i class="fa fa-battery-2"></i>
+            12:30
         </div>
     </div>
 
-    <div>
-    <span class="form-title">
-        Vedetten Test
-    </span>
+    <div class=" header2 w3-bar  w3-xlarge">
+        <a class="w3-bar-item w3-button" href="#"><i class="fa fa-bars"></i></a>
+        <span class="w3-bar-item">Vedetten Admin</span>
+        <button class=" logoutButton w3-bar-item w3-button w3-right" onclick="logout()">Logout</button>
+    </div>
 
-        <div class="container">
+    <div class="w3-bar w3-theme">
+        <!-- <a href="javascript:void(0)" class="w3-bar-item w3-button w3-hover-white">Link 1</a>
+         <a href="javascript:void(0)" class="w3-bar-item w3-button w3-hover-white">Link 2</a>
+         <a href="javascript:void(0)" class="w3-bar-item w3-button w3-hover-white">Link 3</a>
+         <a href="javascript:void(0)" class="w3-bar-item w3-button w3-hover-white">Link 4</a>
+         -->
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-col" style="width:20%"><p>20%</p></div>
+        <div class="w3-col" style="width:60%">
+
             <h2>Coupons</h2>
-            <table class="couponTable table table-hover">
+            <table id="couponTable" class=" couponTable w3-table-all w3-hoverable">
                 <thead>
                 <tr>
                     <th>Namn</th>
                     <th>ID</th>
                     <th>Betala</th>
                     <th>Balans</th>
-                    <th></th>
+                    <th>QR Kod</th>
+                    <th>Delete</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
+                <tr id="1004">
                     <td>John</td>
                     <td>1004</td>
                     <td>40</td>
                     <td>-150</td>
                     <td>
-                        <button>delete</button>
+                        <button onclick="showQRcode('1004')" class="glyphicon glyphicon-qrcode"></button>
+                    </td>
+                    <td>
+                        <button onclick="destroyCoupon()" class="glyphicon glyphicon-trash"></button>
                     </td>
                 </tr>
-                <tr>
+                <tr id="1014">
                     <td>Nisse</td>
                     <td>1014</td>
                     <td>40</td>
                     <th>100</th>
                     <td>
-                        <button>delete</button>
+                        <button onclick="showQRcode('1014')" class="glyphicon glyphicon-qrcode"></button>
+                    </td>
+                    <td>
+                        <button onclick="destroyCoupon()" class="glyphicon glyphicon-trash"></button>
                     </td>
                 </tr>
-                <tr>
+                <tr id="1003">
                     <td>Lars</td>
                     <td>1003</td>
                     <td>20</td>
                     <td>-80</td>
                     <td>
-                        <button>delete</button>
+                        <button onclick="showQRcode('1003')" class="glyphicon glyphicon-qrcode"></button>
+                    </td>
+                    <td>
+                        <button onclick="destroyCoupon()" class="glyphicon glyphicon-trash"></button>
                     </td>
                 </tr>
                 </tbody>
             </table>
+            <button class=" addCoupon w3-button w3-hover-red glyphicon glyphicon-plus"
+                    onclick="createCoupon()"></button>
+
+            <form action="https://qr.rakuen.tokyo/" id="formId"
+                  class="formClass w3-container w3-card-4 w3-light-grey w3-text-blue w3-margin">
+                <h2 class="w3-center">Skapa en kupong</h2>
+
+                <div class="w3-row w3-section">
+                    <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-user"></i></div>
+                    <div class="w3-rest">
+                        <input class="w3-input w3-border" name="first" type="text" placeholder="Namn">
+                    </div>
+                </div>
+
+                <div class="w3-row w3-section">
+                    <div class="w3-col" style="width:50px"><i class="w3-xxlarge glyphicon glyphicon-info-sign"></i>
+                    </div>
+                    <div class="w3-rest">
+                        <input class="w3-input w3-border" name="last" type="text" placeholder="Id nummer">
+                    </div>
+                </div>
+
+                <div class="w3-row w3-section">
+                    <div class="w3-col" style="width:50px"><i class="w3-xxlarge glyphicon glyphicon-cutlery"></i>
+                    </div>
+                    <div class="w3-rest">
+                        <input class="w3-input w3-border" name="email" type="text"
+                               placeholder="Att betala för maten">
+                    </div>
+                </div>
+
+                <div class="w3-row w3-section">
+                    <div class="w3-col" style="width:50px"><i class="w3-xxlarge glyphicon glyphicon-lock"></i></div>
+                    <div class="w3-rest">
+                        <input class="w3-input w3-border" name="phone" type="text" placeholder="Pin kod">
+                    </div>
+                </div>
+                <button class="w3-button w3-block w3-section w3-blue w3-ripple w3-padding">Skapa</button>
+            </form>
+            <div class="qrCodePane" id="qrCodePane">
+
+                <div id="output"></div>
+
+                <button onclick="printQRcode()" class="glyphicon glyphicon-print gi-2x "></button>
+            </div>
         </div>
 
     </div>
-    <script>
+</div>
 
-        function logout() {
-            window.location = "{{.Protocol}}://{{.Host}}:{{.Port}}/logout"
+<div class="w3-col" style="width:20%">
+
+</div>
+
+<script type="text/javascript" src="js/qrcode.js"></script>
+<script>
+
+    function printQRcode() {
+        var canvas = document.querySelector("#output canvas");
+        var img = canvas.toDataURL("image/png");
+        printImage(img);
+    }
+
+    function destroyCoupon() {
+        window.alert("couponDestroy");
+    }
+
+    function printImage(src) {
+        var win = window.open('', "_new");
+        win.document.open();
+        win.document.write([
+            '<html>',
+            '   <head>',
+            '   </head>',
+            '   <body onload="window.print()" onafterprint="window.close()">',
+            '       <img src="' + src + '"/>',
+            '   </body>',
+            '</html>'
+        ].join(''));
+        win.document.close();
+    }
+
+    function showQRcode(id) {
+        var row = document.getElementById(id);
+        JObj = {
+            name: row.cells[0].innerHTML,
+            Id: row.cells[1].innerHTML,
+            Pay: row.cells[2].innerHTML
+        };
+        //Balans : row.cells[3].innerHTML };
+        Jstring = JSON.stringify(JObj);
+        document.getElementById("formId").style.display = "none";
+        document.getElementById("qrCodePane").style.display = "block";
+        var elem = document.getElementById('output');
+        elem.textContent = "";
+        qrcode = new QRCode("output", {
+            text: Jstring,
+            width: 128,
+            height: 128,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
+        });
+    }
+
+    function createCoupon() {
+        if (document.getElementById("formId").style.display == "block") {
+            document.getElementById("formId").style.display = "none";
+
+        } else {
+            document.getElementById("qrCodePane").style.display = "none";
+            document.getElementById("formId").style.display = "block";
+
         }
+    }
 
-    </script>
+    function create() {
+        document.getElementById("formId").style.visibility = "hidden"
+    }
+
+    function logout() {
+        window.location = "{{.Protocol}}://{{.Host}}:{{.Port}}/logout"
+    }
+</script>
 </body>
-
 </html>
