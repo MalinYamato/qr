@@ -44,13 +44,10 @@ type CouponRequest struct {
 	Name    string `json:"name"`
 }
 type CouponResponse struct {
-	Op       string   `json:"op"`
-	Status   Status   `json:"status"`
-	Value    string   `json:"value"`
-	Balance  int      `json:"value"`
-	CouponID string   `json:"couponID"`
-	Name     string   `json:"name"`
-	Coupons  []Coupon `json:"coupons"`
+	Op       string `json:"op"`
+	Status   Status `json:"status"`
+	CouponID string `json:"couponID"`
+	Name     string `json:"name"`
 }
 
 func CouponHandler(w http.ResponseWriter, r *http.Request) {
@@ -62,7 +59,7 @@ func CouponHandler(w http.ResponseWriter, r *http.Request) {
 	//defer r.Body.Close()
 	if r.Method == "POST" {
 		status.Status = ERROR
-		status.Detail = "CouponHandler wrong HTTP method!"
+		status.Detail = "CouponHandler wrong HTTP method! " + r.Method
 	} else {
 		decoder := json.NewDecoder(r.Body)
 		err := decoder.Decode(&request)
