@@ -242,6 +242,27 @@
 <script type="text/javascript" src="/js/qrcode.js"></script>
 <script>
 
+    function ChatURL() {
+        return "{{.Protocol}}://{{.Host}}:{{.Port}}/logout",
+    }
+
+    function logoutAction(op) {
+        var request = new XMLHttpRequest();
+        request.open("POST", ChatURL() + "/logout", false);
+        request.onload = function () {
+            status = request.status;
+            if (status == 200) {
+                window.location = ChatURL() + "/";
+            } else {
+                console.log("logoutAction problem " + status)
+            }
+        };
+        request.send({token: ""});
+    }
+    function logout() {
+        logoutAction("logout");
+    }
+
     function printQRcode() {
         var canvas = document.querySelector("#output canvas");
         var img = canvas.toDataURL("image/png");
@@ -305,9 +326,7 @@
         document.getElementById("formId").style.visibility = "hidden"
     }
 
-    function logout() {
-        window.location = "{{.Protocol}}://{{.Host}}:{{.Port}}/logout"
-    }
+
 </script>
 </body>
 </html>
