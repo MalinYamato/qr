@@ -243,12 +243,12 @@
 <script>
 
     function ChatURL() {
-        return "{{.Protocol}}://{{.Host}}:{{.Port}}/logout";
+        return "{{.Protocol}}://{{.Host}}:{{.Port}}";
     }
 
     function logoutAction(op) {
         var request = new XMLHttpRequest();
-        request.open("POST", ChatURL() + "/logout", false);
+        request.open("POST", ChatURL() + "/logout", true);
         request.onload = function () {
             status = request.status;
             if (status == 200) {
@@ -257,7 +257,7 @@
                 console.log("logoutAction problem " + status)
             }
         };
-        request.send({token: ""});
+        request.send();
     }
     function logout() {
         logoutAction("logout");
