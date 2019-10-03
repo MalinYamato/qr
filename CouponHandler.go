@@ -67,7 +67,7 @@ func CouponHandler(w http.ResponseWriter, r *http.Request) {
 			log.Println("ERR> ", err)
 		}
 		//response.Op = r.Form.Get("Op")
-		response.CouponID = r.Form.Get("IdNumber")
+		response.CouponID = r.Method
 		response.Name = r.Form.Get("Name")
 		request.Op = "addCoupon"
 		switch request.Op {
