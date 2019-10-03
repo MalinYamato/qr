@@ -49,18 +49,19 @@
         .container {
             width: 100%;
             min-height: 100vh;
-            display: -webkit-box;
-            display: -webkit-flex;
-            display: -moz-box;
-            display: -ms-flexbox;
-            display: flex;
-            flex-wrap: wrap;
+           # display: -webkit-box;
+           # display: -webkit-flex;
+           # display: -moz-box;
+           # display: -ms-flexbox;
+           # display: flex;
+           # flex-wrap: wrap;
             justify-content: center;
             align-items: center;
             padding: 15px;
             background-position: center;
             background-size: cover;
-            background-repeat: no-repeat;;
+            background-repeat: no-repeat;
+            background-color: #224688;
         }
 
         .googleBtn img {
@@ -169,7 +170,7 @@
 </head>
 
 <body>
-<div class="container" style="background-image: url('img/background.jpg');">
+<div class="container"/> <!-- style="background-image: url('img/background.jpg');"> -->
 
     </object>
     <form  id="ProfileForm"  method="post" action="{{.Protocol}}://{{.Host}}:{{.Port}}/google/login">
