@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script type="text/javascript" src="js/qrcode.js"></script>
+<script src="js/VanillaQR.js"></script>
+
+</body>
+
+<div id="out" ></div>
+
+<button onclick="getQRcode()">Get</button>
+<button onclick="printQRcode()">Print</button>
+<script>
+    function printImage(src) {
+        var win = window.open('about:blank', "_new");
+        win.document.open();
+        win.document.write([
+            '<html>',
+            '   <head>',
+            '   </head>',
+            '   <body onload="window.print()" onafterprint="window.close()">',
+            '       <img src="' + src + '"/>',
+            '   </body>',
+            '</html>'
+        ].join(''));
+        win.document.close();
+    }
+    function getQRcode() {
+
+
+
+
+            qrcode = new QRCode("out", {
+            text: "stuff",
+            width: 128,
+            height: 128,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
+        });
+    }
+    function printQRcode() {
+        var canvas = document.querySelector("#out canvas");
+        var img = canvas.toDataURL("image/png");
+        printImage(img);
+    }
+
+</script>
+
+</html>
