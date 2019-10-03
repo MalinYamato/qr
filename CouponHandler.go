@@ -56,11 +56,11 @@ type CouponResponse struct {
 func CouponHandler(w http.ResponseWriter, r *http.Request) {
 	var request CouponRequest
 	var response CouponResponse
-	response.Op = response.Op
+	r.ParseForm()
 	var status Status
 	status = Status{SUCCESS, ""}
 	//defer r.Body.Close()
-	if r.Method != "POST" {
+	if r.Method == "POST" {
 		status.Status = ERROR
 		status.Detail = "CouponHandler wrong HTTP method!"
 	} else {
@@ -69,6 +69,10 @@ func CouponHandler(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Println("ERR> ", err)
 		}
+		//response.Op = r.Form.Get("Op")
+		response.CouponID = r.Form.Get("IdNumber")
+		response.Name = r.Form.Get("Name")
+		request.Op = "addCoupon"
 		switch request.Op {
 		case "deleteCoupon":
 			{

@@ -215,14 +215,14 @@
                 <button class=" addCoupon w3-button w3-hover-red glyphicon glyphicon-plus"
                         onclick="createCoupon()"></button>
 
-                <form action="https://qr.rakuen.tokyo/" id="formId"
+                <form action="https://qr.rakuen.tokyo/CouponManager" id="formId"
                       class="formClass w3-container w3-card-4 w3-light-grey w3-text-blue w3-margin">
                     <h2 class="w3-center">Skapa en kupong</h2>
 
                     <div class="w3-row w3-section">
                         <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-user"></i></div>
                         <div class="w3-rest">
-                            <input class="w3-input w3-border" name="first" type="text" placeholder="Namn">
+                            <input class="w3-input w3-border" name="Name" type="text" placeholder="Namn">
                         </div>
                     </div>
 
@@ -230,7 +230,7 @@
                         <div class="w3-col" style="width:50px"><i class="w3-xxlarge glyphicon glyphicon-info-sign"></i>
                         </div>
                         <div class="w3-rest">
-                            <input class="w3-input w3-border" name="last" type="text" placeholder="Id nummer">
+                            <input class="w3-input w3-border" name="IdNumber" type="text" placeholder="Id nummer">
                         </div>
                     </div>
 
@@ -238,7 +238,7 @@
                         <div class="w3-col" style="width:50px"><i class="w3-xxlarge glyphicon glyphicon-cutlery"></i>
                         </div>
                         <div class="w3-rest">
-                            <input class="w3-input w3-border" name="email" type="text"
+                            <input class="w3-input w3-border" name="Balance" type="text"
                                    placeholder="Inbetalt">
                         </div>
                     </div>
@@ -252,6 +252,7 @@
                     <button class="w3-button w3-block w3-section w3-blue w3-ripple w3-padding">Skapa</button>
                 </form>
             </div>
+
             <div class="w3-col" style="width:20%">
                 <div class="qrCodePane" id="qrCodePane">
                      <div class="output">
@@ -361,7 +362,7 @@
         if (document.getElementById("formId").style.visibility == "visible") {
             document.getElementById("formId").style.visibility = "hidden";
 
-        } else {;
+        } else {
             document.getElementById("formId").style.visibility = "visible";
 
         }
@@ -370,6 +371,37 @@
     function create() {
         document.getElementById("formId").style.visibility = "hidden"
     }
+
+   // window.onload = function ()
+
+
+        formElem.onsubmit = async (e) => {
+            e.preventDefault();
+            var post_url = document.getElementById("formId").getAttribute("action");
+            var s = new XMLSerializer();
+            var stringified = s.serializeToString(document.getElementById("formId"));
+
+            var request = new XMLHttpRequest();
+            request.open("POST", post_url + "/CouponManager", true);
+            request.setRequestHeader('Content-Type', 'application/json');
+            request.responseType = 'json';
+            request.onload = function () {
+                status = request.status;
+                if (status == 200) {
+                    //var json_res =  JSON.parse(request.responseText);
+                    var info = request.response;
+                    if (info.status.status != "SUCCESS") {
+                        console.log("Calling TargetManager::Add returned " + info.status.status + " " + info.status.detail);
+                    }
+                } else {
+                    console.log("Target::Add problem " + status)
+                }
+            };
+            request.send(stringified);
+        };
+
+    //}
+
 
 
 </script>
