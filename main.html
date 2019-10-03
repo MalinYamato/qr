@@ -372,21 +372,24 @@
         document.getElementById("formId").style.visibility = "hidden"
     }
 
-   // window.onload = function ()
+    window.onload = function() {
 
-
-        formElem.onsubmit = async (e) => {
+            var form = document.getElementById("formId");
+            form.onSubmit = async (e) => {
             e.preventDefault();
+
             var post_url = document.getElementById("formId").getAttribute("action");
             var s = new XMLSerializer();
             var stringified = s.serializeToString(document.getElementById("formId"));
 
             var request = new XMLHttpRequest();
-            request.open("POST", post_url + "/CouponManager", true);
+            request.open("POST", post_url , true);
             request.setRequestHeader('Content-Type', 'application/json');
             request.responseType = 'json';
+
             request.onload = function () {
                 status = request.status;
+                alert("here");
                 if (status == 200) {
                     //var json_res =  JSON.parse(request.responseText);
                     var info = request.response;
@@ -398,9 +401,7 @@
                 }
             };
             request.send(stringified);
-        };
-
-    //}
+    } }
 
 
 
