@@ -64,6 +64,7 @@ func CouponHandler(w http.ResponseWriter, r *http.Request) {
 		if sta != nil {
 			status.Status = ERROR
 			status.Detail = "CouponHandler Parseform Err! "
+			log.Println("Parse form failed")
 		}
 
 		//response.Op = r.Form.Get("Op")
@@ -104,7 +105,7 @@ func CouponHandler(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 		return
 	}
-	log.Println("CouponHandler writing back status of " + response.Name)
+	log.Println("CouponHandler writing back status of " + r.Form.Get("Name"))
 	w.Header().Set("Content-Type", "application/json")
 	a, err := w.Write(ss)
 	if err != nil {
