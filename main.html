@@ -351,19 +351,20 @@
         alert(form_data);
         $.ajax({
             url: URL() + "/CouponManager",
-            // async:fa,se,
             type: "post",
             data: form_data,
             dataType: 'json',
-            contentType: "application/x-www-form-urlencoded",  //'application/json',
             success: function (response) {
+                alert("success");
                 console.log("submitForm " + response.status);
             },
             error: function (jqXhr, textStatus, errorMessage) {
-                console.log("Error: " + textStatus + " " +  errorMessage);
+                console.log("Error: " + textStatus + " " + errorMessage);
+                alert("ERROR");
             }
         }).done(function (response) {
             console.log("submitForm " + response.status);
+            alert("success");
         });
     }
 
