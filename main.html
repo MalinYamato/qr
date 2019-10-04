@@ -394,7 +394,6 @@
     function stuff() {
             var form_data = $( "form" ).serialize();
             alert( form_data );
-
             $.ajax({
                 url: URL() + "/CouponManager",
                 type: "post",
@@ -409,8 +408,7 @@
                     //alert("error");
                 }
             }).done(function (response) {
-                alert(response);
-                //   reportStatus(response.status, response.detail, response.detail)
+                alert(response.status);
             });
     }
 
