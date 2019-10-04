@@ -14,9 +14,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
-
-
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <!--    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     -->
     <script type="text/javascript" src="js/qrcode.js"></script>
@@ -218,7 +216,7 @@
                 <button class=" addCoupon w3-button w3-hover-red glyphicon glyphicon-plus"
                         onclick="createCoupon()"></button>
 
-                <form  id="formId"  method="post"
+                <form id="formId" method="post"
                       class="formClass w3-container w3-card-4 w3-light-grey w3-text-blue w3-margin">
                     <h2 class="w3-center">Skapa en kupong</h2>
 
@@ -252,7 +250,9 @@
                             <input class="w3-input w3-border" name="phone" type="text" placeholder="Pin kod">
                         </div>
                     </div>
-                    <button onclick="submitForm()" class="w3-button w3-block w3-section w3-blue w3-ripple w3-padding">Skapa</button>
+                    <button onclick="submitForm()" class="w3-button w3-block w3-section w3-blue w3-ripple w3-padding">
+                        Skapa
+                    </button>
                 </form>
             </div>
 
@@ -349,58 +349,45 @@
     function submitForm() {
         var form1 = $("#formId").serialize();
         alert(form1);
-        var form = document.getElementById('formId');
-        var form_data = new FormData(form);
-        alert(form_data);
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', URL() + '/CouponManager', true);
-        xhr.responseType = 'json';
-        xhr.send(form1);
-        xhr.onload = function (res) {
-            alert(res.status);
-        }
+        $.ajax({
+            url: URL() + "/CouponManager",
+            type: "post",
+            data: form_data,
+            dataType: 'json',
+            contentType: "application/x-www-form-urlencoded",  //'application/json',
+            success: function (response) {
+                alert(ressponse.status);
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                console.log("Error: ", errorMessage);
+                //alert("error");
+            }
+        }).done(function (response) {
+            alert(response.status);
+        });
     }
-        /*
-            $.ajax({
-                url: URL() + "/CouponManager",
-                type: "post",
-                data: form_data,
-                dataType: 'json',
-                contentType: "application/x-www-form-urlencoded",  //'application/json',
-                success: function () {
-                    ///alert("success");
-                },
-                error: function (jqXhr, textStatus, errorMessage) {
-                    console.log("Error: ", errorMessage);
-                    //alert("error");
-                }
-            }).done(function (response) {
-                alert(response.status);
-            });
 
+    function logoutAction(op) {
+        alert("here1");
+        var request = new XMLHttpRequest();
+        request.open("POST", URL() + "/logout", true);
+        request.onload = function () {
+            alert("here2");
+            status = request.status;
+            if (status == 200) {
+                window.location = URL() + "/";
+            } else {
+                console.log("logoutAction problem " + status)
+            }
+        };
+        request.send();
     }
-    */
-        function logoutAction(op) {
-            alert("here1");
-            var request = new XMLHttpRequest();
-            request.open("POST", URL() + "/logout", true);
-            request.onload = function () {
-                alert("here2");
-                status = request.status;
-                if (status == 200) {
-                    window.location = URL() + "/";
-                } else {
-                    console.log("logoutAction problem " + status)
-                }
-            };
-            request.send();
-        }
 
     function logout() {
         logoutAction("logout");
     }
 
-   // }
+    // }
 
 
 </script>
