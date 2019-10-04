@@ -357,14 +357,13 @@
             dataType: 'json',
            // contentType: "application/x-www-form-urlencoded",  //'application/json',
             success: function (response) {
-                alert(ressponse.status);
+                console.log("submitForm " + response.status);
             },
             error: function (jqXhr, textStatus, errorMessage) {
                 console.log("Error: ", errorMessage);
-                alert("error");
             }
         }).done(function (response) {
-            alert(response.status);
+            console.log("submitForm " + response.status);
         });
     }
 
