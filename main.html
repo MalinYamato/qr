@@ -351,6 +351,7 @@
         alert(form1);
         $.ajax({
             url: URL() + "/CouponManager",
+            async:true,
             type: "post",
             data: form_data,
             dataType: 'json',
@@ -360,7 +361,7 @@
             },
             error: function (jqXhr, textStatus, errorMessage) {
                 console.log("Error: ", errorMessage);
-                //alert("error");
+                alert("error");
             }
         }).done(function (response) {
             alert(response.status);
