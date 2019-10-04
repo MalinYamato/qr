@@ -52,8 +52,7 @@ type CouponResponse struct {
 
 func CouponHandler(w http.ResponseWriter, r *http.Request) {
 	var request CouponRequest
-	var response CouponResponse
-	r.ParseForm()
+	var response CouponResponse)
 	var status Status
 	status = Status{SUCCESS, ""}
 	//defer r.Body.Close()
@@ -61,6 +60,7 @@ func CouponHandler(w http.ResponseWriter, r *http.Request) {
 		status.Status = ERROR
 		status.Detail = "CouponHandler wrong HTTP method! " + r.Method
 	} else {
+		r.ParseForm()
 		decoder := json.NewDecoder(r.Body)
 		err := decoder.Decode(&request)
 		if err != nil {
@@ -96,14 +96,16 @@ func CouponHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	response.Status = status
-	data, err := json.Marshal(response)
+	/* data, err := json.Marshal(response)
 	if err != nil {
 		log.Println("HandlingCoupon json.Marchal returned error %s", err)
 		panic(err)
 		return
 	}
+
+	 */
 	w.Header().Set("Content-Type", "application/json")
-	a, err := w.Write(data)
+	a, err := w.Write([]byte(SUCCESS))
 	if err != nil {
 		log.Println("HandlingCoupon http.write returned error %s %s", err, a)
 		panic(err)
