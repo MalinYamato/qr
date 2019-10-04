@@ -427,7 +427,7 @@
         function logoutAction(op) {
             alert("here1");
             var request = new XMLHttpRequest();
-            request.open("POST", ChatURL() + "/logout", true);
+            request.open("POST", URL() + "/logout", true);
             request.onload = function () {
                 alert("here2");
                 status = request.status;
