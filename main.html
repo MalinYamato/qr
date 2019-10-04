@@ -348,7 +348,6 @@
 
     function submitForm() {
         var form_data = $("#formId").serialize();
-        alert(form_data);
         $.ajax({
             url: URL() + "/CouponManager",
             type: "post",
@@ -356,16 +355,16 @@
             data: form_data,
             dataType: 'json',
             success: function (response) {
-                alert("success " + response.status);
+              //  alert("success " + response.status);
                 console.log("submitForm " + response.status);
             },
             error: function (jqXhr, textStatus, errorMessage) {
                 console.log("Error: " + textStatus + " " + errorMessage);
-                alert("ERROR");
+              //  alert("ERROR");
             }
         }).done(function (response) {
             console.log("submitForm " + response.status);
-            alert("done success "+ response.status);
+           // alert("done success "+ response.status);
         });
     }
 
