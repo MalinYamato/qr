@@ -377,8 +377,8 @@
                 type: "POST",
                 method: "POST",
                 data: form_data,
-                dataType: 'json',
-                contentType: 'application/json',
+                //dataType: 'json',
+                //contentType: 'application/json',
                 success: function () {
                     alert("success");
                 },
@@ -425,9 +425,11 @@
         */
 
         function logoutAction(op) {
+            alert("here1");
             var request = new XMLHttpRequest();
             request.open("POST", ChatURL() + "/logout", true);
             request.onload = function () {
+                alert("here2");
                 status = request.status;
                 if (status == 200) {
                     window.location = ChatURL() + "/";
