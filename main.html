@@ -347,8 +347,8 @@
     }
 
     function submitForm() {
-        var form1 = $("#formId").serialize();
-        alert(form1);
+        var form_data = $("#formId").serialize();
+        alert(form_data);
         $.ajax({
             url: URL() + "/CouponManager",
             async:true,
