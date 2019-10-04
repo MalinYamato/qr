@@ -96,9 +96,11 @@ func issueSession() http.Handler {
 }
 
 func logoutHandler(w http.ResponseWriter, req *http.Request) {
+	log.Println("logoiutHandler called")
 	if req.Method == "POST" {
 		req.ParseForm()
 		_sessionStore.Destroy(w, sessionName)
+		log.Println("Session destroyed!")
 	}
 	// redirect does not work for AJAX calls. Redirects have to be implemtend by client
 	w.Write([]byte(SUCCESS))
