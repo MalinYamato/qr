@@ -347,14 +347,26 @@
     }
 
     function submitForm() {
-            var form_data = $( "#formId" ).serialize();
-            alert( form_data );
+        var form1 = $("#formId").serialize();
+        alert(form1);
+        var form = document.getElementById('formId');
+        var form_data = new FormData(form);
+        alert(form_data);
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', URL() + '/CouponManager', true);
+        xhr.responseType = 'json';
+        xhr.send(formData);
+        xhr.onload = function (res) {
+            alert(res.status);
+        }
+    }
+        /*
             $.ajax({
                 url: URL() + "/CouponManager",
                 type: "post",
                 data: form_data,
                 dataType: 'json',
-                // contentType: 'application/json',
+                contentType: "application/x-www-form-urlencoded",  //'application/json',
                 success: function () {
                     ///alert("success");
                 },
@@ -365,8 +377,9 @@
             }).done(function (response) {
                 alert(response.status);
             });
-    }
 
+    }
+    */
         function logoutAction(op) {
             alert("here1");
             var request = new XMLHttpRequest();
