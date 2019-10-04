@@ -96,16 +96,15 @@ func CouponHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	response.Status = status
-	/* data, err := json.Marshal(response)
+	ss, err := json.Marshal(status)
 	if err != nil {
 		log.Println("HandlingCoupon json.Marchal returned error %s", err)
 		panic(err)
 		return
 	}
 
-	*/
 	w.Header().Set("Content-Type", "application/json")
-	a, err := w.Write([]byte(SUCCESS))
+	a, err := w.Write(ss)
 	if err != nil {
 		log.Println("HandlingCoupon http.write returned error %s %s", err, a)
 		panic(err)
