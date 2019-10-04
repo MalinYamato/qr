@@ -367,7 +367,7 @@
 
 
     var form = document.getElementById("formId");
-
+/*
     function stuff() {
         alert("here1");
         var s = new XMLSerializer();
@@ -388,45 +388,34 @@
             request.send(stringified);
     }
 
-    form.submit = function (e) {
+*/
 
 
-        //event.preventDefault();     No need of this call
-        //do your processing here
-        alert("xxxx");
-    };
-
-
-/*
-    window.onload = function () {
+    function stuff() {
         var form = document.getElementById("formId");
-        form.onSubmit = async (e) => {
-            e.preventDefault();
-
             alert("jquery");
-            var post_url = form.attr("action");
+           // var post_url = form.attr("action");
             var form_data = form.serialize();
             $.ajax({
                 url: URL() + "/CouponManager",
                 type: "POST",
                 method: "POST",
                 data: form_data,
-                //dataType: 'json',
-                //contentType: 'application/json',
+               // dataType: 'json',
+                // contentType: 'application/json',
                 success: function () {
                     alert("success");
                 },
                 error: function (jqXhr, textStatus, errorMessage) {
                     console.log("Error: ", errorMessage);
+                    alert("error");
                 }
             }).done(function (response) {
                 alert(response);
                 //   reportStatus(response.status, response.detail, response.detail)
             });
-        }
-
     }
-    */
+
 
   //  window.onload = function () {
 /*
