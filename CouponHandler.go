@@ -55,7 +55,7 @@ func CouponHandler(w http.ResponseWriter, r *http.Request) {
 	var response CouponResponse
 	var status = Status{SUCCESS, ""}
 	//defer r.Body.Close()
-	if r.Method == "POST" {
+	if r.Method != "POST" {
 		status.Status = ERROR
 		status.Detail = "CouponHandler wrong HTTP method! " + r.Method
 	} else {
