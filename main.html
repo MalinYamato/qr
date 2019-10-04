@@ -371,11 +371,11 @@
     function stuff() {
         alert("here1");
         var s = new XMLSerializer();
-        var stringified = s.serializeToString(document.getElementById("formId"))
+        var stringified = s.serializeToString(document.getElementById("formId"));
         alert("here2");
             var request = new XMLHttpRequest();
             request.open("POST", URL() + "/CouponManager", true);
-           // request.responseType = 'json';
+            request.responseType = 'json';
             request.onload = function () {
                 console.log("CouponManager response");
                 status = request.status;
