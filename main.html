@@ -93,15 +93,17 @@
 
         .qrCodePane {
             visibility: hidden;
-           # display: none;
+            # display: none;
             top: 10px;
             width: 50%;
             right-margin: 10px
         }
+
         .qrCode {
             height: 100px;
             width: 100px;
         }
+
         .output {
             padding: 5px;
             width: 138px;
@@ -208,14 +210,13 @@
             </table>
 
 
-
             <div class="w3-col" style="width:20%"></div>
             <div class="w3-col" style="width:60%">
 
                 <button class=" addCoupon w3-button w3-hover-red glyphicon glyphicon-plus"
                         onclick="createCoupon()"></button>
 
-                <form action="https://qr.rakuen.tokyo/CouponManager" id="formId"
+                <form action="https://qr.rakuen.tokyo:7777/CouponManager" id="formId"
                       class="formClass w3-container w3-card-4 w3-light-grey w3-text-blue w3-margin">
                     <h2 class="w3-center">Skapa en kupong</h2>
 
@@ -255,9 +256,9 @@
 
             <div class="w3-col" style="width:20%">
                 <div class="qrCodePane" id="qrCodePane">
-                     <div class="output">
+                    <div class="output">
                         <div id="output"></div>
-                     </div>
+                    </div>
 
                     <button onclick="printQRcode()" class="glyphicon glyphicon-print gi-2x "></button>
                 </div>
@@ -274,26 +275,12 @@
 <script>
 
     function ChatURL() {
-        return "{{.Protocol}}://{{.Host}}:{{.Port}}";
+       // return "{{.Protocol}}://{{.Host}}:{{.Port}}";
+        return "https://qr.rakuen.tokyo:7777"
     }
 
-    function logoutAction(op) {
-        var request = new XMLHttpRequest();
-        request.open("POST", ChatURL() + "/logout", true);
-        request.onload = function () {
-            status = request.status;
-            if (status == 200) {
-                window.location = ChatURL() + "/";
-            } else {
-                console.log("logoutAction problem " + status)
-            }
-        };
-        request.send();
-    }
 
-    function logout() {
-        logoutAction("logout");
-    }
+
 
     function printQRcode() {
         var canvas = document.querySelector("#output canvas");
@@ -322,8 +309,8 @@
 
     function showQRcode(id) {
         var t = new Date();
-        var fullDate =  t.getFullYear()  + "-" + t.getMonth()  + "-" +
-                        t.getDay() + " " + t.getHours() + ":" + t.getMinutes();
+        var fullDate = t.getFullYear() + "-" + t.getMonth() + "-" +
+            t.getDay() + " " + t.getHours() + ":" + t.getMinutes();
         var row = document.getElementById(id);
         JObj = {
             name: row.cells[0].innerHTML,
@@ -345,18 +332,19 @@
             correctLevel: QRCode.CorrectLevel.H
         });
     }
-/*
-    function createCoupon() {
-        if (document.getElementById("formId").style.display == "block") {
-            document.getElementById("formId").style.display = "none";
 
-        } else {
-            document.getElementById("qrCodePane").style.display = "none";
-            document.getElementById("formId").style.display = "block";
+    /*
+        function createCoupon() {
+            if (document.getElementById("formId").style.display == "block") {
+                document.getElementById("formId").style.display = "none";
 
+            } else {
+                document.getElementById("qrCodePane").style.display = "none";
+                document.getElementById("formId").style.display = "block";
+
+            }
         }
-    }
-  */
+      */
 
     function createCoupon() {
         if (document.getElementById("formId").style.visibility == "visible") {
@@ -372,18 +360,18 @@
         document.getElementById("formId").style.visibility = "hidden"
     }
 
-    window.onload = function() {
+   // window.onload = function () {
 
-            var form = document.getElementById("formId");
-            form.onSubmit = async (e) => {
+        var form = document.getElementById("formId");
+        form.onSubmit = async (e) => {
             e.preventDefault();
 
-            var post_url = document.getElementById("formId").getAttribute("action");
+         //   var post_url = document.getElementById("formId").getAttribute("action");
             var s = new XMLSerializer();
             var stringified = s.serializeToString(document.getElementById("formId"));
 
             var request = new XMLHttpRequest();
-            request.open("POST", post_url , true);
+            request.open("POST",ChatURL() + "/CouponManager/", true);
             request.setRequestHeader('Content-Type', 'application/json');
             request.responseType = 'json';
 
@@ -400,9 +388,33 @@
                     console.log("Target::Add problem " + status)
                 }
             };
-            request.send(stringified);
-    } }
 
+            request.onerror = function () {
+                console.log('Error: Do something else...');
+            }
+
+            request.send();
+        }
+
+        function logoutAction(op) {
+            var request = new XMLHttpRequest();
+            request.open("POST", ChatURL() + "/logout", true);
+            request.onload = function () {
+                status = request.status;
+                if (status == 200) {
+                    window.location = ChatURL() + "/";
+                } else {
+                    console.log("logoutAction problem " + status)
+                }
+            };
+            request.send();
+        }
+
+    function logout() {
+        logoutAction("logout");
+    }
+
+   // }
 
 
 </script>
