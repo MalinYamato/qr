@@ -352,10 +352,11 @@
         $.ajax({
             url: URL() + "/CouponManager",
             type: "post",
+            async: "true",
             data: form_data,
             dataType: 'json',
             success: function (response) {
-                alert("success");
+                alert("success " + response.status);
                 console.log("submitForm " + response.status);
             },
             error: function (jqXhr, textStatus, errorMessage) {
@@ -364,7 +365,7 @@
             }
         }).done(function (response) {
             console.log("submitForm " + response.status);
-            alert("done success");
+            alert("done success "+ response.status);
         });
     }
 
