@@ -392,23 +392,21 @@
 
 
     function stuff() {
-        var form = document.getElementById("formId");
-            alert("jquery");
-           // var post_url = form.attr("action");
-            var form_data = form.serialize();
+            var form_data = $( "form" ).serialize();
+            alert( form_data );
+
             $.ajax({
                 url: URL() + "/CouponManager",
-                type: "POST",
-                method: "POST",
+                type: "post",
                 data: form_data,
-               // dataType: 'json',
+                dataType: 'json',
                 // contentType: 'application/json',
                 success: function () {
-                    alert("success");
+                    ///alert("success");
                 },
                 error: function (jqXhr, textStatus, errorMessage) {
                     console.log("Error: ", errorMessage);
-                    alert("error");
+                    //alert("error");
                 }
             }).done(function (response) {
                 alert(response);
