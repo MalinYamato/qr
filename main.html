@@ -276,10 +276,7 @@
 <script type="text/javascript" src="/js/qrcode.js"></script>
 <script>
 
-    function ChatURL() {
-       // return "{{.Protocol}}://{{.Host}}:{{.Port}}";
-        return "https://qr.rakuen.tokyo:7777"
-    }
+
 
 
 
@@ -364,15 +361,30 @@
 
    // window.onload = function () {
 
+    function URL() {
+        // return "{{.Protocol}}://{{.Host}}:{{.Port}}";
+        return "https://qr.rakuen.tokyo"
+    }
+
+
         var form = document.getElementById("formId");
         form.onSubmit = async (e) => {
             e.preventDefault();
             var post_url = form.attr("action");
             var form_data = form.serialize();
             $.ajax({
-                url: post_url,
-                type: "post",
-                data: form_data
+                url: URL() + "/CouponManager",
+                type: "POST",
+                method: "POST",
+                data: form_data,
+                dataType: 'json',
+                contentType: 'application/json',
+                success: function () {
+                    alert("success");
+                },
+                error: function(jqXhr, textStatus, errorMessage){
+                    console.log("Error: ", errorMessage);
+                }
             }).done(function (response) {
                     alert(response);
                 //   reportStatus(response.status, response.detail, response.detail)
