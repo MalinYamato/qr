@@ -56,20 +56,27 @@ func CouponHandler(w http.ResponseWriter, r *http.Request) {
 	var status Status
 	status = Status{SUCCESS, ""}
 	//defer r.Body.Close()
-	if r.Method != "POST" {
+	if r.Method == "POST" {
 		status.Status = ERROR
 		status.Detail = "CouponHandler wrong HTTP method! " + r.Method
 	} else {
-		r.ParseForm()
+		sta := r.ParseForm()
+		if sta != nil {
+			status.Status = ERROR
+			status.Detail = "CouponHandler Parseform Err! "
+		}
 		decoder := json.NewDecoder(r.Body)
 		err := decoder.Decode(&request)
 		if err != nil {
-			log.Println("ERR> ", err)
+			log.Println("Decode ERR> ", err)
+			status.Status = ERROR
+			status.Detail = "CouponHandler Decode Err! "
 		}
 		//response.Op = r.Form.Get("Op")
 		response.CouponID = r.Method
 		response.Name = r.Form.Get("Name")
 		request.Op = "addCoupon"
+		response.Op = request.Op
 		switch request.Op {
 		case "deleteCoupon":
 			{
