@@ -355,7 +355,7 @@
         var xhr = new XMLHttpRequest();
         xhr.open('POST', URL() + '/CouponManager', true);
         xhr.responseType = 'json';
-        xhr.send(formData);
+        xhr.send(form1);
         xhr.onload = function (res) {
             alert(res.status);
         }
