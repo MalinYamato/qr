@@ -374,7 +374,7 @@
         var stringified = s.serializeToString(document.getElementById("formId"))
         alert("here2");
             var request = new XMLHttpRequest();
-            request.open("POST", URL() + "/logout", true);
+            request.open("POST", URL() + "/CouponManager", true);
            // request.responseType = 'json';
             request.onload = function () {
                 console.log("CouponManager response");
@@ -385,7 +385,7 @@
                     console.log("logoutAction problem " + status)
                 }
             };
-            request.send();
+            request.send(stringified);
     }
 
     form.submit = function (e) {
