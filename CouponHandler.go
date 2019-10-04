@@ -104,8 +104,8 @@ func CouponHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	a, err := w.Write(ss)
+	//w.Header().Set("Content-Type", "application/json")
+	a, err := w.Write([]byte(""))
 	if err != nil {
 		log.Println("HandlingCoupon http.write returned error %s %s", err, a)
 		panic(err)
