@@ -51,6 +51,7 @@ type CouponResponse struct {
 }
 
 func CouponHandler(w http.ResponseWriter, r *http.Request) {
+	log.Println("CouponHandler called")
 	var request CouponRequest
 	var response CouponResponse
 	var status = Status{SUCCESS, ""}
@@ -103,7 +104,7 @@ func CouponHandler(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 		return
 	}
-
+	log.Println("CouponHandler writing back status")
 	//w.Header().Set("Content-Type", "application/json")
 	a, err := w.Write(ss)
 	if err != nil {
