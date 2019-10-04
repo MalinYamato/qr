@@ -53,8 +53,7 @@ type CouponResponse struct {
 func CouponHandler(w http.ResponseWriter, r *http.Request) {
 	var request CouponRequest
 	var response CouponResponse
-	var status Status
-	status = Status{SUCCESS, ""}
+	var status = Status{SUCCESS, ""}
 	//defer r.Body.Close()
 	if r.Method == "POST" {
 		status.Status = ERROR
@@ -65,13 +64,7 @@ func CouponHandler(w http.ResponseWriter, r *http.Request) {
 			status.Status = ERROR
 			status.Detail = "CouponHandler Parseform Err! "
 		}
-		decoder := json.NewDecoder(r.Body)
-		err := decoder.Decode(&request)
-		if err != nil {
-			log.Println("Decode ERR> ", err)
-			status.Status = ERROR
-			status.Detail = "CouponHandler Decode Err! "
-		}
+
 		//response.Op = r.Form.Get("Op")
 		response.CouponID = r.Method
 		response.Name = r.Form.Get("Name")
