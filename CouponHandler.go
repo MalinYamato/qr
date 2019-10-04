@@ -52,7 +52,7 @@ type CouponResponse struct {
 
 func CouponHandler(w http.ResponseWriter, r *http.Request) {
 	var request CouponRequest
-	var response CouponResponse)
+	var response CouponResponse
 	var status Status
 	status = Status{SUCCESS, ""}
 	//defer r.Body.Close()
@@ -103,7 +103,7 @@ func CouponHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	 */
+	*/
 	w.Header().Set("Content-Type", "application/json")
 	a, err := w.Write([]byte(SUCCESS))
 	if err != nil {
