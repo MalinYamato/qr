@@ -108,6 +108,7 @@ func logoutHandler(w http.ResponseWriter, req *http.Request) {
 }
 
 func requireLogin(next http.Handler) http.Handler {
+	log.Println("RequireLogin called")
 	fn := func(w http.ResponseWriter, req *http.Request) {
 		if !isAuthenticated(req) {
 			http.Redirect(w, req, "/", http.StatusFound)
