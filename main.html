@@ -252,7 +252,7 @@
                             <input class="w3-input w3-border" name="phone" type="text" placeholder="Pin kod">
                         </div>
                     </div>
-                    <button onclick="stuff()" class="w3-button w3-block w3-section w3-blue w3-ripple w3-padding">Skapa</button>
+                    <button onclick="submitForm()" class="w3-button w3-block w3-section w3-blue w3-ripple w3-padding">Skapa</button>
                 </form>
             </div>
 
@@ -275,10 +275,6 @@
 
 <script type="text/javascript" src="/js/qrcode.js"></script>
 <script>
-
-
-
-
 
 
     function printQRcode() {
@@ -332,26 +328,12 @@
         });
     }
 
-    /*
-        function createCoupon() {
-            if (document.getElementById("formId").style.display == "block") {
-                document.getElementById("formId").style.display = "none";
-
-            } else {
-                document.getElementById("qrCodePane").style.display = "none";
-                document.getElementById("formId").style.display = "block";
-
-            }
-        }
-      */
-
     function createCoupon() {
         if (document.getElementById("formId").style.visibility == "visible") {
             document.getElementById("formId").style.visibility = "hidden";
 
         } else {
             document.getElementById("formId").style.visibility = "visible";
-
         }
     }
 
@@ -359,40 +341,13 @@
         document.getElementById("formId").style.visibility = "hidden"
     }
 
-
     function URL() {
         // return "{{.Protocol}}://{{.Host}}:{{.Port}}";
         return "https://qr.rakuen.tokyo:7777"
     }
 
-
-    var form = document.getElementById("formId");
-/*
-    function stuff() {
-        alert("here1");
-        var s = new XMLSerializer();
-        var stringified = s.serializeToString(document.getElementById("formId"));
-        alert("here2");
-            var request = new XMLHttpRequest();
-            request.open("POST", URL() + "/CouponManager", true);
-            request.responseType = 'json';
-            request.onload = function () {
-                console.log("CouponManager response");
-                status = request.status;
-                if (status == 200) {
-                    window.location = URL() + "/";
-                } else {
-                    console.log("logoutAction problem " + status)
-                }
-            };
-            request.send(stringified);
-    }
-
-*/
-
-
-    function stuff() {
-            var form_data = $( "form" ).serialize();
+    function submitForm() {
+            var form_data = $( "#formId" ).serialize();
             alert( form_data );
             $.ajax({
                 url: URL() + "/CouponManager",
@@ -411,64 +366,6 @@
                 alert(response.status);
             });
     }
-
-
-  //  window.onload = function () {
-/*
-        var form = document.getElementById("formId");
-        form.onSubmit = async (e) => {
-            e.preventDefault();
-            alert("here1");
-            var request = new XMLHttpRequest();
-            request.open("POST", URL() + "/logout", true);
-            request.onload = function () {
-                alert("here2");
-                status = request.status;
-                if (status == 200) {
-                    window.location = URL() + "/";
-                } else {
-                    console.log("logoutAction problem " + status)
-                }
-            };
-            request.send();
-        }
-*/
-
-    //}
-
-        /*
-
-         //   var post_url = document.getElementById("formId").getAttribute("action");
-            var s = new XMLSerializer();
-            var stringified = s.serializeToString(document.getElementById("formId"));
-
-            var request = new XMLHttpRequest();
-            request.open("POST", URL() + "/CouponManager", true);
-            //request.setRequestHeader('Content-Type', 'application/json');
-            request.responseType = 'json';
-
-            request.onload = function () {
-                status = request.status;
-                alert("here");
-                if (status == 200) {
-                    //var json_res =  JSON.parse(request.responseText);
-                    var info = request.response;
-                    if (info.status.status != "SUCCESS") {
-                        console.log("Calling TargetManager::Add returned " + info.status.status + " " + info.status.detail);
-                    }
-                } else {
-                    console.log("Target::Add problem " + status)
-                }
-            };
-
-            request.onerror = function () {
-                console.log('Error: Do something else...');
-            }
-
-            request.send(stringified);
-        }
-
-        */
 
         function logoutAction(op) {
             alert("here1");
