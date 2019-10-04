@@ -360,7 +360,7 @@
                 console.log("submitForm " + response.status);
             },
             error: function (jqXhr, textStatus, errorMessage) {
-                console.log("Error: ", errorMessage);
+                console.log("Error: " + textStatus + " " +  errorMessage);
             }
         }).done(function (response) {
             console.log("submitForm " + response.status);
