@@ -104,7 +104,7 @@ func CouponHandler(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 		return
 	}
-	log.Println("CouponHandler writing back status")
+	log.Println("CouponHandler writing back status of %s", response.Name)
 	//w.Header().Set("Content-Type", "application/json")
 	a, err := w.Write(ss)
 	if err != nil {
