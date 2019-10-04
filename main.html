@@ -366,7 +366,7 @@
         return "https://qr.rakuen.tokyo:7777"
     }
 
-
+         /*
         var form = document.getElementById("formId");
         form.onSubmit = async (e) => {
             e.preventDefault();
@@ -390,15 +390,33 @@
                 //   reportStatus(response.status, response.detail, response.detail)
             });
         }
+        */
+    var form = document.getElementById("formId");
+    form.onSubmit = async (e) => {
 
-            /*
+        alert("here1");
+        var request = new XMLHttpRequest();
+        request.open("POST", URL() + "/logout", true);
+        request.onload = function () {
+            alert("here2");
+            status = request.status;
+            if (status == 200) {
+                window.location = URL() + "/";
+            } else {
+                console.log("logoutAction problem " + status)
+            }
+        };
+        request.send();
+    }
+
+        /*
 
          //   var post_url = document.getElementById("formId").getAttribute("action");
             var s = new XMLSerializer();
             var stringified = s.serializeToString(document.getElementById("formId"));
 
             var request = new XMLHttpRequest();
-            request.open("POST",ChatURL() + "/CouponManager", true);
+            request.open("POST", URL() + "/CouponManager", true);
             //request.setRequestHeader('Content-Type', 'application/json');
             request.responseType = 'json';
 
@@ -422,6 +440,7 @@
 
             request.send(stringified);
         }
+
         */
 
         function logoutAction(op) {
