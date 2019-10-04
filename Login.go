@@ -111,6 +111,7 @@ func requireLogin(next http.Handler) http.Handler {
 	log.Println("RequireLogin called")
 	fn := func(w http.ResponseWriter, req *http.Request) {
 		if !isAuthenticated(req) {
+			log.Println("requireLogin: login is required as cookie not found")
 			http.Redirect(w, req, "/", http.StatusFound)
 			return
 		}
@@ -124,6 +125,5 @@ func isAuthenticated(req *http.Request) bool {
 	if err == nil {
 		return true
 	}
-	log.Println("Login: Authentication failed, reason: ", err)
 	return false
 }
