@@ -218,7 +218,7 @@
                 <button class=" addCoupon w3-button w3-hover-red glyphicon glyphicon-plus"
                         onclick="createCoupon()"></button>
 
-                <form action="https://qr.rakuen.tokyo:7777/CouponManager" id="formId"
+                <form  id="formId"  method="post"
                       class="formClass w3-container w3-card-4 w3-light-grey w3-text-blue w3-margin">
                     <h2 class="w3-center">Skapa en kupong</h2>
 
@@ -252,7 +252,7 @@
                             <input class="w3-input w3-border" name="phone" type="text" placeholder="Pin kod">
                         </div>
                     </div>
-                    <button class="w3-button w3-block w3-section w3-blue w3-ripple w3-padding">Skapa</button>
+                    <button onclick="stuff()" class="w3-button w3-block w3-section w3-blue w3-ripple w3-padding">Skapa</button>
                 </form>
             </div>
 
@@ -359,17 +359,51 @@
         document.getElementById("formId").style.visibility = "hidden"
     }
 
-   // window.onload = function () {
 
     function URL() {
         // return "{{.Protocol}}://{{.Host}}:{{.Port}}";
         return "https://qr.rakuen.tokyo:7777"
     }
 
-         /*
+
+    var form = document.getElementById("formId");
+
+    function stuff() {
+        alert("here1");
+        var s = new XMLSerializer();
+        var stringified = s.serializeToString(document.getElementById("formId"))
+        alert("here2");
+            var request = new XMLHttpRequest();
+            request.open("POST", URL() + "/logout", true);
+           // request.responseType = 'json';
+            request.onload = function () {
+                console.log("CouponManager response");
+                status = request.status;
+                if (status == 200) {
+                    window.location = URL() + "/";
+                } else {
+                    console.log("logoutAction problem " + status)
+                }
+            };
+            request.send();
+    }
+
+    form.submit = function (e) {
+
+
+        //event.preventDefault();     No need of this call
+        //do your processing here
+        alert("xxxx");
+    };
+
+
+/*
+    window.onload = function () {
         var form = document.getElementById("formId");
         form.onSubmit = async (e) => {
             e.preventDefault();
+
+            alert("jquery");
             var post_url = form.attr("action");
             var form_data = form.serialize();
             $.ajax({
@@ -382,32 +416,40 @@
                 success: function () {
                     alert("success");
                 },
-                error: function(jqXhr, textStatus, errorMessage){
+                error: function (jqXhr, textStatus, errorMessage) {
                     console.log("Error: ", errorMessage);
                 }
             }).done(function (response) {
-                    alert(response);
+                alert(response);
                 //   reportStatus(response.status, response.detail, response.detail)
             });
         }
-        */
-    var form = document.getElementById("formId");
-    form.onSubmit = async (e) => {
 
-        alert("here1");
-        var request = new XMLHttpRequest();
-        request.open("POST", URL() + "/logout", true);
-        request.onload = function () {
-            alert("here2");
-            status = request.status;
-            if (status == 200) {
-                window.location = URL() + "/";
-            } else {
-                console.log("logoutAction problem " + status)
-            }
-        };
-        request.send();
     }
+    */
+
+  //  window.onload = function () {
+/*
+        var form = document.getElementById("formId");
+        form.onSubmit = async (e) => {
+            e.preventDefault();
+            alert("here1");
+            var request = new XMLHttpRequest();
+            request.open("POST", URL() + "/logout", true);
+            request.onload = function () {
+                alert("here2");
+                status = request.status;
+                if (status == 200) {
+                    window.location = URL() + "/";
+                } else {
+                    console.log("logoutAction problem " + status)
+                }
+            };
+            request.send();
+        }
+*/
+
+    //}
 
         /*
 
