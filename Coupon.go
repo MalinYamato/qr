@@ -169,8 +169,8 @@ func (coupons *Coupons) Save(c Coupon) bool {
 		}
 	}
 
-	json_person, _ := json.Marshal(c)
-	err := ioutil.WriteFile(c.path()+"/profile.json", json_person, 0777)
+	json_coupon, _ := json.Marshal(c)
+	err := ioutil.WriteFile(c.path()+"/profile.json", json_coupon, 0777)
 	if err != nil {
 		panic(err)
 	}
