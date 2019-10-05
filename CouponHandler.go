@@ -155,7 +155,6 @@ func CouponHandler(w http.ResponseWriter, r *http.Request) {
 		coupon.Balance, _ = strconv.Atoi(requestCreateCoupon.Payment)
 		coupon.Pay, _ = strconv.Atoi(requestCreateCoupon.Pay)
 		log.Println("Creating coupon of " + coupon.FirstName)
-		_coupons.Add(coupon)
 		_coupons.Save(coupon)
 		status.Status = SUCCESS
 	}
