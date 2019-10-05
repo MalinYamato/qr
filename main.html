@@ -263,20 +263,20 @@
                     <table class="w3-table-all">
                         <tr class="createCouponRow">
                             <td id="firstChild">
-                                <input CLASS="w3-input w3-border" name="Name" type="text" placeholder="Namn"
+                                <input CLASS="w3-input w3-border" name="name" type="text" placeholder="Namn"
                                        type="text" onkeypress="myFunction(this.value)">
                             </td>
                             <td>
-                                <input class="w3-input w3-border" name="Id" type="text" placeholder="Id nummer"
+                                <input class="w3-input w3-border" name="id" type="text" placeholder="Id nummer"
                                        type="text" onkeypress="myFunction(this.value)">
                             </td>
                             <td>
-                                <input class="w3-input w3-border" name="Pay" type="text" placeholder="Amout"
+                                <input class="w3-input w3-border" name="pay" type="text" placeholder="Amout"
                                        type="text" onkeypress="myFunction(this.value)">
 
                             </td>
                             <td>
-                                <input class="w3-input w3-border" name="Balance" type="text" placeholder="Balans"
+                                <input class="w3-input w3-border" name="balance" type="text" placeholder="Balans"
                                        type="text" onkeypress="myFunction(this.value)">
 
                             <td class="emtpy"> </td>
@@ -367,10 +367,10 @@
             };
         } else {
             var e = document.getElementById("formId").elements;
-            var n = e.namedItem("Name").value;
-            var idNumber = e.namedItem("Id").value;
-            var pay = e.namedItem("Pay").value;
-            var Balance = e.namedItem("Balance").value;
+            var n = e.namedItem("name").value;
+            var idNumber = e.namedItem("id").value;
+            var pay = e.namedItem("pay").value;
+            var Balance = e.namedItem("balance").value;
             JObj = {
                 name: n,
                 Id: idNumber,
@@ -439,7 +439,7 @@
         for (const [key, value]  of formData.entries()) {
             jsonObject[key] = value;
         }
-        jsonObject["Op"] = "createCoupon";
+        jsonObject["op"] = "createCoupon";
         //var form_data = $("#formId").serialize();
 
         alert(JSON.stringify(jsonObject));
