@@ -439,8 +439,10 @@
         for (const [key, value]  of formData.entries()) {
             jsonObject[key] = value;
         }
-
+        jsonObject["Op"] = "createCoupon";
         //var form_data = $("#formId").serialize();
+
+        alert(JSON.stringify(jsonObject));
 
         $.ajax({
             url: URL() + "/CouponManager",
