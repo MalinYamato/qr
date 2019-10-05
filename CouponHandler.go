@@ -150,7 +150,7 @@ func CouponHandler(w http.ResponseWriter, r *http.Request) {
 			panic(err)
 		}
 
-		coupon.CouponId = requestCreateCoupon.CouponId
+		coupon.CouponID = requestCreateCoupon.CouponId
 		coupon.FirstName = requestCreateCoupon.Name
 		coupon.Balance, _ = strconv.Atoi(requestCreateCoupon.Payment)
 		coupon.Pay, _ = strconv.Atoi(requestCreateCoupon.Pay)

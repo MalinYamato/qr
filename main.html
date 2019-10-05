@@ -267,7 +267,7 @@
                                        type="text" onkeypress="myFunction(this.value)">
                             </td>
                             <td>
-                                <input class="w3-input w3-border" name="id" type="text" placeholder="Id nummer"
+                                <input class="w3-input w3-border" name="couponId" type="text" placeholder="Id nummer"
                                        type="text" onkeypress="myFunction(this.value)">
                             </td>
                             <td>
@@ -368,7 +368,7 @@
         } else {
             var e = document.getElementById("formId").elements;
             var n = e.namedItem("name").value;
-            var idNumber = e.namedItem("id").value;
+            var idNumber = e.namedItem("couponId").value;
             var pay = e.namedItem("pay").value;
             var Balance = e.namedItem("balance").value;
             JObj = {

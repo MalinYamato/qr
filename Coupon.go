@@ -47,7 +47,7 @@ type Payment struct {
 }
 
 type Coupon struct {
-	CouponId    string             `json:"couponId"`
+	CouponID    string             `json:"couponId"`
 	Nic         string             `json:"nic,omitempty"`
 	Sign        string             `json:"sign,omitempty"`
 	Balance     int                `json:"balance"`
