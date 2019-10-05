@@ -48,19 +48,19 @@ type Payment struct {
 
 type Coupon struct {
 	CouponID    string             `json:"couponId"`
-	Nic         string             `json:"nic"`
-	Sign        string             `json:"sign"`
+	Nic         string             `json:"nic,omitempty"`
+	Sign        string             `json:"sign,omitempty"`
 	Balance     int                `json:"balance"`
 	Pay         int                `json:"pay"`
-	IssueTime   int64              `json:"issueTime"`
-	Email       string             `json:"email"`
+	IssueTime   int64              `json:"issueTime,omitempty"`
+	Email       string             `json:"email,omitempty"`
 	FirstName   string             `json:"firstName"`
-	LastName    string             `json:"lastName"`
-	Password    string             `json:"password"`
+	LastName    string             `json:"lastName,omitempty"`
+	Password    string             `json:"password,omitempty"`
 	PictureURL  string             `json:"pictureURL,omitempty"`
 	Description string             `json:"description,omitempty"`
 	Token       string             `json:"token,omitempty"`
-	Payments    map[string]Payment `json:"payments"`
+	Payments    map[string]Payment `json:"payments,omitempty"`
 	_Coupons    *Coupons
 }
 
@@ -147,6 +147,9 @@ func (coupons *Coupons) Save(c Coupon) bool {
 			}
 		}
 	}
+
+	log.Println("Pass 1 SaveCoupon ")
+
 	path := c.path()
 	if _, err := os.Stat(path); err != nil {
 		if os.IsNotExist(err) {
@@ -157,6 +160,7 @@ func (coupons *Coupons) Save(c Coupon) bool {
 			}
 		}
 	}
+	log.Println("Pass 2 SaveCoupon ")
 
 	path = c.path() + "/img"
 	if _, err := os.Stat(path); err != nil {
@@ -169,12 +173,13 @@ func (coupons *Coupons) Save(c Coupon) bool {
 		}
 	}
 
+	log.Println("Pass 3 SaveCoupon ")
 	json_coupon, _ := json.Marshal(c)
 	err := ioutil.WriteFile(c.path()+"/profile.json", json_coupon, 0777)
 	if err != nil {
 		panic(err)
 	}
-
+	log.Println("Pass 4 SaveCoupon ")
 	log.Println("Number of coupons ", len(coupons.__coupons))
 	return true
 }
