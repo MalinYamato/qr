@@ -40,18 +40,18 @@ import (
 
 type CouponRequest struct {
 	Op      string `json:"op"`
-	CoupnID string `json:"couponID"`
+	CoupnID string `json:"couponId"`
 }
 type CreateCouponsRequest struct {
-	Op      string `json:"op"`
-	CoupnID string `json:"couponID"`
-	Name    string `json:"name"`
-	Pay     string `json:"pay"`
-	Payment string `json:"payment"`
+	Op       string `json:"op"`
+	CouponId string `json:"couponId"`
+	Name     string `json:"name"`
+	Pay      string `json:"pay"`
+	Payment  string `json:"payment"`
 }
 type GetOneCouponRequest struct {
 	Op      string `json:"op"`
-	CoupnID string `json:"couponID"`
+	CoupnID string `json:"couponId"`
 }
 type GetAllCouponsRequest struct {
 	Op string `json:"op"`
@@ -150,7 +150,7 @@ func CouponHandler(w http.ResponseWriter, r *http.Request) {
 			panic(err)
 		}
 
-		coupon.CouponID = requestCreateCoupon.CoupnID
+		coupon.CouponId = requestCreateCoupon.CouponId
 		coupon.FirstName = requestCreateCoupon.Name
 		coupon.Balance, _ = strconv.Atoi(requestCreateCoupon.Payment)
 		coupon.Pay, _ = strconv.Atoi(requestCreateCoupon.Pay)
