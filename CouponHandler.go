@@ -143,11 +143,14 @@ func CouponHandler(w http.ResponseWriter, r *http.Request) {
 			status.Detail = "CouponHandler Parseform Err! "
 			log.Println("Parse form failed")
 		}
-		decoder := json.NewDecoder(r.Body)
-		err := decoder.Decode(&request)
-		if err != nil {
-			log.Println("Fail to Deconde JSON")
-		}
+		/*
+			decoder := json.NewDecoder(r.Body)
+			err := decoder.Decode(&request)
+			if err != nil {
+				log.Println("Fail to Deconde JSON")
+			}
+		*/
+		request.Op = "createCoupon"
 		switch request.Op {
 		case "deleteCoupon":
 			{
