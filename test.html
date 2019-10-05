@@ -3,52 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
 <body>
 <script type="text/javascript" src="js/qrcode.js"></script>
 <script src="js/VanillaQR.js"></script>
 
+<style>
+    .f {
+        width: 100%;
+        margin-left: 20px;
+    }
+
+</style>
+
+<div class="w3-container">
+    <h1>Using w3-display-container</h1>
+
+<div class="w3-display-container w3-blue" style="height:300px;">
+    <div class="a w3-display-topleft">Top Left</div>
+    <div class="b w3-display-topleft">Top Left</div>
+    <div class="c w3-display-topright">Top Right</div>
+    <div class="d w3-display-bottomleft">Bottom Left</div>
+    <div class="e w3-display-bottomright">Bottom Right</div>
+    <div class="f w3-display-left">Left</div>
+    <div class="g w3-display-right">Right</div>
+    <div class="h w3-display-middle">Middle</div>
+    <div class="i w3-display-topmiddle w3-hide-small">Top Middle</div>
+    <div class="j w3-display-bottommiddle w3-hide-small">Bottom Middle</div>
+</div>
+</div>
+
+
 </body>
 
-<div id="out" ></div>
 
-<button onclick="getQRcode()">Get</button>
-<button onclick="printQRcode()">Print</button>
-<script>
-    function printImage(src) {
-        var win = window.open('about:blank', "_new");
-        win.document.open();
-        win.document.write([
-            '<html>',
-            '   <head>',
-            '   </head>',
-            '   <body onload="window.print()" onafterprint="window.close()">',
-            '       <img src="' + src + '"/>',
-            '   </body>',
-            '</html>'
-        ].join(''));
-        win.document.close();
-    }
-    function getQRcode() {
-
-
-
-
-            qrcode = new QRCode("out", {
-            text: "stuff",
-            width: 128,
-            height: 128,
-            colorDark: "#000000",
-            colorLight: "#ffffff",
-            correctLevel: QRCode.CorrectLevel.H
-        });
-    }
-    function printQRcode() {
-        var canvas = document.querySelector("#out canvas");
-        var img = canvas.toDataURL("image/png");
-        printImage(img);
-    }
-
-</script>
 
 </html>
