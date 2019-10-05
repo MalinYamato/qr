@@ -433,19 +433,28 @@
     });
 
     function submitForm() {
-        var form_data = $("#formId").serialize();
+
+        const formData = new FormData( document.getElementById("formId"));
+        let jsonObject = {};
+        for (const [key, value]  of formData.entries()) {
+            jsonObject[key] = value;
+        }
+
+        //var form_data = $("#formId").serialize();
+
         $.ajax({
             url: URL() + "/CouponManager",
             type: "post",
             async: "true",
-            data: form_data,
+            data:  JSON.stringify(jsonObject),
             dataType: 'json',
+            contentType: 'application/json',
             success: function (response) {
                 alert("success " + response.status);
                 console.log("submitForm " + response.status);
             },
             error: function (jqXhr, textStatus, errorMessage) {
-                console.log("Error: " + textStatus + " " + errorMessage);
+                console.log("Error: ");
                 alert("ERROR");
             }
         }).done(function (response) {
