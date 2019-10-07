@@ -449,18 +449,19 @@
 
             function getAllCoupons() {
                 var request = new XMLHttpRequest();
-                request.open("POST", URL() + "/GetAllCoupons", false);
-                alert(request);
+                request.open("POST", URL() + "/GetAllCoupons", true);
                 request.setRequestHeader('Content-Type', 'application/json');
                 request.send(JSON.stringify(""));
-
-                if (request.status == 200) {
-                    json_response = JSON.parse(request.response);
-                    alert("getAllCoupons() SUCCESS");
-                    return json_response;
-                } else {
-                    console.log("getUser problem " + status);
-                    alert("getAllCoupons() ERROR");
+                request.onload = function () {
+                    if (request.status == 200) {
+                        json_response = JSON.parse(request.response);
+                        alert("getAllCoupons() SUCCESS " + json_responose.status.status);
+                        alert("getAllCoupons() SUCCESS " + json_responose.coupons[0].name);
+                        return json_response;
+                    } else {
+                        console.log("getUser problem " + status);
+                        alert("getAllCoupons() ERROR");
+                    }
                 }
             }
 
