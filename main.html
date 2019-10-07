@@ -329,8 +329,8 @@
                 printImage(img);
             }
 
-            function destroyCoupon() {
-                window.alert("couponDestroy");
+            function destroyCoupon( id ) {
+                window.alert("couponDestroy " + id);
             }
 
             function printImage(src) {
@@ -349,7 +349,6 @@
             }
 
             var qrcode = null;
-
             function showQRcode(id) {
                 document.getElementById("qrCode").style.visibility = "visible";
                 var t = new Date();
@@ -427,15 +426,11 @@
 
             function populateCouponTable(elems) {
                 var i = 0;
-
-                alert("table length " + elems.coupons.length)
-
                 var table = document.getElementById("couponTable");
 
                 while (table.hasChildNodes()) {
                     table.removeChild(table.lastChild);
                 }
-
                 for (i = 0; i < elems.coupons.length; i++) {
                     var row = table.insertRow(0);
                     row.setAttribute("id", elems.coupons[i].couponId);
@@ -449,14 +444,16 @@
                     cell2.innerHTML = elems.coupons[i].couponId;
                     cell3.innerHTML = elems.coupons[i].pay;
                     cell4.innerHTML = elems.coupons[i].balance;
-                    cell6.innerHTML = "";
                     var qrButton = document.createElement("BUTTON");
                     qrButton.setAttribute("onclick", "showQRcode('" + elems.coupons[i].couponId + "')");
                     qrButton.setAttribute("class","glyphicon glyphicon-qrcode");
                     cell5.appendChild(qrButton);
+                    var qrButton = document.createElement("BUTTON");
+                    qrButton.setAttribute("onclick", "destroyCoupon('" + elems.coupons[i].couponId + "')");
+                    qrButton.setAttribute("class","glyphicon glyphicon-trash");
+                    cell5.appendChild(qrButton);
                 }
             }
-
 
             function submitForm() {
                 const formData = new FormData(document.getElementById("formId"));
