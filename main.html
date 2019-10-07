@@ -448,10 +448,10 @@
                     qrButton.setAttribute("onclick", "showQRcode('" + elems.coupons[i].couponId + "')");
                     qrButton.setAttribute("class","glyphicon glyphicon-qrcode");
                     cell5.appendChild(qrButton);
-                    var qrButton = document.createElement("BUTTON");
-                    qrButton.setAttribute("onclick", "destroyCoupon('" + elems.coupons[i].couponId + "')");
-                    qrButton.setAttribute("class","glyphicon glyphicon-trash");
-                    cell5.appendChild(qrButton);
+                    var deleteButton = document.createElement("BUTTON");
+                    deleteButton.setAttribute("onclick", "destroyCoupon('" + elems.coupons[i].couponId + "')");
+                    deleteButton.setAttribute("class","glyphicon glyphicon-trash");
+                    cell6.appendChild(deleteButton);
                 }
             }
 
