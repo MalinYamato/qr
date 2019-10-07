@@ -429,6 +429,28 @@
                 while (table.hasChildNodes()) {
                     table.removeChild(table.lastChild);
                 }
+
+                var rowHeader = table.insertRow(0);
+                th1 = document.createElement('th');
+                th2 = document.createElement('th');
+                th3 = document.createElement('th');
+                th4 = document.createElement('th');
+                th5 = document.createElement('th');
+                th6 = document.createElement('th');
+                th1.innerHTML = "Namn";
+                th2.innerHTML = "Id nummer";
+                th3.innerHTML = "Att betala";
+                th4.innerHTML = "Saldo";
+                th5.innerHTML = "QR";
+                th6.innerHTML = "Ta bort";
+                rowHeader.appendChild(th1);
+                rowHeader.appendChild(th2);
+                rowHeader.appendChild(th3);
+                rowHeader.appendChild(th4);
+                rowHeader.appendChild(th5);
+                rowHeader.appendChild(th6);
+                table.appendChild(rowHeader);
+
                 for (i = 0; i < elems.coupons.length; i++) {
                     var row = table.insertRow(0);
                     row.setAttribute("id", elems.coupons[i].couponId);
@@ -496,7 +518,7 @@
                                 json_response.detail);
                             return null;
                         }
-                        alert("getAllCoupons() SUCCESS " + json_response.coupons[0].firstName);
+                       //alert("getAllCoupons() SUCCESS " + json_response.coupons[0].firstName);
                         populateCouponTable(json_response);
                     } else {
                         console.log("getUser problem " + status);
