@@ -478,9 +478,9 @@
                 request.onload = function () {
                     if (request.status == 200) {
                         json_response = JSON.parse(request.response);
-                        if (json.response.status.status != "SUCCESS") {
-                            alert("getAllCoupons() returned " + json.response.status.status + ++
-                                json.response.detail);
+                        if (json_response.status.status != "SUCCESS") {
+                            alert("getAllCoupons() returned " + json_response.status.status + ++
+                                json_response.detail);
                             return null;
                         }
                         alert("getAllCoupons() SUCCESS " + json_response.coupons[0].firstName);
