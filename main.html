@@ -422,6 +422,11 @@
                 });
             });
 
+            document.onload = function() {
+                getAllCoupons();
+            }
+
+
             function populateCouponTable(elems) {
                 var i = 0;
                 var table = document.getElementById("couponTable");
