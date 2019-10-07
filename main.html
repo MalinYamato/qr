@@ -257,7 +257,6 @@
             </table>
 
             <form id="formId">
-
                 <table class="w3-table-all">
                     <tr class="createCouponRow">
                         <td id="firstChild">
@@ -271,12 +270,10 @@
                         <td>
                             <input class="w3-input w3-border" name="pay" type="text" placeholder="Amout"
                                    onkeypress="myFunction(this.value)">
-
                         </td>
                         <td>
                             <input class="w3-input w3-border" name="balance" type="text" placeholder="Tillskott"
                                    onkeypress="myFunction(this.value)">
-
                         <td class="emtpy"></td>
 
                         <td>
@@ -421,6 +418,7 @@
                 document.getElementById('formId').addEventListener("submit", function (e) {
                     e.preventDefault(); // before the code
                     submitForm();
+                    getAllCoupons();
                 });
             });
 
