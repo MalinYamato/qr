@@ -86,7 +86,7 @@ type CouponResponse struct {
 }
 
 func GetAllCouponHandler(w http.ResponseWriter, r *http.Request) {
-    var request Request
+	var request Request
 	var allCoupons GetAllCouponsResponse
 
 	log.Println("GetAllCouponHandler called")
@@ -108,7 +108,9 @@ func GetAllCouponHandler(w http.ResponseWriter, r *http.Request) {
 			log.Println("Fail to Deconde JSON")
 		}
 		allCoupons.Coupons = _coupons.getAll()
+		allCoupons.Status = status
 		json_response, err := json.Marshal(allCoupons)
+		log.Println("Coupon " + allCoupons.Coupons[0].FirstName)
 		if err != nil {
 			log.Println("HandlingCoupon json.Marchal returned error %s", err)
 			panic(err)
