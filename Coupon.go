@@ -40,10 +40,11 @@ import (
 )
 
 type Payment struct {
-	Amount int   `json:"couponId"`
-	Time   int64 `json:"time"`
-	Long   int   `json:"long"`
-	Lat    int   `json:"lat"`
+	Amount int   `json:"amount"`
+	Date   int   `json:"date"`
+	Time   int   `json:"time"`
+	Long   int   `json:"long,omitempty"`
+	Lat    int   `json:"lat,omitempty"`
 }
 
 type Coupon struct {

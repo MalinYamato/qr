@@ -34,7 +34,6 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"github.com/dghubble/gologin"
 	"github.com/dghubble/gologin/google"
 	"github.com/dghubble/sessions"
@@ -155,6 +154,7 @@ func NewMux(config *Config) *http.ServeMux {
 	mux.HandleFunc("/", serveHome)
 	mux.Handle("/session/", requireLogin(http.HandlerFunc(sessionHandler)))
 	mux.Handle("/CouponManager", requireLogin(http.HandlerFunc(CouponHandler)))
+	mux.Handle("/GetAllCouponns", requireLogin(http.HandlerFunc(GetAllCouponHandler)))
 	mux.HandleFunc("/logout", logoutHandler)
 
 	oauth2Config := &oauth2.Config{
@@ -172,30 +172,6 @@ func NewMux(config *Config) *http.ServeMux {
 	return mux
 }
 
-func getCookieAndTokenfromRequest(r *http.Request, onlyTooken bool) (token string, cookie string, err error) {
-	if !onlyTooken {
-		//retrieve encrypted cookie
-		cookieInfo, err := r.Cookie(sessionName)
-		if err != nil {
-			return "", "", fmt.Errorf("No cookie found for give cookie name %s detail %s", sessionName, err)
-		}
-		cookie = cookieInfo.Value
-	}
-	session, err := _sessionStore.Get(r, sessionName)
-	if err != nil {
-		return "", "", fmt.Errorf("Fail to retrieve cookie to create session %s detail %s", sessionName, err)
-	}
-	atoken, ok := session.Values[sessionToken]
-	if !ok {
-		return "", "", fmt.Errorf("The sesstion did not contain %s ", sessionToken)
-	}
-	if atoken != nil {
-		token = atoken.(string)
-	} else {
-		token = ""
-	}
-	return token, cookie, nil
-}
 
 const _home = "main.html"
 const _login = "login.html"

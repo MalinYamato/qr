@@ -53,7 +53,7 @@ type GetOneCouponRequest struct {
 	Op      string `json:"op"`
 	CoupnID string `json:"couponId"`
 }
-type GetAllCouponsRequest struct {
+type Request struct {
 	Op string `json:"op"`
 }
 type UpdateCouponBalance struct {
@@ -86,8 +86,9 @@ type CouponResponse struct {
 }
 
 func GetAllCouponHandler(w http.ResponseWriter, r *http.Request) {
+    var request Request
 	var allCoupons GetAllCouponsResponse
-	var requestAllCoupons GetAllCouponsRequest
+
 	log.Println("GetAllCouponHandler called")
 	var status = Status{SUCCESS, ""}
 	//defer r.Body.Close()
@@ -102,7 +103,7 @@ func GetAllCouponHandler(w http.ResponseWriter, r *http.Request) {
 			log.Println("Parse form failed")
 		}
 		decoder := json.NewDecoder(r.Body)
-		err := decoder.Decode(&requestAllCoupons)
+		err := decoder.Decode(&request)
 		if err != nil {
 			log.Println("Fail to Deconde JSON")
 		}

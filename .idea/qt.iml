@@ -7,5 +7,10 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="jquery.qrcode" level="application" />
     <orderEntry type="library" name="jquery" level="application" />
+    <orderEntry type="library" name="babel" level="application" />
+    <orderEntry type="library" name="react-dom.development" level="application" />
+    <orderEntry type="library" name="react.development" level="application" />
+    <orderEntry type="library" name="react-dom.production" level="application" />
+    <orderEntry type="library" name="react.production" level="application" />
   </component>
 </module>
