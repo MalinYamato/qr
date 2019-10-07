@@ -425,6 +425,11 @@
                 alert("table length " + elems.coupons.length)
 
                 var table = document.getElementById("couponTable");
+
+                while (table.hasChildNodes()) {
+                    node.removeChild(table.lastChild);
+                }
+
                 for (i = 0; i < elems.coupons.length; i++) {
                     var row = table.insertRow(0);
                     var cell1 = row.insertCell(0);
