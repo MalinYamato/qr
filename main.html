@@ -75,7 +75,7 @@
         #formId {
             #display: none;
             width: 100%;
-            visibility: hidden;
+           # visibility: hidden;
         }
 
         .qrCodePane {
@@ -157,6 +157,10 @@
 
         #firstChild {
             padding-left: 2px;
+        }
+
+        .hello {
+            color: white;
         }
 
     </style>
@@ -250,61 +254,63 @@
                         <button onclick="destroyCoupon()" class="glyphicon glyphicon-trash"></button>
                     </td>
                 </tr>
-
-                <form id="formId">
-                    <table class="w3-table-all">
-                        <tr class="createCouponRow">
-                            <td id="firstChild">
-                                <input CLASS="w3-input w3-border" name="name" type="text" placeholder="Namn"
-                                       onkeypress="myFunction(this.value)">
-                            </td>
-                            <td>
-                                <input class="w3-input w3-border" name="couponId" type="text" placeholder="Id nummer"
-                                       onkeypress="myFunction(this.value)">
-                            </td>
-                            <td>
-                                <input class="w3-input w3-border" name="pay" type="text" placeholder="Amout"
-                                       onkeypress="myFunction(this.value)">
-
-                            </td>
-                            <td>
-                                <input class="w3-input w3-border" name="balance" type="text" placeholder="Balans"
-                                       onkeypress="myFunction(this.value)">
-
-                            <td class="emtpy"></td>
-
-                            <td>
-                                <button class=" createBtn w3-input w3-border w3-button  w3-blue " type="submit"> Skapa
-                                </button>
-                            </td>
-                        </tr>
-                    </table>
-                </form>
-
-                <div class="w3-display-container w3-blue" style="height:40px;">
-
-                    <table class="buttonTable  w3-display-topright">
-                        <tr class="">
-
-                            <td class="qrCodeButton ">
-                                <button class="  glyphicon glyphicon-qrcode" onclick="showQRcode('9999')"></button>
-                            </td>
-
-                            <td class="qrCodePrintButton " id="qrCodePrint">
-                                <button onclick="printQRcode()" class="glyphicon glyphicon-print "></button>
-                            </td>
-                            <td class="getAllButton " id="getAll">
-                                <button onclick="getAllCoupons()" class="glyphicon glyphicon-repeat  "></button>
-                            </td>
-
-                        </tr>
-                    </table>
-                    <div id="qrCode" class=" qrCode w3-display-topright ">
-                        <div class=" " id="output"></div>
-                    </div>
-                </div>
-
             </table>
+
+            <form id="formId">
+
+                <table class="w3-table-all">
+                    <tr class="createCouponRow">
+                        <td id="firstChild">
+                            <input CLASS="w3-input w3-border" name="name" type="text" placeholder="Namn"
+                                   onkeypress="myFunction(this.value)">
+                        </td>
+                        <td>
+                            <input class="w3-input w3-border" name="couponId" type="text" placeholder="Id nummer"
+                                   onkeypress="myFunction(this.value)">
+                        </td>
+                        <td>
+                            <input class="w3-input w3-border" name="pay" type="text" placeholder="Amout"
+                                   onkeypress="myFunction(this.value)">
+
+                        </td>
+                        <td>
+                            <input class="w3-input w3-border" name="balance" type="text" placeholder="Tillskott"
+                                   onkeypress="myFunction(this.value)">
+
+                        <td class="emtpy"></td>
+
+                        <td>
+                            <button class=" createBtn w3-input w3-border w3-button  w3-blue " type="submit"> Skapa
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+
+            <div class="w3-display-container w3-blue" style="height:40px;">
+
+                <table class="buttonTable  w3-display-topright">
+                    <tr class="">
+
+                        <td class="qrCodeButton ">
+                            <button class="  glyphicon glyphicon-qrcode" onclick="showQRcode('9999')"></button>
+                        </td>
+
+                        <td class="qrCodePrintButton " id="qrCodePrint">
+                            <button onclick="printQRcode()" class="glyphicon glyphicon-print "></button>
+                        </td>
+                        <td class="getAllButton " id="getAll">
+                            <button onclick="getAllCoupons()" class="glyphicon glyphicon-repeat  "></button>
+                        </td>
+
+                    </tr>
+                </table>
+                <div id="qrCode" class=" qrCode w3-display-topright ">
+                    <div class=" " id="output"></div>
+                </div>
+            </div>
+
+
         </div>
         <div class="w3-col" style="width:10%">
         </div>
