@@ -110,7 +110,7 @@ func GetAllCouponHandler(w http.ResponseWriter, r *http.Request) {
 		allCoupons.Coupons = _coupons.getAll()
 		allCoupons.Status = status
 		json_response, err := json.Marshal(allCoupons)
-		log.Println("Coupon " + allCoupons.Coupons[0].FirstName)
+		log.Println("Coupon " + _coupons.getAll()[0].FirstName)
 		if err != nil {
 			log.Println("HandlingCoupon json.Marchal returned error %s", err)
 			panic(err)
