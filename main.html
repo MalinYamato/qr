@@ -421,6 +421,9 @@
 
             function populateCouponTable(elems) {
                 var i = 0;
+
+                alert("table length " + elems.length)
+                
                 var table = document.getElementById("couponTable");
                 for (i = 0; i < elems.length; i++) {
                     var row = table.insertRow(0);
@@ -432,10 +435,10 @@
                     var cell6 = row.insertCell(5);
                     cell1.innerHTML = elems[i].firstName;
                     cell2.innerHTML = elems[i].couponId;
-                    cell1.innerHTML = elems[i].pay;
-                    cell2.innerHTML = elems[i].balance;
-                    cell1.innerHTML = "";
-                    cell2.innerHTML = "";
+                    cell3.innerHTML = elems[i].pay;
+                    cell4.innerHTML = elems[i].balance;
+                    cell5.innerHTML = "";
+                    cell6.innerHTML = "";
                 }
             }
 
