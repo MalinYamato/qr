@@ -422,10 +422,10 @@
             function populateCouponTable(elems) {
                 var i = 0;
 
-                alert("table length " + elems.length)
-                
+                alert("table length " + elems.coupons.length)
+
                 var table = document.getElementById("couponTable");
-                for (i = 0; i < elems.length; i++) {
+                for (i = 0; i < elems.coupons.length; i++) {
                     var row = table.insertRow(0);
                     var cell1 = row.insertCell(0);
                     var cell2 = row.insertCell(1);
@@ -433,10 +433,10 @@
                     var cell4 = row.insertCell(3);
                     var cell5 = row.insertCell(4);
                     var cell6 = row.insertCell(5);
-                    cell1.innerHTML = elems[i].firstName;
-                    cell2.innerHTML = elems[i].couponId;
-                    cell3.innerHTML = elems[i].pay;
-                    cell4.innerHTML = elems[i].balance;
+                    cell1.innerHTML = elems.coupons[i].firstName;
+                    cell2.innerHTML = elems.coupons[i].couponId;
+                    cell3.innerHTML = elems.coupons[i].pay;
+                    cell4.innerHTML = elems.coupons[i].balance;
                     cell5.innerHTML = "";
                     cell6.innerHTML = "";
                 }
