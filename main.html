@@ -427,7 +427,7 @@
                 var table = document.getElementById("couponTable");
 
                 while (table.hasChildNodes()) {
-                    node.removeChild(table.lastChild);
+                    table.removeChild(table.lastChild);
                 }
 
                 for (i = 0; i < elems.coupons.length; i++) {
