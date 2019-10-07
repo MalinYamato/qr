@@ -449,7 +449,7 @@
                     cell3.innerHTML = elems.coupons[i].pay;
                     cell4.innerHTML = elems.coupons[i].balance;
                     cell6.innerHTML = "";
-                    var qrBbutton = document.createElement("BUTTON");
+                    var qrButton = document.createElement("BUTTON");
                     qrButton.setAttribute("onclick", "showQRcode('" + elems.coupons[i].couponId + "')");
                     qrButton.setAttribute("class","glyphicon glyphicon-qrcode");
                     cell5.appendChild(qrButton);
