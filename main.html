@@ -455,8 +455,8 @@
                 request.onload = function () {
                     if (request.status == 200) {
                         json_response = JSON.parse(request.response);
-                        alert("getAllCoupons() SUCCESS " + json_responose.status.status);
-                        alert("getAllCoupons() SUCCESS " + json_responose.coupons[0].name);
+                        alert("getAllCoupons() SUCCESS " + json_response.status.status);
+                        alert("getAllCoupons() SUCCESS " + json_response.coupons[0].name);
                         return json_response;
                     } else {
                         console.log("getUser problem " + status);
