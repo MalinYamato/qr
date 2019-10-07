@@ -457,6 +457,8 @@
                         json_response = JSON.parse(request.response);
                         alert("getAllCoupons() SUCCESS " + json_response.status.status);
                         alert("getAllCoupons() SUCCESS " + json_response.coupons[0].firstName);
+                        alert("getAllCoupons() SUCCESS " + json_response.coupons[1].firstName);
+                        alert("getAllCoupons() SUCCESS " + json_response.coupons[2].firstName);
                         return json_response;
                     } else {
                         console.log("getUser problem " + status);
