@@ -37,14 +37,15 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"sort"
 )
 
 type Payment struct {
-	Amount int   `json:"amount"`
-	Date   int   `json:"date"`
-	Time   int   `json:"time"`
-	Long   int   `json:"long,omitempty"`
-	Lat    int   `json:"lat,omitempty"`
+	Amount int `json:"amount"`
+	Date   int `json:"date"`
+	Time   int `json:"time"`
+	Long   int `json:"long,omitempty"`
+	Lat    int `json:"lat,omitempty"`
 }
 
 type Coupon struct {
@@ -110,6 +111,9 @@ func (coupons *Coupons) getAll() (Coupons []Coupon) {
 	for _, c := range coupons.__coupons {
 		l = append(l, c)
 	}
+	sort.SliceStable(l, func(i, j int) bool {
+		return l[i].CouponID < l[j].CouponID
+	})
 	return l
 }
 
