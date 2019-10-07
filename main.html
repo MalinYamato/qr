@@ -113,17 +113,20 @@
             margin-leftt: 0;
             height: 30px;
         }
+
         .qrCodeButton {
             color: #000;
             font-size: 30px;
             padding-right: 10px;
 
         }
+
         .qrCodePrintButton {
             color: black;
             padding-right: 10px;
             font-size: 30px;
         }
+
         .getAllButton {
             color: black;
             padding-right: 10px;
@@ -281,7 +284,7 @@
 
                 <div class="w3-display-container w3-blue" style="height:40px;">
 
-                    <table class="buttonTable  w3-display-topright" >
+                    <table class="buttonTable  w3-display-topright">
                         <tr class="">
 
                             <td class="qrCodeButton ">
@@ -417,75 +420,97 @@
                 });
             });
 
-            function submitForm() {
-                const formData = new FormData(document.getElementById("formId"));
-                let jsonObject = {};
-                for (const [key, value]  of formData.entries()) {
-                    jsonObject[key] = value;
+            function populateCouponTable(elems) {
+                var i = 0;
+                var table = document.getElementById("couponTable");
+                for (i = 0; i < elems.length; i++) {
+                    var row = table.insertRow(0);
+                    var cell1 = row.insertCell(0);
+                    var cell2 = row.insertCell(1);
+                    var cell3 = row.insertCell(2);
+                    var cell4 = row.insertCell(3);
+                    var cell5 = row.insertCell(4);
+                    var cell6 = row.insertCell(5);
+                    cell1.innerHTML = elems[i].firstName;
+                    cell2.innerHTML = elems[i].couponId;
+                    cell1.innerHTML = elems[i].pay;
+                    cell2.innerHTML = elems[i].balance;
+                    cell1.innerHTML = "";
+                    cell2.innerHTML = "";
                 }
-                jsonObject["op"] = "createCoupon";
-                //var form_data = $("#formId").serialize();
-                alert(JSON.stringify(jsonObject));
-                $.ajax({
-                    url: URL() + "/CouponManager",
-                    type: "post",
-                    async: "true",
-                    data: JSON.stringify(jsonObject),
-                    dataType: 'json',
-                    contentType: 'application/json',
-                    success: function (response) {
-                        alert("success " + response.status);
+
+
+                function submitForm() {
+                    const formData = new FormData(document.getElementById("formId"));
+                    let jsonObject = {};
+                    for (const [key, value] of formData.entries()) {
+                        jsonObject[key] = value;
+                    }
+                    jsonObject["op"] = "createCoupon";
+                    //var form_data = $("#formId").serialize();
+                    alert(JSON.stringify(jsonObject));
+                    $.ajax({
+                        url: URL() + "/CouponManager",
+                        type: "post",
+                        async: "true",
+                        data: JSON.stringify(jsonObject),
+                        dataType: 'json',
+                        contentType: 'application/json',
+                        success: function (response) {
+                            alert("success " + response.status);
+                            console.log("submitForm " + response.status);
+                        },
+                        error: function (jqXhr, textStatus, errorMessage) {
+                            console.log("Error: ");
+                            alert("ERROR");
+                        }
+                    }).done(function (response) {
                         console.log("submitForm " + response.status);
-                    },
-                    error: function (jqXhr, textStatus, errorMessage) {
-                        console.log("Error: ");
-                        alert("ERROR");
-                    }
-                }).done(function (response) {
-                    console.log("submitForm " + response.status);
-                    alert("done success " + response.status);
-                });
-            }
+                        alert("done success " + response.status);
+                    });
+                }
 
-            function getAllCoupons() {
-                var request = new XMLHttpRequest();
-                request.open("POST", URL() + "/GetAllCoupons", true);
-                request.setRequestHeader('Content-Type', 'application/json');
-                request.send(JSON.stringify(""));
-                request.onload = function () {
-                    if (request.status == 200) {
-                        json_response = JSON.parse(request.response);
-                        alert("getAllCoupons() SUCCESS " + json_response.status.status);
-                        alert("getAllCoupons() SUCCESS " + json_response.coupons[0].firstName);
-                        alert("getAllCoupons() SUCCESS " + json_response.coupons[1].firstName);
-                        alert("getAllCoupons() SUCCESS " + json_response.coupons[2].firstName);
-                        return json_response;
-                    } else {
-                        console.log("getUser problem " + status);
-                        alert("getAllCoupons() ERROR");
+                function getAllCoupons() {
+                    var request = new XMLHttpRequest();
+                    request.open("POST", URL() + "/GetAllCoupons", true);
+                    request.setRequestHeader('Content-Type', 'application/json');
+                    request.send(JSON.stringify(""));
+                    request.onload = function () {
+                        if (request.status == 200) {
+                            json_response = JSON.parse(request.response);
+                            if (json.response.status.status != "SUCCESS") {
+                                alert("getAllCoupons() returned " + json.response.status.status + ++
+                                    json.response.detail);
+                                return null;
+                            }
+                            alert("getAllCoupons() SUCCESS " + json_response.coupons[0].firstName);
+                            populateCouponTable(json_response);
+                        } else {
+                            console.log("getUser problem " + status);
+                            alert("getAllCoupons() ERROR");
+                        }
                     }
                 }
-            }
 
-            function logoutAction(op) {
-                alert("here1");
-                var request = new XMLHttpRequest();
-                request.open("POST", URL() + "/logout", true);
-                request.onload = function () {
-                    alert("here2");
-                    status = request.status;
-                    if (status == 200) {
-                        window.location = URL() + "/";
-                    } else {
-                        console.log("logoutAction problem " + status)
-                    }
-                };
-                request.send();
-            }
+                function logoutAction(op) {
+                    alert("here1");
+                    var request = new XMLHttpRequest();
+                    request.open("POST", URL() + "/logout", true);
+                    request.onload = function () {
+                        alert("here2");
+                        status = request.status;
+                        if (status == 200) {
+                            window.location = URL() + "/";
+                        } else {
+                            console.log("logoutAction problem " + status)
+                        }
+                    };
+                    request.send();
+                }
 
-            function logout() {
-                logoutAction("logout");
-            }
+                function logout() {
+                    logoutAction("logout");
+                }
 
         </script>
 </body>
