@@ -386,12 +386,12 @@
 <script>
 
     var ps;
-    const demo = document.querySelector('#couponTableContainer');
+  /*  const demo = document.querySelector('#couponTableContainer');
     ps = new PerfectScrollbar(demo, {
             suppressScrollX: true,
             scrollingThreshold: 10
         }
-    );
+    ); */
 
     function printQRcode() {
         var canvas = document.querySelector("#output canvas");
@@ -589,7 +589,7 @@
         //var form_data = $("#formId").serialize();
         alert(JSON.stringify(jsonObject));
         $.ajax({
-            url: URL() + "/CouponManager",
+            url: URL() + "/CreateCouponManager",
             type: "post",
             async: "true",
             data: JSON.stringify(jsonObject),

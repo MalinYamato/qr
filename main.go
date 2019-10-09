@@ -155,7 +155,7 @@ func NewMux(config *Config) *http.ServeMux {
 	mux.Handle("/session/", requireLogin(http.HandlerFunc(sessionHandler)))
 	mux.Handle("/CouponManager", requireLogin(http.HandlerFunc(CouponHandler)))
 	mux.Handle("/CreateCoupon", requireLogin(http.HandlerFunc(CreateCouponHandler)))
-	mux.Handle("/getAllCoupons", requireLogin(http.HandlerFunc(GetAllCouponHandler)))
+	mux.Handle("/getAllCoupons", requireLogin(http.HandlerFunc(GetAllCouponsHandler)))
 	mux.HandleFunc("/logout", logoutHandler)
 
 	oauth2Config := &oauth2.Config{

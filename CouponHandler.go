@@ -86,7 +86,7 @@ type CouponResponse struct {
 	Status Status `json:"status"`
 }
 
-func GetAllCouponHandler(w http.ResponseWriter, r *http.Request) {
+func GetAllCouponsHandler(w http.ResponseWriter, r *http.Request) {
 	var request Request
 	var allCoupons GetAllCouponsResponse
 
@@ -107,6 +107,7 @@ func GetAllCouponHandler(w http.ResponseWriter, r *http.Request) {
 		err := decoder.Decode(&request)
 		if err != nil {
 			log.Println("Fail to Deconde JSON")
+			status.Detail = "getAllCoupons decode Err! "
 		}
 		allCoupons.Coupons = _coupons.getAll()
 		allCoupons.Status = status
@@ -114,16 +115,17 @@ func GetAllCouponHandler(w http.ResponseWriter, r *http.Request) {
 		log.Println("Coupon " + _coupons.getAll()[0].FirstName)
 		if err != nil {
 			log.Println("HandlingCoupon json.Marchal returned error %s", err)
-			panic(err)
-			return
+			status.Detail = "getAllCoupons parse Err! "
+			//	panic(err)
+			//	return
 		}
 		log.Println("GetAllCouponHandler writing back")
 		w.Header().Set("Content-Type", "application/json")
 		a, err := w.Write(json_response)
 		if err != nil {
 			log.Println("Handling GetAllCoupon http.write returned error %s %s", err, a)
-			panic(err)
-			return
+			//	panic(err)
+			//	return
 		}
 	}
 }

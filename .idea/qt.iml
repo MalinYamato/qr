@@ -12,5 +12,6 @@
     <orderEntry type="library" name="react.development" level="application" />
     <orderEntry type="library" name="react-dom.production" level="application" />
     <orderEntry type="library" name="react.production" level="application" />
+    <orderEntry type="library" name="jquery" level="application" />
   </component>
 </module>
