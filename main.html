@@ -331,21 +331,16 @@
                     <tr class="createCouponRow">
                         <td id="firstChild">
                             <input CLASS="w3-input w3-border" name="name" type="text" placeholder="Namn"
-                                   onkeypress="myFunction(this.value)">
                         </td>
                         <td>
                             <input class="w3-input w3-border" name="couponId" type="text" placeholder="Id nummer"
-                                   onkeypress="myFunction(this.value)">
                         </td>
                         <td>
                             <input class="w3-input w3-border" name="pay" type="text" placeholder="Amout"
-                                   onkeypress="myFunction(this.value)">
                         </td>
                         <td>
                             <input class="w3-input w3-border" name="balance" type="text" placeholder="Tillskott"
-                                   onkeypress="myFunction(this.value)">
                         <td class="emtpy"></td>
-
                         <td>
                             <button class=" createBtn w3-input w3-border w3-button  w3-blue " type="submit"> Skapa
                             </button>
@@ -532,7 +527,7 @@
 
         document.getElementById("couponTableContainer").style.height = strLen;
         document.getElementById("couponTableContainer").setAttribute("style", "width:" + strLen + "px");
-        alert(strLen.toString());
+        //alert(strLen.toString());
 
         table.appendChild(document.createElement('tbody'));
         for (i = 0; i < elems.coupons.length; i++) {
