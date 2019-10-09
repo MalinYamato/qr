@@ -12,9 +12,13 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-teal.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+    <link rel="stylesheet" href="css/perfect-scrollbar.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <script src="js/perfect-scrollbar.js"></script>
+
+
     <!--    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     -->
     <script type="text/javascript" src="js/qrcode.js"></script>
@@ -80,15 +84,9 @@
         #formId {
             #display: none;
             width: 100%;
-           # visibility: hidden;
-        }
+            margin-top: 0;
+            # visibility: hidden;
 
-        .qrCodePane {
-            visibility: hidden;
-            # display: none;
-            top: 10px;
-            width: 50%;
-            right-margin: 10px
         }
 
         .qrCod e {
@@ -104,17 +102,12 @@
             border-color: white;
             background-color: white;
             color: #000;
-
             margin-right: 180px;
             visibility: hidden;
         }
 
-        #output {
-
-        }
-
         .buttonTable {
-            margin-leftt: 0;
+            margin-left: 0;
             height: 30px;
         }
 
@@ -141,10 +134,6 @@
             padding-left: 4px;
         }
 
-        .couponTable tr td {
-            width: 16.6%;
-        }
-
         .createCouponRow td {
             padding-right: 2px;
             padding-left: 2px;
@@ -164,14 +153,60 @@
             padding-left: 2px;
         }
 
-        .hello {
-            color: white;
+        .formTable {
+            margin-top: 0;
         }
+
+        .couponTable tr td {
+        / / border-style: solid;
+        / / border-width: 1 px;
+        / / border-color: black;
+            width: 16.6%;
+
+        }
+
+        .couponTableHeader tr th {
+        / / border-style: solid;
+        / / border-width: 1 px;
+        / / / border-color: black;
+            width: 16.6%;
+        }
+
+        .lastHeader {
+            width: 10px;
+        }
+
+        .couponTable tr {
+            height: 0px;
+        }
+
+        .couponTableHeader {
+            #margin-bottom: 0;
+
+        }
+
+        .couponTableContainer {
+            position: relative;
+            overflow-y: scroll;
+            height: 200px;
+            scrollbar-width: thick;
+            scrollbar-color:  green;
+        }
+
+        .couponTableHeader {
+            margin-bottom: 0;
+        }
+
 
     </style>
 </head>
 
-<body>
+
+<script>
+
+
+</script>
+
 
 <div class="container1"> <!-- style="background-image: url('/img/background.jpg');"> -->
 
@@ -190,79 +225,111 @@
         <button class=" logoutButton w3-bar-item w3-button w3-right" onclick="logout()">Logout</button>
     </div>
 
-    <div class="w3-bar w3-theme">
-
-    </div>
+    <div class="w3-bar w3-theme"></div>
 
     <div class="w3-row">
         <div class="w3-col" style="width:10%"><p>20%</p></div>
         <div class="w3-col" style="width:80%">
 
             <h2>Coupons</h2>
-            <table id="couponTable" class=" couponTable w3-table-all w3-hoverable">
-                <thead>
-                <tr>
+            <table id='couponTableHeader' class="  couponTableHeader   w3-table-all w3-hoverable">
+
+                <tr class="couponTableHeaderRow">
                     <th>Namn</th>
                     <th>ID</th>
                     <th>Betala</th>
-                    <th>Balans</th>
+                    <th>Saldo</th>
                     <th>QR Kod</th>
                     <th>Delete</th>
-                </tr>
-                </thead>
-                <tr>
-                <tr id="1004">
-                    <td>John</td>
-                    <td>1004</td>
-                    <td>40</td>
-                    <td>-150</td>
-                    <td>
-                        <button onclick="showQRcode('1004')" class="glyphicon glyphicon-qrcode"></button>
-                    </td>
-                    <td>
-                        <button onclick="destroyCoupon()" class="glyphicon glyphicon-trash"></button>
-                    </td>
-                </tr>
-                <tr id="1014">
-                    <td>Nisse</td>
-                    <td>1014</td>
-                    <td>40</td>
-                    <th>100</th>
-                    <td>
-                        <button onclick="showQRcode('1014')" class="glyphicon glyphicon-qrcode"></button>
-                    </td>
-                    <td>
-                        <button onclick="destroyCoupon()" class="glyphicon glyphicon-trash"></button>
-                    </td>
-                </tr>
-                <tr id="1003">
-                    <td>Lars</td>
-                    <td>1003</td>
-                    <td>20</td>
-                    <td>-80</td>
-                    <td>
-                        <button onclick="showQRcode('1003')" class="glyphicon glyphicon-qrcode"></button>
-                    </td>
-                    <td>
-                        <button onclick="destroyCoupon()" class="glyphicon glyphicon-trash"></button>
-                    </td>
-                </tr>
-                <tr id="1001">
-                    <td>Malin</td>
-                    <td>1001</td>
-                    <td>20</td>
-                    <td>80</td>
-                    <td>
-                        <button onclick="showQRcode('1001')" class="glyphicon glyphicon-qrcode"></button>
-                    </td>
-                    <td>
-                        <button onclick="destroyCoupon()" class="glyphicon glyphicon-trash"></button>
-                    </td>
+                    <th class="lastHeader"></th>
                 </tr>
             </table>
 
+            <div class="wrapper couponTableContainer" id="couponTableContainer">
+                <table id='couponTable' class=" couponTable  w3-table-all w3-hoverable ">
+
+                    <tbody class="couponTableBody" id="couponTableBody">
+                    <tr>
+                    <tr id="1004">
+                        <td> John</td>
+                        <td>1004</td>
+                        <td>40</td>
+                        <td>-150</td>
+                        <td>
+                            <button onclick="showQRcode('1004')" class="glyphicon glyphicon-qrcode"></button>
+                        </td>
+                        <td>
+                            <button onclick="destroyCoupon()" class="glyphicon glyphicon-trash"></button>
+                        </td>
+                    </tr>
+                    <tr id="1014">
+                        <td>Nisse</td>
+                        <td>1014</td>
+                        <td>40</td>
+                        <th>100</th>
+                        <td>
+                            <button onclick="showQRcode('1014')" class="glyphicon glyphicon-qrcode"></button>
+                        </td>
+                        <td>
+                            <button onclick="destroyCoupon()" class="glyphicon glyphicon-trash"></button>
+                        </td>
+                    </tr>
+                    <tr id="1003">
+                        <td>Lars</td>
+                        <td>1003</td>
+                        <td>20</td>
+                        <td>-80</td>
+                        <td>
+                            <button onclick="showQRcode('1003')" class="glyphicon glyphicon-qrcode"></button>
+                        </td>
+                        <td>
+                            <button onclick="destroyCoupon()" class="glyphicon glyphicon-trash"></button>
+                        </td>
+                    </tr>
+                    <tr id="1001">
+                        <td>Malin</td>
+                        <td>1001</td>
+                        <td>20</td>
+                        <td>80</td>
+                        <td>
+                            <button onclick="showQRcode('1001')" class="glyphicon glyphicon-qrcode"></button>
+                        </td>
+                        <td>
+                            <button onclick="destroyCoupon()" class="glyphicon glyphicon-trash"></button>
+                        </td>
+                    </tr>
+                    <tr id="1001">
+                        <td>Malin</td>
+                        <td>1001</td>
+                        <td>20</td>
+                        <td>80</td>
+                        <td>
+                            <button onclick="showQRcode('1001')" class="glyphicon glyphicon-qrcode"></button>
+                        </td>
+                        <td>
+                            <button onclick="destroyCoupon()" class="glyphicon glyphicon-trash"></button>
+                        </td>
+                    </tr>
+                    <tr id="1001">
+                        <td>Malin</td>
+                        <td>1001</td>
+                        <td>20</td>
+                        <td>80</td>
+                        <td>
+                            <button onclick="showQRcode('1001')" class="glyphicon glyphicon-qrcode"></button>
+                        </td>
+                        <td>
+                            <button onclick="destroyCoupon()" class="glyphicon glyphicon-trash"></button>
+                        </td>
+                    </tr>
+                    </tbody>
+
+                </table>
+
+            </div>
+
             <form id="formId">
-                <table class="w3-table-all">
+                <table class="formTable w3-table-all">
                     <tr class="createCouponRow">
                         <td id="firstChild">
                             <input CLASS="w3-input w3-border" name="name" type="text" placeholder="Namn"
@@ -304,255 +371,291 @@
                         <td class="getAllButton " id="getAll">
                             <button onclick="getAllCoupons()" class="glyphicon glyphicon-repeat  "></button>
                         </td>
-
                     </tr>
                 </table>
                 <div id="qrCode" class=" qrCode w3-display-topright ">
                     <div class=" " id="output"></div>
                 </div>
             </div>
-
-
         </div>
         <div class="w3-col" style="width:10%">
         </div>
+    </div>
+</div>
 
+<script type="text/javascript" src="/js/qrcode.js"></script>
 
-        <div class="w3-col" style="width:20%">
+<script>
 
-        </div>
+    var ps;
+    const demo = document.querySelector('#couponTableContainer');
+    ps = new PerfectScrollbar(demo, {
+            suppressScrollX: true,
+            scrollingThreshold: 10
+        }
+    );
 
-        <script type="text/javascript" src="/js/qrcode.js"></script>
-        <script>
+    function printQRcode() {
+        var canvas = document.querySelector("#output canvas");
+        var img = canvas.toDataURL("image/png");
+        printImage(img);
+    }
 
-            function printQRcode() {
-                var canvas = document.querySelector("#output canvas");
-                var img = canvas.toDataURL("image/png");
-                printImage(img);
-            }
+    function destroyCoupon(id) {
+        window.alert("couponDestroy " + id);
+    }
 
-            function destroyCoupon( id ) {
-                window.alert("couponDestroy " + id);
-            }
+    function printImage(src) {
+        var win = window.open('', "_new");
+        win.document.open();
+        win.document.write([
+            '<html>',
+            '   <head>',
+            '   </head>',
+            '   <body onload="window.print()" onafterprint="window.close()">',
+            '       <img src="' + src + '"/>',
+            '   </body>',
+            '</html>'
+        ].join(''));
+        win.document.close();
+    }
 
-            function printImage(src) {
-                var win = window.open('', "_new");
-                win.document.open();
-                win.document.write([
-                    '<html>',
-                    '   <head>',
-                    '   </head>',
-                    '   <body onload="window.print()" onafterprint="window.close()">',
-                    '       <img src="' + src + '"/>',
-                    '   </body>',
-                    '</html>'
-                ].join(''));
-                win.document.close();
-            }
+    var qrcode = null;
 
-            var qrcode = null;
-            function showQRcode(id) {
-                document.getElementById("qrCode").style.visibility = "visible";
-                var t = new Date();
-                var fullDate = t.getFullYear() + "-" + t.getMonth() + "-" +
-                    t.getDay() + " " + t.getHours() + ":" + t.getMinutes();
-                var JObj;
-                if (id != "9999") {
-                    var row = document.getElementById(id);
-                    JObj = {
-                        name: row.cells[0].innerHTML,
-                        Id: row.cells[1].innerHTML,
-                        Pay: row.cells[2].innerHTML,
-                        Issued: fullDate
-                    };
-                } else {
-                    var e = document.getElementById("formId").elements;
-                    var n = e.namedItem("name").value;
-                    var idNumber = e.namedItem("couponId").value;
-                    var pay = e.namedItem("pay").value;
-                    var Balance = e.namedItem("balance").value;
-                    JObj = {
-                        name: n,
-                        Id: idNumber,
-                        Pay: pay,
-                        Balance: Balance,
-                        Issued: fullDate
-                    };
-                }
-                //Balans : row.cells[3].innerHTML };
-                Jstring = JSON.stringify(JObj);
-                var elem = document.getElementById('output');
-                elem.textContent = "";
-
-                if (qrcode != null) {
-                    qrcode.clear();
-                }
-                qrcode = new QRCode("output", {
-                    text: Jstring,
-                    width: 128,
-                    height: 128,
-                    colorDark: "#000000",
-                    colorLight: "#ffffff",
-                    correctLevel: QRCode.CorrectLevel.H
-                });
-            }
-
-            function createCoupon() {
-                if (document.getElementById("formId").style.visibility == "visible") {
-                    document.getElementById("formId").style.visibility = "hidden";
-
-                } else {
-                    document.getElementById("formId").style.visibility = "visible";
-                }
-            }
-
-            function create() {
-                document.getElementById("formId").style.visibility = "hidden"
-            }
-
-            function URL() {
-                // return "{{.Protocol}}://{{.Host}}:{{.Port}}";
-                return "https://qr.rakuen.tokyo:7777"
-            }
-
-            function myFunction(value) {
-                showQRcode("9999");
-            }
-
-            window.addEventListener("load", function () {
-                document.getElementById('formId').addEventListener("submit", function (e) {
-                    e.preventDefault(); // before the code
-                    submitForm();
-                    getAllCoupons();
-                });
-            });
-
-            window.onload = function() {
-                getAllCoupons();
+    function showQRcode(id) {
+        document.getElementById("qrCode").style.visibility = "visible";
+        var t = new Date();
+        var fullDate = t.getFullYear() + "-" + t.getMonth() + "-" +
+            t.getDay() + " " + t.getHours() + ":" + t.getMinutes();
+        var JObj;
+        if (id != "9999") {
+            var row = document.getElementById(id);
+            JObj = {
+                name: row.cells[0].innerHTML,
+                idC: row.cells[1].innerHTML,
+                pay: row.cells[2].innerHTML,
+                balance: row.cells[3].innerHTML,
+                issueDate: fullDate
             };
+        } else {
+            var e = document.getElementById("formId").elements;
+            var name = e.namedItem("name").value;
+            var idC = e.namedItem("couponId").value;
+            var pay = e.namedItem("pay").value;
+            var balance = e.namedItem("balance").value;
+            JObj = {
+                name: name,
+                idC: idC,
+                pay: pay,
+                balance: balance,
+                issueDate: fullDate
+            };
+        }
+        //Balans : row.cells[3].innerHTML };
+        Jstring = JSON.stringify(JObj);
+        var elem = document.getElementById('output');
+        elem.textContent = "";
+
+        if (qrcode != null) {
+            qrcode.clear();
+        }
+        qrcode = new QRCode("output", {
+            text: Jstring,
+            width: 128,
+            height: 128,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
+        });
+    }
+
+    function createCoupon() {
+        if (document.getElementById("formId").style.visibility == "visible") {
+            document.getElementById("formId").style.visibility = "hidden";
+
+        } else {
+            document.getElementById("formId").style.visibility = "visible";
+        }
+    }
+
+    function create() {
+        document.getElementById("formId").style.visibility = "hidden"
+    }
+
+    function URL() {
+        // return "{{.Protocol}}://{{.Host}}:{{.Port}}";
+        return "https://qr.rakuen.tokyo:7777";
+    }
+
+    function myFunction(value) {
+        showQRcode("9999");
+    }
+
+    window.addEventListener("load", function () {
+        document.getElementById('formId').addEventListener("submit", function (e) {
+            e.preventDefault(); // before the code
+            submitForm();
+            getAllCoupons();
+        });
+    });
+
+    function setScrollbar() {
+
+        var coupons = document.getElementById("couponTableBody").childElementCount - 3;
+
+        if (coupons > 10) {
+            coupons = 10;
+        } else if (coupons < 10) {
+            coupons = 10;
+        }
+
+        var theLen = coupons * 28.224;
+        var theStrLen = theLen.toString() + "px";
+        document.getElementById("couponTableContainer").setAttribute("style", "height:" + theStrLen);
+        scroll = document.getElementById("couponTableContainer").style.height;
+        alert(scroll);
+    }
 
 
-            function populateCouponTable(elems) {
-                var i = 0;
-                var table = document.getElementById("couponTable");
-                while (table.hasChildNodes()) {
-                    table.removeChild(table.lastChild);
+    //  window.onload = function () {
+    //      //getAllCoupons();
+    //      setScrollbar();
+    //  };
+
+
+    function populateCouponTable(elems) {
+        var i = 0;
+        var table = document.getElementById("couponTable");
+        while (table.hasChildNodes()) {
+            table.removeChild(table.lastChild);
+        }
+        var len = elems.coupon.length * 10;
+        var strLen = len.toString() + "px";
+
+        document.getElementById("couponTableContainer").style.height = strlen;
+        document.getElementsById("couponTableContainer").setAttribute("style", "width:" + strlen + "px");
+        alert(strlen.toString());
+
+        table.appendChild(document.createElement('tbody'));
+        for (i = 0; i < elems.coupons.length; i++) {
+            var row = table.insertRow(0);
+            row.setAttribute("id", elems.coupons[i].couponId);
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            var cell3 = row.insertCell(2);
+            var cell4 = row.insertCell(3);
+            var cell5 = row.insertCell(4);
+            var cell6 = row.insertCell(5);
+            cell1.innerHTML = elems.coupons[i].firstName;
+            cell2.innerHTML = elems.coupons[i].couponId;
+            cell3.innerHTML = elems.coupons[i].pay;
+            cell4.innerHTML = elems.coupons[i].balance;
+            var qrButton = document.createElement("BUTTON");
+            qrButton.setAttribute("onclick", "showQRcode('" + elems.coupons[i].couponId + "')");
+            qrButton.setAttribute("class", "glyphicon glyphicon-qrcode");
+            cell5.appendChild(qrButton);
+            var deleteButton = document.createElement("BUTTON");
+            deleteButton.setAttribute("onclick", "destroyCoupon('" + elems.coupons[i].couponId + "')");
+            deleteButton.setAttribute("class", "glyphicon glyphicon-trash");
+            cell6.appendChild(deleteButton);
+        }
+        var rowHeader = table.insertRow(0);
+        th1 = document.createElement('th');
+        th2 = document.createElement('th');
+        th3 = document.createElement('th');
+        th4 = document.createElement('th');
+        th5 = document.createElement('th');
+        th6 = document.createElement('th');
+        th1.innerHTML = "Namn";
+        th2.innerHTML = "Id nummer";
+        th3.innerHTML = "Att betala";
+        th4.innerHTML = "Saldo";
+        th5.innerHTML = "QR";
+        th6.innerHTML = "Ta bort";
+        rowHeader.appendChild(th1);
+        rowHeader.appendChild(th2);
+        rowHeader.appendChild(th3);
+        rowHeader.appendChild(th4);
+        rowHeader.appendChild(th5);
+        rowHeader.appendChild(th6);
+        table.prependChild(rowHeader);
+    }
+
+    function submitForm() {
+        const formData = new FormData(document.getElementById("formId"));
+        let jsonObject = {};
+        for (const [key, value] of formData.entries()) {
+            jsonObject[key] = value;
+        }
+        jsonObject["op"] = "createCoupon";
+        //var form_data = $("#formId").serialize();
+        alert(JSON.stringify(jsonObject));
+        $.ajax({
+            url: URL() + "/CouponManager",
+            type: "post",
+            async: "true",
+            data: JSON.stringify(jsonObject),
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (response) {
+                alert("success " + response.status);
+                console.log("submitForm " + response.status);
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                console.log("Error: ");
+                alert("ERROR");
+            }
+        }).done(function (response) {
+            console.log("submitForm " + response.status);
+            // alert("done success " + response.status);
+        });
+    }
+
+    function getAllCoupons() {
+
+        setScrollbar();
+        return;
+
+        var request = new XMLHttpRequest();
+        request.open("POST", URL() + "/GetAllCoupons", true);
+        request.setRequestHeader('Content-Type', 'application/json');
+        request.send(JSON.stringify(""));
+        request.onload = function () {
+            if (request.status == 200) {
+                json_response = JSON.parse(request.response);
+                if (json_response.status.status != "SUCCESS") {
+                    alert("getAllCoupons() returned " + json_response.status.status + ++
+                        json_response.detail);
+                    return null;
                 }
-                for (i = 0; i < elems.coupons.length; i++) {
-                    var row = table.insertRow(0);
-                    row.setAttribute("id", elems.coupons[i].couponId);
-                    var cell1 = row.insertCell(0);
-                    var cell2 = row.insertCell(1);
-                    var cell3 = row.insertCell(2);
-                    var cell4 = row.insertCell(3);
-                    var cell5 = row.insertCell(4);
-                    var cell6 = row.insertCell(5);
-                    cell1.innerHTML = elems.coupons[i].firstName;
-                    cell2.innerHTML = elems.coupons[i].couponId;
-                    cell3.innerHTML = elems.coupons[i].pay;
-                    cell4.innerHTML = elems.coupons[i].balance;
-                    var qrButton = document.createElement("BUTTON");
-                    qrButton.setAttribute("onclick", "showQRcode('" + elems.coupons[i].couponId + "')");
-                    qrButton.setAttribute("class","glyphicon glyphicon-qrcode");
-                    cell5.appendChild(qrButton);
-                    var deleteButton = document.createElement("BUTTON");
-                    deleteButton.setAttribute("onclick", "destroyCoupon('" + elems.coupons[i].couponId + "')");
-                    deleteButton.setAttribute("class","glyphicon glyphicon-trash");
-                    cell6.appendChild(deleteButton);
-                }
-                var rowHeader = table.insertRow(0);
-                th1 = document.createElement('th');
-                th2 = document.createElement('th');
-                th3 = document.createElement('th');
-                th4 = document.createElement('th');
-                th5 = document.createElement('th');
-                th6 = document.createElement('th');
-                th1.innerHTML = "Namn";
-                th2.innerHTML = "Id nummer";
-                th3.innerHTML = "Att betala";
-                th4.innerHTML = "Saldo";
-                th5.innerHTML = "QR";
-                th6.innerHTML = "Ta bort";
-                rowHeader.appendChild(th1);
-                rowHeader.appendChild(th2);
-                rowHeader.appendChild(th3);
-                rowHeader.appendChild(th4);
-                rowHeader.appendChild(th5);
-                rowHeader.appendChild(th6);
-                table.prependChild(rowHeader);
+                //alert("getAllCoupons() SUCCESS " + json_response.coupons[0].firstName);
+                populateCouponTable(json_response);
+            } else {
+                console.log("getUser problem " + status);
+                alert("getAllCoupons() ERROR");
             }
+        }
+    }
 
-            function submitForm() {
-                const formData = new FormData(document.getElementById("formId"));
-                let jsonObject = {};
-                for (const [key, value] of formData.entries()) {
-                    jsonObject[key] = value;
-                }
-                jsonObject["op"] = "createCoupon";
-                //var form_data = $("#formId").serialize();
-                alert(JSON.stringify(jsonObject));
-                $.ajax({
-                    url: URL() + "/CouponManager",
-                    type: "post",
-                    async: "true",
-                    data: JSON.stringify(jsonObject),
-                    dataType: 'json',
-                    contentType: 'application/json',
-                    success: function (response) {
-                        alert("success " + response.status);
-                        console.log("submitForm " + response.status);
-                    },
-                    error: function (jqXhr, textStatus, errorMessage) {
-                        console.log("Error: ");
-                        alert("ERROR");
-                    }
-                }).done(function (response) {
-                    console.log("submitForm " + response.status);
-                   // alert("done success " + response.status);
-                });
+    function logoutAction(op) {
+        var request = new XMLHttpRequest();
+        request.open("POST", URL() + "/logout", true);
+        request.onload = function () {
+            status = request.status;
+            if (status == 200) {
+                window.location = URL() + "/";
+            } else {
+                console.log("logoutAction problem " + status)
             }
+        };
+        request.send();
+    }
 
-            function getAllCoupons() {
-                var request = new XMLHttpRequest();
-                request.open("POST", URL() + "/GetAllCoupons", true);
-                request.setRequestHeader('Content-Type', 'application/json');
-                request.send(JSON.stringify(""));
-                request.onload = function () {
-                    if (request.status == 200) {
-                        json_response = JSON.parse(request.response);
-                        if (json_response.status.status != "SUCCESS") {
-                            alert("getAllCoupons() returned " + json_response.status.status + ++
-                                json_response.detail);
-                            return null;
-                        }
-                       //alert("getAllCoupons() SUCCESS " + json_response.coupons[0].firstName);
-                        populateCouponTable(json_response);
-                    } else {
-                        console.log("getUser problem " + status);
-                        alert("getAllCoupons() ERROR");
-                    }
-                }
-            }
+    function logout() {
+        logoutAction("logout");
+    }
 
-            function logoutAction(op) {
-                var request = new XMLHttpRequest();
-                request.open("POST", URL() + "/logout", true);
-                request.onload = function () {
-                    status = request.status;
-                    if (status == 200) {
-                        window.location = URL() + "/";
-                    } else {
-                        console.log("logoutAction problem " + status)
-                    }
-                };
-                request.send();
-            }
-
-            function logout() {
-                logoutAction("logout");
-            }
-
-        </script>
+</script>
 </body>
 </html>
 <!--

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-teal.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/perfect-scrollbar.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <script src="js/perfect-scrollbar.js"></script>
+
+
+</head>
+<body>
+<style>
+
+
+    body {
+        background-color: #224688;
+    }
+
+    .container1 {
+        width: 100%;
+        height: 100%;
+        min-height: 100vh;
+        # display: -webkit-flex;
+        # display: -moz-box;
+        # display: -ms-flexbox;
+        # display: flex;
+        # flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        padding: 1px;
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background: #224688;
+    }
+
+    .header1 {
+        background-color: #2957a3;
+        color: #ededed;
+    }
+
+    .header2 {
+        background-color: #3984ec;
+        color: #ededed;
+    }
+
+    .logoutButton {
+        width: 80px;;
+        margin: 0px;
+        font-size: 20px
+    }
+
+    #formId {
+        #display: none;
+        width: 100%;
+        margin-top: 0;
+        # visibility: hidden;
+
+    }
+
+    .qrCod e {
+        height: 100px;
+        width: 100px;
+    }
+
+    .qrCode {
+        width: 148px;
+        height: 150px;
+        border-width: 10px;
+        border-style: solid;
+        border-color: white;
+        background-color: white;
+        color: #000;
+        margin-right: 180px;
+        visibility: hidden;
+    }
+
+    .buttonTable {
+        margin-left: 0;
+        height: 30px;
+    }
+
+    .qrCodeButton {
+        color: #000;
+        font-size: 30px;
+        padding-right: 10px;
+
+    }
+
+    .qrCodePrintButton {
+        color: black;
+        padding-right: 10px;
+        font-size: 30px;
+    }
+
+    .getAllButton {
+        color: black;
+        padding-right: 10px;
+        font-size: 30px;
+    }
+
+    td:first-child {
+        padding-left: 4px;
+    }
+
+    .createCouponRow td {
+        padding-right: 2px;
+        padding-left: 2px;
+        width: 16.6%;
+        margin-left: 100px;
+    }
+
+    .emtpy {
+        width: 16.6%;
+    }
+
+    #firstChild {
+        padding-left: 2px;
+    }
+
+    .formTable {
+        margin-top: 0;
+    }
+
+    .couponTable tr td {
+        width: 16.6%;
+    }
+
+    .couponTableHeader tr th {
+        width: 16.6%;
+    }
+
+    .couponTable tr {
+       // height: 14px;
+    }
+
+    table.scroll {
+       // width: 716px; /* 140px * 5 column + 16px scrollbar width */
+        border-spacing: 0;
+        border: 2px solid black;
+    }
+
+    table.scroll tbody,
+    table.scroll thead tr {
+        display: block;
+    }
+
+    table.scroll tbody {
+        height: 160px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    table.scroll tbody td,
+    table.scroll thead th {
+        width: 190px;
+        border-right: 1px solid black;
+    }
+
+    table.scroll thead th:last-child {
+        width: 156px; /* 140px + 16px scrollbar width */
+    }
+
+    thead tr th {
+        height: 30px;
+        line-height: 30px;
+        /*text-align: left;*/
+    }
+
+    tbody {
+        border-top: 2px solid black;
+    }
+
+    tbody td:last-child, thead th:last-child {
+        border-right: none !important;
+    }
+
+
+</style>
+
+<div class="container1">
+
+    <div class=" header1 w3-container w3-padding-small">
+        <div class=" malinko  w3-right">
+            <i class="fa fa-volume-up"></i>
+            <i class="fa fa-wifi"></i>
+            <i class="fa fa-battery-2"></i>
+            12:30
+        </div>
+    </div>
+
+    <div class=" header2 w3-bar  w3-xlarge">
+        <a class="w3-bar-item w3-button" href="#"><i class="fa fa-bars"></i></a>
+        <span class="w3-bar-item">Vedetten Admin</span>
+        <button class=" logoutButton w3-bar-item w3-button w3-right" onclick="logout()">Logout</button>
+    </div>
+
+    <div class="w3-bar w3-theme">
+
+    </div>
+
+ <!--   <div class="w3-row">
+        <div class="w3-col" style="width:10%"><p>20%</p></div>
+        <div class="w3-col" style="width:80%">
+-->
+
+            <table id="scroll" class="scroll w3-table-all w3-hoverable   ">
+                <thead>
+                <tr>
+                    <th>Head 1</th>
+                    <th>Head 2</th>
+                    <th>Head 3</th>
+                    <th>Head 4</th>
+                    <th>Head 5</th>
+                    <th>Head 6</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Content 1</td>
+                    <td>Content 2</td>
+                    <td>Content 3</td>
+                    <td>Content 4</td>
+                    <td>Content 5</td>
+
+                </tr>
+                <tr>
+                    <td>Content 1</td>
+                    <td>Lorem ipsum dolor sit amet.</td>
+                    <td>Content 3</td>
+                    <td>Content 4</td>
+                    <td>Content 5</td>
+
+                </tr>
+                <tr>
+                    <td>Content 1</td>
+                    <td>Content 2</td>
+                    <td>Content 3</td>
+                    <td>Content 4</td>
+                    <td>Content 5</td>
+
+                </tr>
+                <tr>
+                    <td>Content 1</td>
+                    <td>Content 2</td>
+                    <td>Content 3</td>
+                    <td>Content 4</td>
+                    <td>Content 5</td>
+                </tr>
+                <tr>
+                    <td>Content 1</td>
+                    <td>Content 2</td>
+                    <td>Content 3</td>
+                    <td>Content 4</td>
+                    <td>Content 5</td>
+                </tr>
+                <tr>
+                    <td>Content 1</td>
+                    <td>Content 2</td>
+                    <td>Content 3</td>
+                    <td>Content 4</td>
+                    <td>Content 5</td>
+                </tr>
+                <tr>
+                    <td>Content 1</td>
+                    <td>Content 2</td>
+                    <td>Content 3</td>
+                    <td>Content 4</td>
+                    <td>Content 5</td>
+                </tr>
+                </tbody>
+            </table>
+            <form id="formId">
+                <table class="formTable w3-table-all">
+                    <tr class="createCouponRow">
+                        <td id="firstChild">
+                            <input CLASS="w3-input w3-border" name="name" type="text" placeholder="Namn"
+                                   onkeypress="myFunction(this.value)">
+                        </td>
+                        <td>
+                            <input class="w3-input w3-border" name="couponId" type="text" placeholder="Id nummer"
+                                   onkeypress="myFunction(this.value)">
+                        </td>
+                        <td>
+                            <input class="w3-input w3-border" name="pay" type="text" placeholder="Amout"
+                                   onkeypress="myFunction(this.value)">
+                        </td>
+                        <td>
+                            <input class="w3-input w3-border" name="balance" type="text" placeholder="Tillskott"
+                                   onkeypress="myFunction(this.value)">
+                        <td class="emtpy"></td>
+
+                        <td>
+                            <button class=" createBtn w3-input w3-border w3-button  w3-blue " type="submit"> Skapa
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+
+            <div class="w3-display-container w3-blue" style="height:40px;">
+
+                <table class="buttonTable  w3-display-topright">
+                    <tr class="">
+
+                        <td class="qrCodeButton ">
+                            <button class="  glyphicon glyphicon-qrcode" onclick="showQRcode('9999')"></button>
+                        </td>
+
+                        <td class="qrCodePrintButton " id="qrCodePrint">
+                            <button onclick="printQRcode()" class="glyphicon glyphicon-print "></button>
+                        </td>
+                        <td class="getAllButton " id="getAll">
+                            <button onclick="getAllCoupons()" class="glyphicon glyphicon-repeat  "></button>
+                        </td>
+                    </tr>
+                </table>
+                <div id="qrCode" class=" qrCode w3-display-topright ">
+                    <div class=" " id="output"></div>
+                </div>
+            <!-- </div> -->
+            <div class="w3-col" style="width:10%"></div>
+        <!-- </div> -->
+    </div>
+</div>
+        <script>
+
+            var ps;
+            // window.onload = function () {
+            /*
+                    const demo = document.querySelector('#scroll tbody',{
+                          //  suppressScrollX:  true,
+                          //  scrollingThreshold: 10
+                        }
+                    );
+                    ps = new PerfectScrollbar(demo);
+            */
+            //};
+
+
+        </script>
+
+</body>
+</html>

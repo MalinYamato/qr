@@ -54,7 +54,8 @@ type GetOneCouponRequest struct {
 	CoupnID string `json:"couponId"`
 }
 type Request struct {
-	Op string `json:"op"`
+	Op     string `json:"op"`
+	Coupon Coupon `json:"coupon"`
 }
 type UpdateCouponBalance struct {
 	Op     string `json:"op"`
@@ -127,7 +128,7 @@ func GetAllCouponHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func CouponHandler(w http.ResponseWriter, r *http.Request) {
+func CreateCouponHandler(w http.ResponseWriter, r *http.Request) {
 	var requestCreateCoupon CreateCouponsRequest
 	var status Status
 	//var updateCouponBalance UpdateCouponBalance
@@ -152,7 +153,6 @@ func CouponHandler(w http.ResponseWriter, r *http.Request) {
 			log.Println("Json decoder error> ", err.Error())
 			panic(err)
 		}
-
 		coupon.CouponID = requestCreateCoupon.CouponId
 		coupon.FirstName = requestCreateCoupon.Name
 		coupon.Balance, _ = strconv.Atoi(requestCreateCoupon.Balance)
@@ -160,6 +160,71 @@ func CouponHandler(w http.ResponseWriter, r *http.Request) {
 		log.Println("Creating coupon of " + coupon.FirstName)
 		_coupons.Save(coupon)
 		status.Status = SUCCESS
+	}
+
+	json_response, err := json.Marshal(status)
+	if err != nil {
+		log.Println("HandlingCoupon json.Marchal returned error %s", err)
+		panic(err)
+		return
+	}
+	log.Println("CouponHandler writing back status of " + coupon.FirstName)
+	w.Header().Set("Content-Type", "application/json")
+	a, err := w.Write(json_response)
+	if err != nil {
+		log.Println("HandlingCoupon http.write returned error %s %s", err, a)
+		panic(err)
+		return
+	}
+}
+
+func CouponHandler(w http.ResponseWriter, r *http.Request) {
+	var request Request
+	var status Status
+	//var updateCouponBalance UpdateCouponBalance
+
+	log.Println("CouponHandler called")
+	status = Status{SUCCESS, ""}
+	//defer r.Body.Close()
+	var coupon Coupon
+	if r.Method != "POST" {
+		status.Status = ERROR
+		status.Detail = "CouponHandler wrong HTTP method! " + r.Method
+	} else {
+		sta := r.ParseForm()
+		if sta != nil {
+			status.Status = ERROR
+			status.Detail = "CouponHandler Parseform Err! "
+			log.Println("Parse form failed")
+		}
+		decoder := json.NewDecoder(r.Body)
+		err := decoder.Decode(&request)
+		if err != nil {
+			log.Println("Json decoder error> ", err.Error())
+			panic(err)
+		}
+
+		switch request.Op {
+		case "pay":
+			{
+				coupon, _ := _coupons.findCouponByCouponId(request.Coupon.CouponID)
+				coupon.Balance = coupon.Balance - request.Coupon.Pay
+				_coupons.Save(coupon)
+				status.Status = SUCCESS
+			}
+		case "delete":
+			{
+				_coupons.DeleteById(request.Coupon.CouponID)
+				status.Status = SUCCESS
+			}
+		default:
+			{
+				log.Println("wrong or non existent Op " + request.Op)
+				status.Status = ERROR
+				status.Detail = "wrong or non existent Op " + request.Op
+			}
+		}
+
 	}
 
 	json_response, err := json.Marshal(status)

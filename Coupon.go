@@ -38,6 +38,7 @@ import (
 	"log"
 	"os"
 	"sort"
+	"strings"
 )
 
 type Payment struct {
@@ -190,10 +191,22 @@ func (coupons *Coupons) Save(c Coupon) bool {
 }
 func (coupons *Coupons) DeleteById(CouponID string) bool {
 	delete(coupons.__coupons, CouponID)
+	path := coupons.path()
+	files, _ := ioutil.ReadDir(path)
+	for _, file := range files {
+		if strings.Contains(CouponID, file.Name()) {
+			err := os.RemoveAll(path + "/" + file.Name())
+			if err != nil {
+				log.Println("os error, Could not remove coupoon ")
+				return false
+			}
+		}
+	}
 	return true
 }
 func (coupons *Coupons) Delete(coupon Coupon) bool {
 	delete(coupons.__coupons, coupon.CouponID)
+
 	return true
 }
 func (pers *Coupons) path() string {

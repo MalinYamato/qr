@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href="css/perfect-scrollbar.css" rel="stylesheet">
+    <script src="js/perfect-scrollbar.js"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-teal.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <style>
+      #table {
+        font-size: 20px;
+      }
+      #table thead, #table tbody, #table tr {
+        display: block;
+        width: 600px;
+        border-spacing: 0;
+        border-collapse: collapse;
+      }
+      #table tbody {
+        height: 100px;
+        overflow-y: auto;
+        overflow-x:hidden;
+        position: relative;
+        border-bottom: 1px solid black;
+      }
+      #table tbody td, #table thead th {
+        display: block;
+        border: 1px solid black;
+        width: 200px;
+        float: left;
+        box-sizing: border-box;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="wrapper" class="wrapper">
+      <table id='table' class="couponTable   w3-table-all w3-hoverable">
+        <thead>
+          <tr>
+            <th>Name</th><th>Age</th><th>Occupation</th><th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Alex</td><td>20</td><td>Student</td><td></td>
+          </tr>
+          <tr>
+            <td>Paul</td><td>23</td><td>Engineer</td><td  class="glyphicon glyphicon-qrcode" ></td>
+          </tr>
+          <tr>
+            <td>Chris</td><td>19</td><td>Human being</td><td></td>
+          </tr>
+          <tr>
+            <td>Satoshi</td><td>30</td><td>Pokemon trainer</td><td></td>
+          </tr>
+          <tr>
+            <td>Jun</td><td>27</td><td>Hero</td><td></td>
+          </tr>
+          <tr>
+            <td>Yong</td><td>27</td><td>Money maker</td><td></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <script>
+   // new PerfectScrollbar('#table tbody');
+    </script>
+  </body>
+</html>

@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="css/perfect-scrollbar.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <script src="js/perfect-scrollbar.js"></script>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-teal.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/perfect-scrollbar.css">
+
+
+    <!--    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    -->
+    <script type="text/javascript" src="js/qrcode.js"></script>
+
+</head>
+<body>
+
+<style>
+    body {
+        background-color: #224688;
+    }
+
+    .container1 {
+        width: 100%;
+        height: 100%;
+        min-height: 100vh;
+        # display: -webkit-flex;
+        # display: -moz-box;
+        # display: -ms-flexbox;
+        # display: flex;
+        # flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        padding: 1px;
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background: #224688;
+    }
+
+    .header1 {
+        background-color: #2957a3;
+        color: #ededed;
+    }
+
+    .header2 {
+        background-color: #3984ec;
+        color: #ededed;
+    }
+
+    .logoutButton {
+        width: 80px;;
+        margin: 0px;
+        font-size: 20px
+    }
+
+    .couponTable {
+    }
+
+    .gi-2x {
+        font-size: 2em;
+    }
+
+    .gi-3x {
+        font-size: 3em;
+    }
+
+    .gi-4x {
+        font-size: 4em;
+    }
+
+    .gi-5x {
+        font-size: 5em;
+    }
+
+    #formId {
+        #display: none;
+        width: 100%;
+        margin-top: 0;
+        # visibility: hidden;
+
+    }
+
+    .qrCod e {
+        height: 100px;
+        width: 100px;
+    }
+
+    .qrCode {
+        width: 148px;
+        height: 150px;
+        border-width: 10px;
+        border-style: solid;
+        border-color: white;
+        background-color: white;
+        color: #000;
+        margin-right: 180px;
+        visibility: hidden;
+    }
+
+    .buttonTable {
+        margin-left: 0;
+        height: 30px;
+    }
+
+    .qrCodeButton {
+        color: #000;
+        font-size: 30px;
+        padding-right: 10px;
+
+    }
+
+    .qrCodePrintButton {
+        color: black;
+        padding-right: 10px;
+        font-size: 30px;
+    }
+
+    .getAllButton {
+        color: black;
+        padding-right: 10px;
+        font-size: 30px;
+    }
+
+    td:first-child {
+        padding-left: 4px;
+    }
+
+    .createCouponRow td {
+        padding-right: 2px;
+        padding-left: 2px;
+        width: 16.6%;
+        margin-left: 100px;
+    }
+
+    .emtpy {
+        width: 16.6%;
+    }
+
+    .createBtn {
+        #width: 16.6%;
+    }
+
+    #firstChild {
+        padding-left: 2px;
+    }
+
+    .formTable {
+        margin-top: 0;
+    }
+
+    .couponTable tr td {
+        border-style: solid;
+        border-width: 3px;
+        border-color: black;
+        width: 16.6%;
+        background-color: green;
+    }
+
+    .couponTableHeader tr th {
+        background-color: green;
+        border-style: solid;
+        border-width: 3px;
+        border-color: black;
+    //width: 6.6%;
+    }
+
+
+    body {
+        background-color: #224688;
+    }
+
+    .container1 {
+        width: 100%;
+        height: 100%;
+        min-height: 100vh;
+        # display: -webkit-flex;
+        # display: -moz-box;
+        # display: -ms-flexbox;
+        # display: flex;
+        # flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        padding: 1px;
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background: #224688;
+    }
+
+    .header1 {
+        background-color: #2957a3;
+        color: #ededed;
+    }
+
+    .header2 {
+        background-color: #3984ec;
+        color: #ededed;
+    }
+
+    .logoutButton {
+        width: 80px;;
+        margin: 0px;
+        font-size: 20px
+    }
+
+    .couponTable {
+    }
+
+    .gi-2x {
+        font-size: 2em;
+    }
+
+    .gi-3x {
+        font-size: 3em;
+    }
+
+    .gi-4x {
+        font-size: 4em;
+    }
+
+    .gi-5x {
+        font-size: 5em;
+    }
+
+    #formId {
+        #display: none;
+        width: 100%;
+        margin-top: 0;
+        # visibility: hidden;
+
+    }
+
+    .qrCod e {
+        height: 100px;
+        width: 100px;
+    }
+
+    .qrCode {
+        width: 148px;
+        height: 150px;
+        border-width: 10px;
+        border-style: solid;
+        border-color: white;
+        background-color: white;
+        color: #000;
+        margin-right: 180px;
+        visibility: hidden;
+    }
+
+    .buttonTable {
+        margin-left: 0;
+        height: 30px;
+    }
+
+    .qrCodeButton {
+        color: #000;
+        font-size: 30px;
+        padding-right: 10px;
+
+    }
+
+    .qrCodePrintButton {
+        color: black;
+        padding-right: 10px;
+        font-size: 30px;
+    }
+
+    .getAllButton {
+        color: black;
+        padding-right: 10px;
+        font-size: 30px;
+    }
+
+    td:first-child {
+        padding-left: 4px;
+    }
+
+    .createCouponRow td {
+        padding-right: 2px;
+        padding-left: 2px;
+        width: 16.6%;
+        margin-left: 100px;
+    }
+
+    .emtpy {
+        width: 16.6%;
+    }
+
+    .createBtn {
+        #width: 16.6%;
+    }
+
+    #firstChild {
+        padding-left: 2px;
+    }
+
+    .formTable {
+        margin-top: 0;
+    }
+
+
+
+    .
+
+
+
+
+
+
+
+
+    td:first-child {
+        padding-left: 4px;
+    }
+
+
+
+
+
+
+
+
+    .couponTableContainer {
+        position: relative;
+        overflow-y:scroll;
+        height: 200px;
+
+    }
+
+    .couponTableBody {
+
+    }
+
+    .couponTableHeader {
+       margin-bottom: 0;
+    }
+
+</style>
+
+<script>
+
+    const demo = document.querySelector('#couponTableContainer');
+    const ps = new PerfectScrollbar(demo);
+
+
+</script>
+
+
+<div class="w3-row">
+    <div class="w3-col" style="width:10%"><p></p></div>
+    <div class="w3-col" style="width:80%">
+
+        <table id='couponTableHeader' class=" table couponTableHeader   w3-table-all w3-hoverable">
+
+        </table>
+
+
+        <div class="wrapper couponTableContainer" id="couponTableContainer" >
+            <table id='couponTable' class=" table couponTable   w3-table-all w3-hoverable">
+
+
+                <thead>
+                <tr>
+                    <th>Namn</th>
+                    <th>ID</th>
+                    <th>Betala</th>
+                    <th>Balans</th>
+                    <th>QR Kod</th>
+                    <th>Delete</th>
+                </tr>
+                </thead>
+
+                <tbody class="couponTableBody" id="couponTableBody">
+                <tr>
+                <tr id="1004">
+                    <td> John</td>
+                    <td>1004</td>
+                    <td>40</td>
+                    <td>-150</td>
+                    <td>
+                        <button onclick="showQRcode('1004')" class="glyphicon glyphicon-qrcode"></button>
+                    </td>
+                    <td>
+                        <button onclick="destroyCoupon()" class="glyphicon glyphicon-trash"></button>
+                    </td>
+                </tr>
+                <tr id="1014">
+                    <td>Nisse</td>
+                    <td>1014</td>
+                    <td>40</td>
+                    <td>100</td>
+                    <td>
+                        <button onclick="showQRcode('1014')" class="glyphicon glyphicon-qrcode"></button>
+                    </td>
+                    <td>
+                        <button onclick="destroyCoupon()" class="glyphicon glyphicon-trash"></button>
+                    </td>
+                </tr>
+                <tr id="1003">
+                    <td>Lars</td>
+                    <td>1003</td>
+                    <td>20</td>
+                    <td>-80</td>
+                    <td>
+                        <button onclick="showQRcode('1003')" class="glyphicon glyphicon-qrcode"></button>
+                    </td>
+                    <td>
+                        <button onclick="destroyCoupon()" class="glyphicon glyphicon-trash"></button>
+                    </td>
+                </tr>
+                <tr id="1001">
+                    <td>Malin</td>
+                    <td>1001</td>
+                    <td>20</td>
+                    <td>80</td>
+                    <td>
+                        <button onclick="showQRcode('1001')" class="glyphicon glyphicon-qrcode"></button>
+                    </td>
+                    <td>
+                        <button onclick="destroyCoupon()" class="glyphicon glyphicon-trash"></button>
+                    </td>
+                </tr>
+                <tr id="1001">
+                    <td>Malin</td>
+                    <td>1001</td>
+                    <td>20</td>
+                    <td>80</td>
+                    <td>
+                        <button onclick="showQRcode('1001')" class="glyphicon glyphicon-qrcode"></button>
+                    </td>
+                    <td>
+                        <button onclick="destroyCoupon()" class="glyphicon glyphicon-trash"></button>
+                    </td>
+                </tr>
+                <tr id="1001">
+                    <td>Malin</td>
+                    <td>1001</td>
+                    <td>20</td>
+                    <td>80</td>
+                    <td>
+                        <button onclick="showQRcode('1001')" class="glyphicon glyphicon-qrcode"></button>
+                    </td>
+                    <td>
+                        <button onclick="destroyCoupon()" class="glyphicon glyphicon-trash"></button>
+                    </td>
+                </tr>
+                </tbody>
+
+            </table>
+        </div>
+        <div class="w3-col" style="width:10%"><p></p></div>
+    </div>
+</div>
+
+</body>
+</html>
