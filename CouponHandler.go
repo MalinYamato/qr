@@ -38,10 +38,6 @@ import (
 	"strconv"
 )
 
-type CouponRequest struct {
-	Op      string `json:"op"`
-	CoupnID string `json:"couponId"`
-}
 type CreateCouponsRequest struct {
 	Op       string `json:"op"`
 	CouponId string `json:"couponId"`
@@ -49,23 +45,23 @@ type CreateCouponsRequest struct {
 	Balance  string `json:"balance"`
 	Pay      string `json:"pay"`
 }
-type GetOneCouponRequest struct {
+type GetCouponRequest struct {
 	Op      string `json:"op"`
 	CoupnID string `json:"couponId"`
 }
-type Request struct {
-	Op     string `json:"op"`
-	Coupon Coupon `json:"coupon"`
-}
-type UpdateCouponBalance struct {
-	Op     string `json:"op"`
-	Status Status `json:"status"`
-	Coupon Coupon `json:"coupon"`
-}
 type DeleteCouponRequest struct {
-	Op     string `json:"op"`
-	Status Status `json:"status"`
-	Coupon Coupon `json:"coupon"`
+	Op       string `json:"op"`
+	CouponID string `json:"couponId"`
+}
+
+type PaymentRequest struct {
+	Op       string `json:"op"`
+	CouponID string `json:"couponId"`
+	Amount   int    `json:"amount"`
+}
+
+type Request struct {
+	Op string `json:"op"`
 }
 
 // Responses
@@ -75,15 +71,10 @@ type GetAllCouponsResponse struct {
 	Status  Status   `json:"status"`
 	Coupons []Coupon `json:"coupons"`
 }
-
-type GetOneCouponResponse struct {
+type GetCouponResponse struct {
 	Op     string `json:"op"`
 	Status Status `json:"status"`
 	Coupon Coupon `json:"coupon"`
-}
-type CouponResponse struct {
-	Op     string `json:"op"`
-	Status Status `json:"status"`
 }
 
 func GetAllCouponsHandler(w http.ResponseWriter, r *http.Request) {
@@ -180,7 +171,7 @@ func CreateCouponHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func CouponHandler(w http.ResponseWriter, r *http.Request) {
+func GeneralCouponHandler(w http.ResponseWriter, r *http.Request) {
 	var request Request
 	var status Status
 	//var updateCouponBalance UpdateCouponBalance
@@ -205,18 +196,29 @@ func CouponHandler(w http.ResponseWriter, r *http.Request) {
 			log.Println("Json decoder error> ", err.Error())
 			panic(err)
 		}
-
 		switch request.Op {
-		case "pay":
+		case "payment":
 			{
-				coupon, _ := _coupons.findCouponByCouponId(request.Coupon.CouponID)
-				coupon.Balance = coupon.Balance - request.Coupon.Pay
+				var paymentRequest PaymentRequest
+				err := decoder.Decode(&paymentRequest)
+				if err != nil {
+					log.Println("Json decoder error> ", err.Error())
+					panic(err)
+				}
+				coupon, _ := _coupons.findCouponByCouponId(paymentRequest.CouponID)
+				coupon.Balance = coupon.Balance - paymentRequest.Amount
 				_coupons.Save(coupon)
 				status.Status = SUCCESS
 			}
 		case "delete":
 			{
-				_coupons.DeleteById(request.Coupon.CouponID)
+				var deleteRequest DeleteCouponRequest
+				err := decoder.Decode(&deleteRequest)
+				if err != nil {
+					log.Println("Json decoder error> ", err.Error())
+					panic(err)
+				}
+				_coupons.DeleteById(deleteRequest.CouponID)
 				status.Status = SUCCESS
 			}
 		default:
@@ -226,7 +228,6 @@ func CouponHandler(w http.ResponseWriter, r *http.Request) {
 				status.Detail = "wrong or non existent Op " + request.Op
 			}
 		}
-
 	}
 
 	json_response, err := json.Marshal(status)

@@ -387,12 +387,12 @@
 <script>
 
     var ps;
-  /*  const demo = document.querySelector('#couponTableContainer');
+   const demo = document.querySelector('#couponTableContainer');
     ps = new PerfectScrollbar(demo, {
             suppressScrollX: true,
             scrollingThreshold: 10
         }
-    ); */
+    );
 
     function printQRcode() {
         var canvas = document.querySelector("#output canvas");
@@ -430,24 +430,24 @@
         if (id != "9999") {
             var row = document.getElementById(id);
             JObj = {
-                name: row.cells[0].innerHTML,
-                idC: row.cells[1].innerHTML,
-                pay: row.cells[2].innerHTML,
-                balance: row.cells[3].innerHTML,
-                issueDate: fullDate
+                name:       row.cells[0].innerHTML,
+                couponId:   row.cells[1].innerHTML,
+                amount:     row.cells[2].innerHTML,
+                balance:    row.cells[3].innerHTML,
+                issueDate:  fullDate
             };
         } else {
             var e = document.getElementById("formId").elements;
             var name = e.namedItem("name").value;
-            var idC = e.namedItem("couponId").value;
-            var pay = e.namedItem("pay").value;
+            var couponId = e.namedItem("couponId").value;
+            var amount = e.namedItem("amount").value;
             var balance = e.namedItem("balance").value;
             JObj = {
-                name: name,
-                idC: idC,
-                pay: pay,
-                balance: balance,
-                issueDate: fullDate
+                name:       name,
+                couponId:   couponId,
+                amount:     amount,
+                balance:    balance,
+                issueDate:  fullDate
             };
         }
         //Balans : row.cells[3].innerHTML };
@@ -577,7 +577,6 @@
         rowHeader.appendChild(th6);
         table.prependChild(rowHeader);
         */
-
     }
 
     function submitForm() {
@@ -653,48 +652,3 @@
 </script>
 </body>
 </html>
-<!--
-                        <button class=" addCoupon w3-button w3-hover-red glyphicon glyphicon-plus"
-                                onclick="createCoup"></button>
-                        <!--
-                                        <form id="formId2" method="post"
-                                              class="formClass w3-container w3-card-4 w3-light-grey w3-text-blue w3-margin">
-                                            <h2 class="w3-center">Skapa en kupong</h2>
-
-                                            <div class="w3-row w3-section">
-                                                <div class="w3-col" style="width:50px"><i class="w3-xxlarge fa fa-user"></i></div>
-                                                <div class="w3-rest">
-                                                    <input class="w3-input w3-border" name="Name" type="text" placeholder="Namn">
-                                                </div>
-                                            </div>
-
-                                            <div class="w3-row w3-section">
-                                                <div class="w3-col" style="width:50px"><i class="w3-xxlarge glyphicon glyphicon-info-sign"></i>
-                                                </div>
-                                                <div class="w3-rest">
-                                                    <input class="w3-input w3-border" name="IdNumber" type="text" placeholder="Id nummer">
-                                                </div>
-                                            </div>
-
-                                            <div class="w3-row w3-section">
-                                                <div class="w3-col" style="width:50px"><i class="w3-xxlarge glyphicon glyphicon-cutlery"></i>
-                                                </div>
-                                                <div class="w3-rest">
-                                                    <input class="w3-input w3-border" name="Balance" type="text"
-                                                           placeholder="Inbetalt">
-                                                </div>
-                                            </div>
-
-                                            <div class="w3-row w3-section">
-                                                <div class="w3-col" style="width:50px"><i class="w3-xxlarge glyphicon glyphicon-lock"></i></div>
-                                                <div class="w3-rest">
-                                                    <input class="w3-input w3-border" name="phone" type="text" placeholder="Pin kod">
-                                                </div>
-                                            </div>
-
-                        </span>
-                                            <button onclick="submitForm()" hidden class="w3-button w3-block w3-section w3-blue w3-ripple w3-padding">
-                                                Skapa
-                                            </button>
-                                        </form>
-                                        -->
