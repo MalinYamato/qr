@@ -530,9 +530,9 @@
         var len = elems.coupons.length * 10;
         var strLen = len.toString() + "px";
 
-        document.getElementById("couponTableContainer").style.height = strlen;
-        document.getElementsById("couponTableContainer").setAttribute("style", "width:" + strlen + "px");
-        alert(strlen.toString());
+        document.getElementById("couponTableContainer").style.height = strLen;
+        document.getElementsById("couponTableContainer").setAttribute("style", "width:" + strLen + "px");
+        alert(strLen.toString());
 
         table.appendChild(document.createElement('tbody'));
         for (i = 0; i < elems.coupons.length; i++) {
