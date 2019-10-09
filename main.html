@@ -189,8 +189,6 @@
             position: relative;
             overflow-y: scroll;
             height: 200px;
-            scrollbar-width: thick;
-            scrollbar-color:  green;
         }
 
         .couponTableHeader {
@@ -612,9 +610,6 @@
     }
 
     function getAllCoupons() {
-
-     //   setScrollbar();
-        return;
 
         var request = new XMLHttpRequest();
         request.open("POST", URL() + "/GetAllCoupons", true);
