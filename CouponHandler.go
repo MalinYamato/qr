@@ -163,7 +163,6 @@ func CreateCouponHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func PaymentCouponHandler(w http.ResponseWriter, r *http.Request) {
-	var request Request
 	var status Status
 	var paymentRequest PaymentRequest
 	log.Println("CouponHandler called")
