@@ -112,9 +112,11 @@ func (coupons *Coupons) getAll() (Coupons []Coupon) {
 	for _, c := range coupons.__coupons {
 		l = append(l, c)
 	}
-	sort.SliceStable(l, func(i, j int) bool {
-		return l[i].CouponID < l[j].CouponID
-	})
+	if len(coupons.__coupons) > 1 {
+		sort.SliceStable(l, func(i, j int) bool {
+			return l[i].CouponID < l[j].CouponID
+		})
+	}
 	return l
 }
 
