@@ -74,6 +74,9 @@ type Coupons struct {
 }
 
 func (coupons *Coupons) load() {
+
+	log.Println("path " + coupons.path())
+
 	if _, err := os.Stat(coupons.path()); err != nil {
 
 		if os.IsNotExist(err) {
@@ -87,6 +90,7 @@ func (coupons *Coupons) load() {
 		log.Fatal(err)
 	}
 	for _, file := range files {
+		println(" file  " + file.Name())
 		content, err := ioutil.ReadFile(coupons.path() + "/" + file.Name() + "/profile.json")
 		if err != nil {
 			log.Println("file " + coupons.path() + "/" + file.Name() + " not found!")
