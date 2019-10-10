@@ -202,7 +202,7 @@ func GeneralCouponHandler(w http.ResponseWriter, r *http.Request) {
 				var paymentRequest PaymentRequest
 				err := decoder.Decode(&paymentRequest)
 				if err != nil {
-					log.Println("Json decoder error> ", err.Error())
+					log.Println("Json decoder of paymentRequest error> ", err.Error())
 					panic(err)
 				}
 				coupon, _ := _coupons.findCouponByCouponId(paymentRequest.CouponID)
