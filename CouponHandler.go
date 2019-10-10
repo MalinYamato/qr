@@ -174,12 +174,7 @@ func PaymentCouponHandler(w http.ResponseWriter, r *http.Request) {
 		status.Detail = "CouponHandler wrong HTTP method! " + r.Method
 	} else {
 		decoder := json.NewDecoder(r.Body)
-		err := decoder.Decode(&request)
-		if err != nil {
-			log.Println("Json decoder error> ", err.Error())
-			panic(err)
-		}
-		err = decoder.Decode(&paymentRequest)
+		err := decoder.Decode(&paymentRequest)
 		if err != nil {
 			log.Println("Json decoder of paymentRequest error> ", err.Error())
 			status.Status = ERROR
