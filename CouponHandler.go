@@ -174,6 +174,7 @@ func CreateCouponHandler(w http.ResponseWriter, r *http.Request) {
 func GeneralCouponHandler(w http.ResponseWriter, r *http.Request) {
 	var request Request
 	var status Status
+	var paymentRequest PaymentRequest
 	//var updateCouponBalance UpdateCouponBalance
 
 	log.Println("CouponHandler called")
@@ -190,7 +191,7 @@ func GeneralCouponHandler(w http.ResponseWriter, r *http.Request) {
 			status.Detail = "CouponHandler Parseform Err! "
 			log.Println("Parse form failed")
 		}
-		//	decoder := json.NewDecoder(r.Body)
+		decoder := json.NewDecoder(r.Body)
 		//	err := decoder.Decode(&request)
 		//	if err != nil {
 		//		log.Println("Json decoder error> ", err.Error())
@@ -200,12 +201,11 @@ func GeneralCouponHandler(w http.ResponseWriter, r *http.Request) {
 		switch request.Op {
 		case "payment":
 			{
-				var paymentRequest PaymentRequest
-				decoder := json.NewDecoder(r.Body)
 				err := decoder.Decode(&paymentRequest)
 				if err != nil {
 					log.Println("Json decoder of paymentRequest error> ", err.Error())
-					panic(err)
+					status.Status = ERROR
+					//panic(err)
 				}
 				coupon, _ := _coupons.findCouponByCouponId(paymentRequest.CouponID)
 				amount, _ := strconv.Atoi(paymentRequest.Amount)
