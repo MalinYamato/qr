@@ -68,6 +68,7 @@ type Status struct {
 }
 
 func serveHome(w http.ResponseWriter, r *http.Request) {
+	log.Println("serveHome ", r.URL.Path)
 	if strings.Contains(r.URL.Path, "/session") {
 		log.Println("Main: Set path ", r.URL.Path)
 		r.URL.Path = "/"
@@ -105,6 +106,7 @@ func serveHome(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Main: Method not allowed", 405)
 		return
 	}
+
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	template.Must(template.ParseFiles(_login)).Execute(w, struct {
 		Protocol string
