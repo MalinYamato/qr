@@ -200,6 +200,7 @@ func GeneralCouponHandler(w http.ResponseWriter, r *http.Request) {
 		case "payment":
 			{
 				var paymentRequest PaymentRequest
+				decoder := json.NewDecoder(r.Body)
 				err := decoder.Decode(&paymentRequest)
 				if err != nil {
 					log.Println("Json decoder of paymentRequest error> ", err.Error())
