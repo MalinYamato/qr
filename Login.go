@@ -62,6 +62,8 @@ func timestamp() string {
 }
 
 func issueSession() http.Handler {
+	log.Println("issueSession called")
+
 	fn := func(w http.ResponseWriter, req *http.Request) {
 		var sessionUserKey = "GoogleUser"
 		ctx := req.Context()
