@@ -125,7 +125,6 @@ func CreateCouponHandler(w http.ResponseWriter, r *http.Request) {
 	var requestCreateCoupon CreateCouponsRequest
 	var status Status
 	//var updateCouponBalance UpdateCouponBalance
-
 	log.Println("CouponHandler called")
 	status = Status{SUCCESS, ""}
 	//defer r.Body.Close()
@@ -192,12 +191,12 @@ func GeneralCouponHandler(w http.ResponseWriter, r *http.Request) {
 			log.Println("Parse form failed")
 		}
 		decoder := json.NewDecoder(r.Body)
-		//	err := decoder.Decode(&request)
-		//	if err != nil {
-		//		log.Println("Json decoder error> ", err.Error())
-		//		panic(err)
-		//	}
-		request.Op = "payment"
+		err := decoder.Decode(&request)
+		if err != nil {
+			log.Println("Json decoder error> ", err.Error())
+			panic(err)
+		}
+		//request.Op = "payment"
 		switch request.Op {
 		case "payment":
 			{
