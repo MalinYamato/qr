@@ -57,7 +57,7 @@ type DeleteCouponRequest struct {
 type PaymentRequest struct {
 	Op       string `json:"op"`
 	CouponID string `json:"couponId"`
-	Amount   int    `json:"amount"`
+	Amount   string `json:"amount"`
 }
 
 type Request struct {
@@ -206,7 +206,8 @@ func GeneralCouponHandler(w http.ResponseWriter, r *http.Request) {
 					panic(err)
 				}
 				coupon, _ := _coupons.findCouponByCouponId(paymentRequest.CouponID)
-				coupon.Balance = coupon.Balance - paymentRequest.Amount
+				amount, _ := strconv.Atoi(paymentRequest.Amount)
+				coupon.Balance = coupon.Balance - amount
 				_coupons.Save(coupon)
 				status.Status = SUCCESS
 			}
