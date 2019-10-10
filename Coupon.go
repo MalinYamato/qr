@@ -83,11 +83,13 @@ func (coupons *Coupons) load() {
 	}
 	files, err := ioutil.ReadDir(coupons.path())
 	if err != nil {
+		log.Println("directory " + coupons.path() + " not found!")
 		log.Fatal(err)
 	}
 	for _, file := range files {
 		content, err := ioutil.ReadFile(coupons.path() + "/" + file.Name() + "/profile.json")
 		if err != nil {
+			log.Println("file " + coupons.path() + "/" + file.Name() + " not found!")
 			log.Fatal(err)
 		}
 		var coupon Coupon
