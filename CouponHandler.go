@@ -190,14 +190,14 @@ func GeneralCouponHandler(w http.ResponseWriter, r *http.Request) {
 			status.Detail = "CouponHandler Parseform Err! "
 			log.Println("Parse form failed")
 		}
-	//	decoder := json.NewDecoder(r.Body)
-	//	err := decoder.Decode(&request)
-	//	if err != nil {
-	//		log.Println("Json decoder error> ", err.Error())
-	//		panic(err)
-		}
-		request.Op ="payment"
- 		switch request.Op {
+		//	decoder := json.NewDecoder(r.Body)
+		//	err := decoder.Decode(&request)
+		//	if err != nil {
+		//		log.Println("Json decoder error> ", err.Error())
+		//		panic(err)
+		//	}
+		request.Op = "payment"
+		switch request.Op {
 		case "payment":
 			{
 				var paymentRequest PaymentRequest
