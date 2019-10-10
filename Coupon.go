@@ -109,9 +109,11 @@ func (c *Coupon) getNic() string {
 
 func (coupons *Coupons) getAll() (Coupons []Coupon) {
 	var l = []Coupon{}
+	log.Println("getAll")
 	for _, c := range coupons.__coupons {
 		l = append(l, c)
 	}
+	log.Println("getAll after")
 	if len(coupons.__coupons) > 1 {
 		sort.SliceStable(l, func(i, j int) bool {
 			return l[i].CouponID < l[j].CouponID
