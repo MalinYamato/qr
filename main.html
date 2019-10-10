@@ -611,9 +611,11 @@
 
     function getAllCoupons() {
         var request = new XMLHttpRequest();
+        let jsonObject = {};
+        jsonObject["op"] = "getAllCoupons";
         request.open("POST", URL() + "/GetAllCoupons", true);
         request.setRequestHeader('Content-Type', 'application/json');
-        request.send(JSON.stringify(""));
+        request.send(JSON.stringify(jsonObject));
         request.onload = function () {
             if (request.status == 200) {
                 json_response = JSON.parse(request.response);
