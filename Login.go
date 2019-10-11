@@ -127,5 +127,5 @@ func isAuthenticated(req *http.Request) bool {
 	if err == nil {
 		return true
 	}
-	return true
+	return false
 }

@@ -183,7 +183,6 @@ func PaymentCouponHandler(w http.ResponseWriter, r *http.Request) {
 			status.Status = WARNING
 			status.Detail = "There are no coupons!"
 		} else {
-			//amount, _ := strconv.Atoi(paymentRequest.Amount)
 			amount := paymentRequest.Amount
 			coupon.Balance = coupon.Balance - amount
 			_coupons.Save(coupon)
