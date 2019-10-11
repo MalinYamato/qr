@@ -75,10 +75,7 @@ type Coupons struct {
 
 func (coupons *Coupons) load() {
 
-	log.Println("path " + coupons.path())
-
 	if _, err := os.Stat(coupons.path()); err != nil {
-
 		if os.IsNotExist(err) {
 			log.Println("The directory: "+coupons.path()+" does not exist, ignore loading", err)
 			return
@@ -115,11 +112,9 @@ func (c *Coupon) getNic() string {
 
 func (coupons *Coupons) getAll() (Coupons []Coupon) {
 	var l = []Coupon{}
-	log.Println("getAll")
 	for _, c := range coupons.__coupons {
 		l = append(l, c)
 	}
-	log.Println("getAll after")
 	if len(coupons.__coupons) > 1 {
 		sort.SliceStable(l, func(i, j int) bool {
 			return l[i].CouponID < l[j].CouponID
@@ -138,6 +133,9 @@ func (coupons *Coupons) findCouponToken(token string) (c Coupon, ok bool) {
 }
 
 func (coupons *Coupons) findCouponByCouponId(CouponId string) (coupon Coupon, ok bool) {
+	if len(coupons.__coupons) == 0 {
+		return coupon, false
+	}
 	coupon, ok = coupons.__coupons[CouponId]
 	return
 }

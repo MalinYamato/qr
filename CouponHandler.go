@@ -46,8 +46,8 @@ type CreateCouponsRequest struct {
 	Amount   string `json:"amount"`
 }
 type GetCouponRequest struct {
-	Op      string `json:"op"`
-	CoupnID string `json:"couponId"`
+	Op       string `json:"op"`
+	CouponID string `json:"couponId"`
 }
 type DeleteCouponRequest struct {
 	Op       string `json:"op"`
@@ -179,13 +179,62 @@ func PaymentCouponHandler(w http.ResponseWriter, r *http.Request) {
 			status.Status = ERROR
 			//panic(err)
 		}
-		coupon, _ := _coupons.findCouponByCouponId(paymentRequest.CouponID)
-		amount, _ := strconv.Atoi(paymentRequest.Amount)
-		coupon.Balance = coupon.Balance - amount
-		_coupons.Save(coupon)
-		status.Status = SUCCESS
-
+		coupon, stat := _coupons.findCouponByCouponId(paymentRequest.CouponID)
+		if stat == false {
+			status.Status = WARNING
+			status.Detail = "There are no coupons!"
+		} else {
+			amount, _ := strconv.Atoi(paymentRequest.Amount)
+			coupon.Balance = coupon.Balance - amount
+			_coupons.Save(coupon)
+			status.Status = SUCCESS
+		}
 		json_response, err := json.Marshal(status)
+		if err != nil {
+			log.Println("HandlingCoupon json.Marchal returned error %s", err)
+			panic(err)
+			return
+		}
+		log.Println("CouponHandler writing back status of " + coupon.FirstName)
+		w.Header().Set("Content-Type", "application/json")
+		a, err := w.Write(json_response)
+		if err != nil {
+			log.Println("HandlingCoupon http.write returned error %s %s", err, a)
+			panic(err)
+			return
+		}
+	}
+}
+
+func GetCouponHandler(w http.ResponseWriter, r *http.Request) {
+	var status Status
+	var getCouponRequest GetCouponRequest
+	var getCouponResponse GetCouponResponse
+	log.Println("CouponHandler called")
+	status = Status{SUCCESS, ""}
+	//defer r.Body.Close()
+	if r.Method != "POST" {
+		status.Status = ERROR
+		status.Detail = "CouponHandler wrong HTTP method! " + r.Method
+	} else {
+		decoder := json.NewDecoder(r.Body)
+		err := decoder.Decode(&getCouponRequest)
+		if err != nil {
+			log.Println("Json decoder of paymentRequest error> ", err.Error())
+			status.Status = ERROR
+			status.Detail = "Json decoder of paymentRequest error> "
+			//panic(err)
+		}
+		coupon, stat := _coupons.findCouponByCouponId(getCouponRequest.CouponID)
+		if stat == false {
+			status.Status = WARNING
+			status.Detail = "There are no coupons!"
+		} else {
+			getCouponResponse.Coupon = coupon
+			status.Status = SUCCESS
+		}
+		getCouponResponse.Status = status
+		json_response, err := json.Marshal(getCouponResponse)
 		if err != nil {
 			log.Println("HandlingCoupon json.Marchal returned error %s", err)
 			panic(err)
