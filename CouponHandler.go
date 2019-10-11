@@ -35,15 +35,14 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
-	"strconv"
 )
 
 type CreateCouponsRequest struct {
 	Op       string `json:"op"`
 	CouponId string `json:"couponId"`
 	Name     string `json:"name"`
-	Balance  string `json:"balance"`
-	Amount   string `json:"amount"`
+	Balance  int    `json:"balance"`
+	Amount   int    `json:"amount"`
 }
 type GetCouponRequest struct {
 	Op       string `json:"op"`
@@ -140,8 +139,8 @@ func CreateCouponHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		coupon.CouponID = requestCreateCoupon.CouponId
 		coupon.FirstName = requestCreateCoupon.Name
-		coupon.Balance, _ = strconv.Atoi(requestCreateCoupon.Balance)
-		coupon.Amount, _ = strconv.Atoi(requestCreateCoupon.Amount)
+		coupon.Balance = requestCreateCoupon.Balance
+		coupon.Amount = requestCreateCoupon.Amount
 		log.Println("Creating coupon of " + coupon.FirstName)
 		_coupons.Save(coupon)
 

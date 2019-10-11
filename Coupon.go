@@ -162,8 +162,6 @@ func (coupons *Coupons) Save(c Coupon) bool {
 		}
 	}
 
-	log.Println("Pass 1 SaveCoupon ")
-
 	path := c.path()
 	if _, err := os.Stat(path); err != nil {
 		if os.IsNotExist(err) {
@@ -174,7 +172,6 @@ func (coupons *Coupons) Save(c Coupon) bool {
 			}
 		}
 	}
-	log.Println("Pass 2 SaveCoupon ")
 
 	path = c.path() + "/img"
 	if _, err := os.Stat(path); err != nil {
@@ -193,8 +190,6 @@ func (coupons *Coupons) Save(c Coupon) bool {
 	if err != nil {
 		panic(err)
 	}
-	log.Println("Pass 4 SaveCoupon ")
-	log.Println("Number of coupons ", len(coupons.__coupons))
 	return true
 }
 func (coupons *Coupons) DeleteById(CouponID string) bool {
