@@ -432,8 +432,8 @@
             JObj = {
                 name:       row.cells[0].innerHTML,
                 couponId:   row.cells[1].innerHTML,
-                amount:     row.cells[2].innerHTML,
-                balance:    row.cells[3].innerHTML,
+                amount:     parseInt(row.cells[2].innerHTML),
+                balance:    parseInt((row.cells[3].innerHTML)),
                 issueDate:  fullDate
             };
         } else {
@@ -445,8 +445,8 @@
             JObj = {
                 name:       name,
                 couponId:   couponId,
-                amount:     amount,
-                balance:    balance,
+                amount:     parseInt(amount),
+                balance:    parseInt(balance),
                 issueDate:  fullDate
             };
         }
