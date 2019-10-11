@@ -165,7 +165,7 @@ func CreateCouponHandler(w http.ResponseWriter, r *http.Request) {
 func PaymentCouponHandler(w http.ResponseWriter, r *http.Request) {
 	var status Status
 	var paymentRequest PaymentRequest
-	log.Println("CouponHandler called")
+	log.Println("PaymentCouponHandler called")
 	status = Status{SUCCESS, ""}
 	//defer r.Body.Close()
 	if r.Method != "POST" {
@@ -195,7 +195,7 @@ func PaymentCouponHandler(w http.ResponseWriter, r *http.Request) {
 			panic(err)
 			return
 		}
-		log.Println("CouponHandler writing back status of " + coupon.FirstName)
+		log.Println("PaymentCouponHandler writing back status of " + coupon.FirstName)
 		w.Header().Set("Content-Type", "application/json")
 		a, err := w.Write(json_response)
 		if err != nil {
