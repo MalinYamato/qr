@@ -583,7 +583,11 @@
         const formData = new FormData(document.getElementById("formId"));
         let jsonObject = {};
         for (const [key, value] of formData.entries()) {
-            jsonObject[key] = value;
+            if (key == "amount" || key == "balance") {
+                jsonObject[key] = parseInt(value);
+            } else {
+                jsonObject[key] = value;
+            }
         }
         jsonObject["op"] = "createCoupon";
         //var form_data = $("#formId").serialize();
