@@ -42,28 +42,27 @@ import (
 )
 
 type Payment struct {
-	Amount int `json:"amount"`
-	Date   int `json:"date"`
-	Time   int `json:"time"`
-	Long   int `json:"long,omitempty"`
-	Lat    int `json:"lat,omitempty"`
+	Remiter  string `json:"remiter"`
+	Amount   int    `json:"amount"`
+	Balance  int    `json:"balance"`
+	DateTime string `json:"dateTime"`
 }
 
 type Coupon struct {
-	CouponID    string             `json:"couponId"`
-	Nic         string             `json:"nic,omitempty"`
-	Sign        string             `json:"sign,omitempty"`
-	Balance     int                `json:"balance"`
-	Amount      int                `json:"amount"`
-	IssueTime   int64              `json:"issueTime,omitempty"`
-	Email       string             `json:"email,omitempty"`
-	FirstName   string             `json:"firstName"`
-	LastName    string             `json:"lastName,omitempty"`
-	Password    string             `json:"password,omitempty"`
-	PictureURL  string             `json:"pictureURL,omitempty"`
-	Description string             `json:"description,omitempty"`
-	Token       string             `json:"token,omitempty"`
-	Payments    map[string]Payment `json:"payments,omitempty"`
+	CouponID    string    `json:"couponId"`
+	Nic         string    `json:"nic,omitempty"`
+	Sign        string    `json:"sign,omitempty"`
+	Balance     int       `json:"balance"`
+	Amount      int       `json:"amount"`
+	IssueTime   int64     `json:"issueTime,omitempty"`
+	Email       string    `json:"email,omitempty"`
+	FirstName   string    `json:"firstName"`
+	LastName    string    `json:"lastName,omitempty"`
+	Password    string    `json:"password,omitempty"`
+	PictureURL  string    `json:"pictureURL,omitempty"`
+	Description string    `json:"description,omitempty"`
+	Token       string    `json:"token,omitempty"`
+	Payments    []Payment `json:"payments,omitempty"`
 	_Coupons    *Coupons
 }
 

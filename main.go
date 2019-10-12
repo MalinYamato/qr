@@ -137,7 +137,6 @@ func sessionHandler(w http.ResponseWriter, r *http.Request) {
 		LoggedOut string
 		Name      string
 		Email     string
-		Coupons   []Coupon
 	}{
 		Protocol:  _config.Protocol,
 		Host:      _config.Host,
@@ -146,7 +145,6 @@ func sessionHandler(w http.ResponseWriter, r *http.Request) {
 		LoggedOut: "none",
 		Name:      _admin.FirstName + " " + _admin.LastName,
 		Email:     _admin.Email,
-		Coupons:   _coupons.getAll(),
 	})
 }
 

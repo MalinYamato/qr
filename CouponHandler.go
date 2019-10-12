@@ -35,11 +35,13 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"time"
 )
 
 type CreateCouponsRequest struct {
 	Op       string `json:"op"`
 	CouponId string `json:"couponId"`
+	Remiter  string `json:"remiter"`
 	Name     string `json:"name"`
 	Balance  int    `json:"balance"`
 	Amount   int    `json:"amount"`
@@ -55,6 +57,7 @@ type DeleteCouponRequest struct {
 
 type PaymentRequest struct {
 	Op       string `json:"op"`
+	Remiter  string `json:"remiter"`
 	CouponID string `json:"couponId"`
 	Amount   int    `json:"amount"`
 	Balance  int    `json:"balance"`
@@ -138,6 +141,13 @@ func CreateCouponHandler(w http.ResponseWriter, r *http.Request) {
 			log.Println("Json decoder error> ", err.Error())
 			panic(err)
 		}
+		var payment Payment
+		payment.DateTime = time.Now().Format(time.RFC3339)
+		payment.Remiter = requestCreateCoupon.Remiter
+		payment.Amount = requestCreateCoupon.Amount
+		payment.Balance = requestCreateCoupon.Balance
+		coupon.Payments = append(coupon.Payments, payment)
+
 		coupon.CouponID = requestCreateCoupon.CouponId
 		coupon.FirstName = requestCreateCoupon.Name
 		coupon.Balance = requestCreateCoupon.Balance
@@ -184,15 +194,26 @@ func UpdateCouponHandler(w http.ResponseWriter, r *http.Request) {
 			status.Status = WARNING
 			status.Detail = "There are no coupons!"
 		} else {
+			var payment Payment
+			payment.DateTime = time.Now().Format(time.RFC3339)
+			payment.Remiter = paymentRequest.Remiter
 			switch paymentRequest.Op {
 			case "addBalance":
 				{
 					coupon.Balance = coupon.Balance + paymentRequest.Balance
+					payment.Amount = paymentRequest.Balance
+					payment.Balance = coupon.Balance
+					coupon.Payments = append(coupon.Payments, payment)
+					_coupons.Save(coupon)
 					status.Status = SUCCESS
 				}
 			case "payment":
 				{
 					coupon.Balance = coupon.Balance - paymentRequest.Amount
+					payment.Amount = -paymentRequest.Amount
+					payment.Balance = coupon.Balance
+					coupon.Payments = append(coupon.Payments, payment)
+					_coupons.Save(coupon)
 					status.Status = SUCCESS
 				}
 			default:
@@ -201,7 +222,6 @@ func UpdateCouponHandler(w http.ResponseWriter, r *http.Request) {
 					status.Detail = "No such op" + paymentRequest.Op
 				}
 			}
-			_coupons.Save(coupon)
 		}
 		json_response, err := json.Marshal(status)
 		if err != nil {
