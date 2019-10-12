@@ -569,15 +569,15 @@
         // setScrollbar();
     };
 
-    function populateReport(coupon) {
+    function populateReport(json) {
         var table = document.getElementById("transactionTable");
         while (table.hasChildNodes()) {
             table.removeChild(table.lastChild);
         }
-        alert(JSON.stringify(coupon));
+        alert(JSON.stringify(json.coupon));
 
         table.appendChild(document.createElement('tbody'));
-      for (i = 0; i < coupon.payments.length; i++) {
+      for (i = 0; i < json,coupon.payments.length; i++) {
           var row = table.insertRow(0);
           row.setAttribute("id", i);
           var cell1 = row.insertCell(0);
@@ -585,10 +585,10 @@
           var cell3 = row.insertCell(2);
           var cell4 = row.insertCell(3);
           cell1.innerHTML = i;
-          cell2.innerHTML = coupon.payments[i].remiter;
-          cell3.innerHTML = coupon.payments[i].dateTime;
-          cell5.innerHTML = coupon.payments[i].payment;
-          cell5.innerHTML = coupon.payments[i].balance;
+          cell2.innerHTML = json.coupon.payments[i].remiter;
+          cell3.innerHTML = json.coupon.payments[i].dateTime;
+          cell5.innerHTML = json.payments[i].payment;
+          cell5.innerHTML = json.payments[i].balance;
       }}
 
 
