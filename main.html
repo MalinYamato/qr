@@ -439,11 +439,6 @@
         document.getElementById("transactionId").innerHTML = id;
         document.getElementById("main").style.display = "none";
         result = getCoupon(id);
-        if (result != null) {
-            populateReport(result);
-        } else {
-            alert("getCoupon returned null!");
-        }
     }
 
     function hideTransactions() {
@@ -574,10 +569,10 @@
         while (table.hasChildNodes()) {
             table.removeChild(table.lastChild);
         }
-        alert(JSON.stringify(json.coupon));
-
+        //alert(JSON.stringify(json.coupon));
+        json.coupon.payments.sort();
         table.appendChild(document.createElement('tbody'));
-      for (i = json.coupon.payments.length; i > 0; i--) {
+      for (i = 0; i > json.coupon.payments.length; i++) {
           var row = table.insertRow(0);
           row.setAttribute("id", i);
           var cell1 = row.insertCell(0);
