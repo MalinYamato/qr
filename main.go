@@ -155,7 +155,7 @@ func NewMux(config *Config) *http.ServeMux {
 
 	mux.HandleFunc("/", serveHome)
 	mux.Handle("/session/", requireLogin(http.HandlerFunc(sessionHandler)))
-	mux.HandleFunc("/PaymentCoupon", PaymentCouponHandler)
+	mux.HandleFunc("/UpdateCoupon", UpdateCouponHandler)
 	mux.Handle("/CreateCoupon", requireLogin(http.HandlerFunc(CreateCouponHandler)))
 	mux.Handle("/GetAllCoupons", requireLogin(http.HandlerFunc(GetAllCouponsHandler)))
 	mux.HandleFunc("/GetCoupon", GetCouponHandler)

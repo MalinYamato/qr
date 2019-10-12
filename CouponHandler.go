@@ -57,6 +57,7 @@ type PaymentRequest struct {
 	Op       string `json:"op"`
 	CouponID string `json:"couponId"`
 	Amount   int    `json:"amount"`
+	Balance  int    `json:"balance"`
 }
 
 type Request struct {
@@ -161,7 +162,7 @@ func CreateCouponHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func PaymentCouponHandler(w http.ResponseWriter, r *http.Request) {
+func UpdateCouponHandler(w http.ResponseWriter, r *http.Request) {
 	var status Status
 	var paymentRequest PaymentRequest
 	log.Println("PaymentCouponHandler called")
@@ -183,8 +184,17 @@ func PaymentCouponHandler(w http.ResponseWriter, r *http.Request) {
 			status.Status = WARNING
 			status.Detail = "There are no coupons!"
 		} else {
-			amount := paymentRequest.Amount
-			coupon.Balance = coupon.Balance - amount
+			switch paymentRequest.Op {
+			case "updateBalance":
+				{
+					coupon.Balance = coupon.Balance + paymentRequest.Balance
+				}
+			case "payment":
+				{
+					coupon.Balance = coupon.Balance - paymentRequest.Amount
+				}
+			}
+
 			_coupons.Save(coupon)
 			status.Status = SUCCESS
 		}
