@@ -144,7 +144,7 @@ func CreateCouponHandler(w http.ResponseWriter, r *http.Request) {
 		var payment Payment
 		payment.DateTime = time.Now().Format(time.RFC3339)
 		payment.Remiter = requestCreateCoupon.Remiter
-		payment.Amount = requestCreateCoupon.Amount
+		payment.Amount = requestCreateCoupon.Balance
 		payment.Balance = requestCreateCoupon.Balance
 		coupon.Payments = append(coupon.Payments, payment)
 
