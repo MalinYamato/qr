@@ -577,7 +577,7 @@
         alert(JSON.stringify(json.coupon));
 
         table.appendChild(document.createElement('tbody'));
-      for (i = 0; i < json.coupon.payments.length; i++) {
+      for (i = json.coupon.payments.length; i > 0; i--) {
           var row = table.insertRow(0);
           row.setAttribute("id", i);
           var cell1 = row.insertCell(0);
@@ -594,7 +594,7 @@
           var se = date.getSeconds();
           cell1.innerHTML = i +1;
           cell2.innerHTML = json.coupon.payments[i].remiter;
-          cell3.innerHTML = yr + "-" + mo + "-" + dy + " " + ho + ":" + mi;
+          cell3.innerHTML = yr + "-" + mo + "-" + dy + " " + ho + ":" + mi + ":" + se;
           cell4.innerHTML = json.coupon.payments[i].amount;
           cell5.innerHTML = json.coupon.payments[i].balance;
       }}
