@@ -574,10 +574,10 @@
         while (table.hasChildNodes()) {
             table.removeChild(table.lastChild);
         }
-        alert(JSON.stringify(json));
+        alert(JSON.stringify(json,coupon.firstName));
 
         table.appendChild(document.createElement('tbody'));
-      for (i = 0; i < json,coupon.payments.length; i++) {
+      for (i = 0; i < json.coupon.payments.length; i++) {
           var row = table.insertRow(0);
           row.setAttribute("id", i);
           var cell1 = row.insertCell(0);
@@ -714,7 +714,7 @@
                 json_response = JSON.parse(request.response);
                 if (json_response.status.status != "SUCCESS") {
                     alert("getCoupon() returned " + json_response.status.status + ++
-                        json_response.detail);
+                        json_response.status.detail);
                     return null;
                 }
                 //alert("getAllCoupons() SUCCESS " + json_response.coupons[0].firstName);
