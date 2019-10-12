@@ -17,7 +17,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     <script src="js/perfect-scrollbar.js"></script>
-
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 
     <!--    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     -->
@@ -196,6 +196,12 @@
             margin-bottom: 0;
         }
 
+        #topBalanceForm {
+            width: 100%;
+            margin-top: 0;
+            visibility: hidden;
+        }
+
 
     </style>
 </head>
@@ -238,7 +244,7 @@
                     <th>ID</th>
                     <th>Betala</th>
                     <th>Saldo</th>
-                    <th>QR Kod</th>
+                    <th>Editera</th>
                     <th>Delete</th>
                     <th class="lastHeader"></th>
                 </tr>
@@ -255,6 +261,8 @@
                         <td>40</td>
                         <td>-150</td>
                         <td>
+                            <button class="glyphicon glyphicon-menu-down"></button>
+                            <button class="glyphicon glyphicon-plus"></button>
                             <button onclick="showQRcode('1004')" class="glyphicon glyphicon-qrcode"></button>
                         </td>
                         <td>
@@ -267,6 +275,8 @@
                         <td>40</td>
                         <th>100</th>
                         <td>
+                            <button class="glyphicon glyphicon-menu-down"></button>
+                            <button class="glyphicon glyphicon-plus"></button>
                             <button onclick="showQRcode('1014')" class="glyphicon glyphicon-qrcode"></button>
                         </td>
                         <td>
@@ -279,48 +289,30 @@
                         <td>20</td>
                         <td>-80</td>
                         <td>
-                            <button onclick="showQRcode('1003')" class="glyphicon glyphicon-qrcode"></button>
-                        </td>
-                        <td>
-                            <button onclick="destroyCoupon()" class="glyphicon glyphicon-trash"></button>
-                        </td>
-                    </tr>
-                    <tr id="1001">
-                        <td>Malin</td>
-                        <td>1001</td>
-                        <td>20</td>
-                        <td>80</td>
-                        <td>
+                            <button class="glyphicon glyphicon-menu-down"></button>
+                            <button class="glyphicon glyphicon-plus"></button>
                             <button onclick="showQRcode('1001')" class="glyphicon glyphicon-qrcode"></button>
                         </td>
                         <td>
                             <button onclick="destroyCoupon()" class="glyphicon glyphicon-trash"></button>
                         </td>
                     </tr>
-                    <tr id="1001">
+                    <tr id="1005">
                         <td>Malin</td>
                         <td>1001</td>
                         <td>20</td>
-                        <td>80</td>
+                        <td><span style="vertical-align: middle;"  >80</span> </td>
                         <td>
+                            <button onclick="topBalance(1005)" class="glyphicon glyphicon-menu-down"></button>
+                            <button onclick="topBalance(1005)" class="glyphicon glyphicon-plus"></button>
                             <button onclick="showQRcode('1001')" class="glyphicon glyphicon-qrcode"></button>
+
                         </td>
                         <td>
                             <button onclick="destroyCoupon()" class="glyphicon glyphicon-trash"></button>
                         </td>
                     </tr>
-                    <tr id="1001">
-                        <td>Malin</td>
-                        <td>1001</td>
-                        <td>20</td>
-                        <td>80</td>
-                        <td>
-                            <button onclick="showQRcode('1001')" class="glyphicon glyphicon-qrcode"></button>
-                        </td>
-                        <td>
-                            <button onclick="destroyCoupon()" class="glyphicon glyphicon-trash"></button>
-                        </td>
-                    </tr>
+
                     </tbody>
 
                 </table>
@@ -331,29 +323,31 @@
                 <table class="formTable w3-table-all">
                     <tr class="createCouponRow">
                         <td id="firstChild">
-                            <input CLASS="w3-input w3-border" name="name" type="text" placeholder="Namn"
+                            <input id="formName" CLASS="w3-input w3-border" name="name" type="text" placeholder="Namn"
                                  />
                         </td>
                         <td>
-                            <input class="w3-input w3-border" name="couponId" type="text" placeholder="Id nummer"
+                            <input id="formIdNumber" class="w3-input w3-border" name="couponId" type="text" placeholder="Id nummer"
                                  />
                         </td>
                         <td>
-                            <input class="w3-input w3-border" name="amount" type="text" placeholder="Amout"
+                            <input id="formAmount" class="w3-input w3-border" name="amount" type="text" placeholder="Amout"
                                   />
                         </td>
                         <td>
-                            <input class="w3-input w3-border" name="balance" type="text" placeholder="Tillskott"
+                            <input id="formBalance" class="w3-input w3-border" name="balance" type="text" placeholder="Tillskott"
                                    />
                         <td class="emtpy"></td>
 
                         <td>
-                            <button class=" createBtn w3-input w3-border w3-button  w3-blue " type="submit"> Skapa
+                            <button id="formButton" class=" createBtn w3-input w3-border w3-button  w3-blue " type="submit"> Skapa
                             </button>
                         </td>
                     </tr>
                 </table>
             </form>
+
+
 
             <div class="w3-display-container w3-blue" style="height:40px;">
 
@@ -393,6 +387,20 @@
             scrollingThreshold: 10
         }
     ); */
+
+  function topBalance(couponId) {
+      document.getElementById("formButton").innerHTML = "Öka saldot";
+      document.getElementById("formName").style.visibility = "hidden";
+      document.getElementById("formAmount").style.visibility = "hidden";
+      document.getElementById("formIdNumber").value = couponId;
+      document.getElementById("formIdNumber").readOnly = true;
+  }
+    function restoreForm() {
+        document.getElementById("formButton").innerHTML = "Skapa";
+        document.getElementById("formName").style.visibility = "visible";
+        document.getElementById("formAmount").style.visibility = "visible";
+        document.getElementById("formIdNumber").readOnly = false;
+    }
 
     function printQRcode() {
         var canvas = document.querySelector("#output canvas");
@@ -468,52 +476,23 @@
         });
     }
 
-    function createCoupon() {
-        if (document.getElementById("formId").style.visibility == "visible") {
-            document.getElementById("formId").style.visibility = "hidden";
-
-        } else {
-            document.getElementById("formId").style.visibility = "visible";
-        }
-    }
-
-    function create() {
-        document.getElementById("formId").style.visibility = "hidden"
-    }
-
     function URL() {
         // return "{{.Protocol}}://{{.Host}}:{{.Port}}";
         return "https://qr.rakuen.tokyo:7777";
     }
 
-    function myFunction(value) {
-        showQRcode("9999");
-    }
-
     window.addEventListener("load", function () {
         document.getElementById('formId').addEventListener("submit", function (e) {
             e.preventDefault(); // before the code
-            submitForm();
+            if (document.getElementById("formButton").innerText == "Skapa") {
+                submitForm("/CreateCoupon", "createCoupon");
+            } else {
+                submitForm("/UpdateCoupon","addBalance");
+            }
             getAllCoupons();
+            restoreForm();
         });
     });
-
-    function setScrollbar() {
-
-        var coupons = document.getElementById("couponTableBody").childElementCount - 3;
-
-        if (coupons > 10) {
-            coupons = 10;
-        } else if (coupons < 10) {
-            coupons = 10;
-        }
-
-        var theLen = coupons * 28.224;
-        var theStrLen = theLen.toString() + "px";
-        document.getElementById("couponTableContainer").setAttribute("style", "height:" + theStrLen);
-        scroll = document.getElementById("couponTableContainer").style.height;
-        alert(scroll);
-    }
 
 
       window.onload = function () {
@@ -555,31 +534,10 @@
             deleteButton.setAttribute("class", "glyphicon glyphicon-trash");
             cell6.appendChild(deleteButton);
         }
-        /*
-        var rowHeader = table.insertRow(0);
-        th1 = document.createElement('th');
-        th2 = document.createElement('th');
-        th3 = document.createElement('th');
-        th4 = document.createElement('th');
-        th5 = document.createElement('th');
-        th6 = document.createElement('th');
-        th1.innerHTML = "Namn";
-        th2.innerHTML = "Id nummer";
-        th3.innerHTML = "Att betala";
-        th4.innerHTML = "Saldo";
-        th5.innerHTML = "QR";
-        th6.innerHTML = "Ta bort";
-        rowHeader.appendChild(th1);
-        rowHeader.appendChild(th2);
-        rowHeader.appendChild(th3);
-        rowHeader.appendChild(th4);
-        rowHeader.appendChild(th5);
-        rowHeader.appendChild(th6);
-        table.prependChild(rowHeader);
-        */
+
     }
 
-    function submitForm() {
+    function submitForm(url, method) {
         const formData = new FormData(document.getElementById("formId"));
         let jsonObject = {};
         for (const [key, value] of formData.entries()) {
@@ -589,11 +547,11 @@
                 jsonObject[key] = value;
             }
         }
-        jsonObject["op"] = "createCoupon";
+        jsonObject["op"] = method;
         //var form_data = $("#formId").serialize();
         alert(JSON.stringify(jsonObject));
         $.ajax({
-            url: URL() + "/CreateCoupon",
+            url: URL() + url,
             type: "post",
             async: "true",
             data: JSON.stringify(jsonObject),
