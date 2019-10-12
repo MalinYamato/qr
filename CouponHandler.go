@@ -189,18 +189,22 @@ func UpdateCouponHandler(w http.ResponseWriter, r *http.Request) {
 				{
 					log.Println("balance %d  &d", coupon.Balance, paymentRequest.Balance)
 					coupon.Balance = coupon.Balance + paymentRequest.Balance
+					status.Status = SUCCESS
 				}
 			case "payment":
 				{
 					coupon.Balance = coupon.Balance - paymentRequest.Amount
+					status.Status = SUCCESS
 				}
 			default:
 				{
 					log.Println("UpdateCouponHander no such op %s", paymentRequest.Op)
+					status.Status = WARNING
+					status.Detail = "No such op" + paymentRequest.Op
 				}
 			}
 			_coupons.Save(coupon)
-			status.Status = SUCCESS
+
 		}
 		json_response, err := json.Marshal(status)
 		if err != nil {
