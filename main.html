@@ -574,7 +574,7 @@
         while (table.hasChildNodes()) {
             table.removeChild(table.lastChild);
         }
-        alert(JSON.stringify(json,coupon.firstName));
+        alert(JSON.stringify(json.coupon.firstName));
 
         table.appendChild(document.createElement('tbody'));
       for (i = 0; i < json.coupon.payments.length; i++) {
