@@ -400,7 +400,9 @@
         document.getElementById("formName").style.visibility = "visible";
         document.getElementById("formAmount").style.visibility = "visible";
         document.getElementById("formIdNumber").readOnly = false;
-    }
+        document.getElementById("formIdNumber").value = "";
+        document.getElementById("formIdBalance").value = ""
+;    }
 
     function printQRcode() {
         var canvas = document.querySelector("#output canvas");
