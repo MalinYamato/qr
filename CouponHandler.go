@@ -198,13 +198,11 @@ func UpdateCouponHandler(w http.ResponseWriter, r *http.Request) {
 				}
 			default:
 				{
-					log.Println("UpdateCouponHander no such op %s", paymentRequest.Op)
 					status.Status = WARNING
 					status.Detail = "No such op" + paymentRequest.Op
 				}
 			}
 			_coupons.Save(coupon)
-
 		}
 		json_response, err := json.Marshal(status)
 		if err != nil {
