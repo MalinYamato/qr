@@ -157,8 +157,6 @@
             margin-top: 0;
         }
 
-
-
         .lastHeader {
             width: 10px;
         }
@@ -181,6 +179,7 @@
 
         .couponTableHeader {
             margin-bottom: 0;
+            margin-top: 20px;
         }
 
         #topBalanceForm {
@@ -192,9 +191,10 @@
         .couponTableHeader tr th:first-child,
         .couponTable tr td:first-child {
             text-align: left;
-          //  background-color: gray;
+        / / background-color: gray;
             width: 18%;
-     }
+        }
+
         .couponTableHeader tr th {
             width: 14%;
             text-align: center;
@@ -202,18 +202,41 @@
 
         .couponTable tr td {
             text-align: right;
-           // background-color: #CCCCCC;
-           // border-style: solid;
-           // border-width: 2px;
-           // border-color: white;
+        / / background-color: #CCCCCC;
+        / / border-style: solid;
+        / / border-width: 2 px;
+        / / border-color: white;
             width: 14%;
         }
 
-
         .couponTableHeader tr .buttonsColumn,
         .couponTable tr .buttonsColumn {
-           // background-color: white;
+        / / background-color: white;
             width: 40%;
+        }
+
+        #transactionReport {
+            background-color: white;
+            display: none;
+            margin-top: 20px;
+        }
+
+        .trasactionTableHeader td {
+            width: 20%;
+            font-size: medium;;
+        }
+
+        .transactionTable td {
+            border-style: solid;
+            border-color: black;
+            border-width: 2px;
+            width: 13%;
+        }
+
+        .transactionTableTH th {
+            width: 13%;
+            border-style: solid;
+            border-color: black;
         }
 
 
@@ -240,7 +263,7 @@
 
     <div class=" header2 w3-bar  w3-xlarge">
         <a class="w3-bar-item w3-button" href="#"><i class="fa fa-bars"></i></a>
-        <span class="w3-bar-item">Vedetten Admin</span>
+        <span class="w3-bar-item">Vedetten Admin</span><span id="adminEmail" class="w3-bar-item">{{.Email}}</span>
         <button class=" logoutButton w3-bar-item w3-button w3-right" onclick="logout()">Logout</button>
     </div>
 
@@ -250,82 +273,123 @@
         <div class="w3-col" style="width:10%"><p>20%</p></div>
         <div class="w3-col" style="width:80%">
 
-            <h2>Coupons</h2>
-            <table id='couponTableHeader' class="  couponTableHeader   w3-table-all w3-hoverable">
 
-                <tr class="couponTableHeaderRow">
-                    <th>Namn</th>
-                    <th>ID</th>
-                    <th>Betala</th>
-                    <th>Saldo</th>
-                    <th class="buttonsColumn">Editera</th>
-                </tr>
-            </table>
-
-            <div class="wrapper couponTableContainer" id="couponTableContainer">
-                <table id='couponTable' class=" couponTable  w3-table-all w3-hoverable ">
-
-                    <tbody class="couponTableBody" id="couponTableBody">
-                    <tr id="1003">
-                        <td>Lars</td>
-                        <td>1003</td>
-                        <td>20</td>
-                        <td>-80</td>
-                        <td class="buttonsColumn" >
-                            <button onclick="topBalance(1001)" class="glyphicon glyphicon-plus"></button>
-                            <button onclick="showQRcode('1001')" class="glyphicon glyphicon-qrcode"></button>
-                            <button onclick="destroyCoupon()" class="glyphicon glyphicon-trash"></button>
-                            <button onclick="topBalance(1001)" class="arrowDown glyphicon glyphicon-menu-down"></button>
+            <div id="transactionReport">
+                <table class="trasactionTableHeader">
+                    <tr>
+                        <td>KupongId</td>
+                        <td id="transactionId">1004</td>
+                        <td>
+                            <button onclick="hideTransactions()" class="glyphicon glyphicon-menu-up"></button>
                         </td>
+                        <td>Transaktions historik</td>
                     </tr>
-                    <tr id="1001">
-                        <td>Malin</td>
-                        <td>1001</td>
-                        <td>20</td>
-                        <td>80</td>
-                        <td class="buttonsColumn" >
-                            <button onclick="topBalance(1001)" class="glyphicon glyphicon-plus"></button>
-                            <button onclick="showQRcode('1001')" class="glyphicon glyphicon-qrcode"></button>
-                            <button onclick="destroyCoupon()" class="glyphicon glyphicon-trash"></button>
-                            <button onclick="topBalance(1001)" class="arrowDown glyphicon glyphicon-menu-down"></button>
-                        </td>
-
+                </table>
+                <table id="transactionTable"   class="transactionTable  w3-table-all w3-hoverable">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Avsändare</th>
+                        <th>Datum</th>
+                        <th>Belopp</th>
+                        <th>Saldo</th>
                     </tr>
-
+                    </thead>
+                    <tbody id="transactionTableBody">
+                    <tr>
+                        <td>1</td>
+                        <td>malin.yamato@gmail.com</td>
+                        <td>20191022</td>
+                        <td>200</td>
+                        <td>1000</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>malin.yamato@gmail.com</td>
+                        <td>20191021</td>
+                        <td>-20</td>
+                        <td>1020</td>
+                    </tr>
                     </tbody>
+                </table>
+            </div>
 
+            <div id="main">
+
+                <table id='couponTableHeader' class=" couponTableHeader  w3-table-all w3-hoverable">
+                    <tr class="couponTableHeaderRow">
+                        <th>Namn</th>
+                        <th>ID</th>
+                        <th>Betala</th>
+                        <th>Saldo</th>
+                        <th class="buttonsColumn">Editera</th>
+                    </tr>
                 </table>
 
-            </div>
+                <div class="wrapper couponTableContainer" id="couponTableContainer">
+                    <table id='couponTable' class=" couponTable  w3-table-all w3-hoverable ">
+                        <tbody class="couponTableBody" id="couponTableBody">
+                        <tr id="1001">
+                            <td>Lars</td>
+                            <td>1003</td>
+                            <td>20</td>
+                            <td>-80</td>
+                            <td class="buttonsColumn">
+                                <button onclick="topBalance(1001)" class="glyphicon glyphicon-plus"></button>
+                                <button onclick="showQRcode('1001')" class="glyphicon glyphicon-qrcode"></button>
+                                <button onclick="destroyCoupon()" class="glyphicon glyphicon-trash"></button>
+                                <button onclick="showTransactions(1001)"
+                                        class="arrowDown glyphicon glyphicon-menu-down"></button>
+                            </td>
+                        </tr>
+                        <tr id="1002">
+                            <td>Malin</td>
+                            <td>1002</td>
+                            <td>20</td>
+                            <td>80</td>
+                            <td class="buttonsColumn">
+                                <button onclick="topBalance(1002)" class="glyphicon glyphicon-plus"></button>
+                                <button onclick="showQRcode('1002')" class="glyphicon glyphicon-qrcode"></button>
+                                <button onclick="destroyCoupon()" class="glyphicon glyphicon-trash"></button>
+                                <button onclick="showTransactions(1002)"
+                                        class="arrowDown glyphicon glyphicon-menu-down"></button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
 
             <form id="formId">
                 <table class="formTable w3-table-all">
                     <tr class="createCouponRow">
                         <td id="firstChild">
                             <input id="formName" CLASS="w3-input w3-border" name="name" type="text" placeholder="Namn"
-                                 />
+                            />
                         </td>
                         <td>
-                            <input id="formIdNumber" class="w3-input w3-border" name="couponId" type="text" placeholder="Id nummer"
-                                 />
+                            <input id="formIdNumber" class="w3-input w3-border" name="couponId" type="text"
+                                   placeholder="Id nummer"
+                            />
                         </td>
                         <td>
-                            <input id="formAmount" class="w3-input w3-border" name="amount" type="text" placeholder="Betala"
-                                  />
+                            <input id="formAmount" class="w3-input w3-border" name="amount" type="text"
+                                   placeholder="Betala"
+                            />
                         </td>
                         <td>
-                            <input id="formBalance" class="w3-input w3-border" name="balance" type="text" placeholder="Tillskott"
-                                   />
+                            <input id="formBalance" class="w3-input w3-border" name="balance" type="text"
+                                   placeholder="Tillskott"
+                            />
                         <td class="emtpy"></td>
 
                         <td>
-                            <button id="formButton" class=" createBtn w3-input w3-border w3-button  w3-blue " type="submit"> Skapa
+                            <button id="formButton" class=" createBtn w3-input w3-border w3-button  w3-blue "
+                                    type="submit"> Skapa
                             </button>
                         </td>
                     </tr>
                 </table>
             </form>
-
 
 
             <div class="w3-display-container w3-blue" style="height:40px;">
@@ -350,6 +414,7 @@
                 </div>
             </div>
         </div>
+        </div> <!-- main -->
         <div class="w3-col" style="width:10%">
         </div>
     </div>
@@ -360,20 +425,39 @@
 <script>
 
     var ps;
-  /* const demo = document.querySelector('#couponTableContainer');
-    ps = new PerfectScrollbar(demo, {
-            suppressScrollX: true,
-            scrollingThreshold: 10
-        }
-    ); */
 
-  function topBalance(couponId) {
-      document.getElementById("formButton").innerHTML = "Öka saldot";
-      document.getElementById("formName").style.visibility = "hidden";
-      document.getElementById("formAmount").style.visibility = "hidden";
-      document.getElementById("formIdNumber").value = couponId;
-      document.getElementById("formIdNumber").readOnly = true;
-  }
+    /* const demo = document.querySelector('#couponTableContainer');
+      ps = new PerfectScrollbar(demo, {
+              suppressScrollX: true,
+              scrollingThreshold: 10
+          }
+      ); */
+
+    function showTransactions(id) {
+
+        document.getElementById("transactionReport").style.display = "block";
+        document.getElementById("transactionId").innerHTML = id;
+        document.getElementById("main").style.display = "none";
+      //  result = getAllCoupons(id)l
+      //  if (result != null) {
+       //     populateReport(result);
+        //}
+    }
+
+    function hideTransactions() {
+        document.getElementById("transactionReport").style.display = "none";
+        document.getElementById("main").style.display = "block";
+
+    }
+
+    function topBalance(couponId) {
+        document.getElementById("formButton").innerHTML = "Öka saldot";
+        document.getElementById("formName").style.visibility = "hidden";
+        document.getElementById("formAmount").style.visibility = "hidden";
+        document.getElementById("formIdNumber").value = couponId;
+        document.getElementById("formIdNumber").readOnly = true;
+    }
+
     function restoreForm() {
         document.getElementById("formButton").innerHTML = "Skapa";
         document.getElementById("formName").style.visibility = "visible";
@@ -381,7 +465,8 @@
         document.getElementById("formIdNumber").readOnly = false;
         document.getElementById("formIdNumber").value = "";
         document.getElementById("formBalance").value = ""
-;    }
+        ;
+    }
 
     function printQRcode() {
         var canvas = document.querySelector("#output canvas");
@@ -419,11 +504,11 @@
         if (id != "9999") {
             var row = document.getElementById(id);
             JObj = {
-                name:       row.cells[0].innerHTML,
-                couponId:   row.cells[1].innerHTML,
-                amount:     parseInt(row.cells[2].innerHTML),
-                balance:    parseInt((row.cells[3].innerHTML)),
-                issueDate:  fullDate
+                name: row.cells[0].innerHTML,
+                couponId: row.cells[1].innerHTML,
+                amount: parseInt(row.cells[2].innerHTML),
+                balance: parseInt((row.cells[3].innerHTML)),
+                issueDate: fullDate
             };
         } else {
             var e = document.getElementById("formId").elements;
@@ -432,14 +517,14 @@
             var amount = e.namedItem("amount").value;
             var balance = e.namedItem("balance").value;
             JObj = {
-                name:       name,
-                couponId:   couponId,
-                amount:     parseInt(amount),
-                balance:    parseInt(balance),
-                issueDate:  fullDate
+                name: name,
+                couponId: couponId,
+                amount: parseInt(amount),
+                balance: parseInt(balance),
+                issueDate: fullDate
             };
         }
-        //Balans : row.cells[3].innerHTML };
+        ;
         Jstring = JSON.stringify(JObj);
         var elem = document.getElementById('output');
         elem.textContent = "";
@@ -465,10 +550,11 @@
     window.addEventListener("load", function () {
         document.getElementById('formId').addEventListener("submit", function (e) {
             e.preventDefault(); // before the code
+            var remiter = document.getElementById("adminEmail").innerHTML
             if (document.getElementById("formButton").innerText == "Skapa") {
-                submitForm("/CreateCoupon", "createCoupon");
+                submitForm("/CreateCoupon", "createCoupon", remiter);
             } else {
-                submitForm("/UpdateCoupon","addBalance");
+                submitForm("/UpdateCoupon", "addBalance",remiter);
             }
             getAllCoupons();
             restoreForm();
@@ -476,13 +562,33 @@
     });
 
 
-      window.onload = function () {
-          getAllCoupons();
-         // setScrollbar();
-      };
+    window.onload = function () {
+        getAllCoupons();
+        // setScrollbar();
+    };
+
+    function populateReport(coupon) {
+        var tableBody = document.getElementById("transactionTableBody");
+        while (table.hasChildNodes()) {
+            table.removeChild(table.lastChild);
+        }
+
+      for (i = 0; i < coupon.payments.length; i++) {
+          var row = tableBody.insertRow(0);
+          row.setAttribute("id", i);
+          var cell1 = row.insertCell(0);
+          var cell2 = row.insertCell(1);
+          var cell3 = row.insertCell(2);
+          var cell4 = row.insertCell(3);
+          cell1.innerHTML = i;
+          cell2.innerHTML = coupon.payments[i].remiter;
+          cell3.innerHTML = coupon.payments[i].dateTime;
+          cell5.innerHTML = coupon.payments[i].payment;
+          cell5.innerHTML = coupon.payments[i].balance;
+      }}
 
 
-    function populateCouponTable(elems) {
+        function populateCouponTable(elems) {
         var i = 0;
         var table = document.getElementById("couponTable");
         while (table.hasChildNodes()) {
@@ -507,7 +613,7 @@
             cell3.innerHTML = elems.coupons[i].amount;
             cell4.innerHTML = elems.coupons[i].balance;
 
-            cell5.setAttribute("class","buttonsColumn");
+            cell5.setAttribute("class", "buttonsColumn");
 
             var addButton = document.createElement("BUTTON");
             addButton.setAttribute("onclick", "topBalance('" + elems.coupons[i].couponId + "')");
@@ -532,7 +638,7 @@
 
     }
 
-    function submitForm(url, method) {
+    function submitForm(url, method,remiter) {
         const formData = new FormData(document.getElementById("formId"));
         let jsonObject = {};
         for (const [key, value] of formData.entries()) {
@@ -543,6 +649,7 @@
             }
         }
         jsonObject["op"] = method;
+        jsonObject["remiter"] = remiter;
         //var form_data = $("#formId").serialize();
         alert(JSON.stringify(jsonObject));
         $.ajax({
@@ -589,6 +696,33 @@
             }
         }
     }
+
+    function getAllCoupn(id) {
+        var request = new XMLHttpRequest();
+        let jsonObject = {};
+        jsonObject["op"] = "getCoupon";
+        jsonObject["couponId"] = id;
+        request.open("POST", URL() + "/GetCoupon", true);
+        request.setRequestHeader('Content-Type', 'application/json');
+        request.send(JSON.stringify(jsonObject));
+        request.onload = function () {
+            if (request.status == 200) {
+                json_response = JSON.parse(request.response);
+                if (json_response.status.status != "SUCCESS") {
+                    alert("getCoupon() returned " + json_response.status.status + ++
+                        json_response.detail);
+                    return null;
+                }
+                //alert("getAllCoupons() SUCCESS " + json_response.coupons[0].firstName);
+                return json_response;
+            } else {
+                console.log("getUser problem " + status);
+                alert("getCoupon() ERROR");
+                return null;
+            }
+        }
+    }
+
 
     function logoutAction(op) {
         var request = new XMLHttpRequest();
