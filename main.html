@@ -525,10 +525,17 @@
             cell2.innerHTML = elems.coupons[i].couponId;
             cell3.innerHTML = elems.coupons[i].amount;
             cell4.innerHTML = elems.coupons[i].balance;
+
+            var deleteButton = document.createElement("BUTTON");
+            deleteButton.setAttribute("onclick", "topBalance('" + elems.coupons[i].couponId + "')");
+            deleteButton.setAttribute("class", "glyphicon glyphicon-plus");
+            cell5.appendChild(deleteButton);
+
             var qrButton = document.createElement("BUTTON");
             qrButton.setAttribute("onclick", "showQRcode('" + elems.coupons[i].couponId + "')");
             qrButton.setAttribute("class", "glyphicon glyphicon-qrcode");
             cell5.appendChild(qrButton);
+
             var deleteButton = document.createElement("BUTTON");
             deleteButton.setAttribute("onclick", "destroyCoupon('" + elems.coupons[i].couponId + "')");
             deleteButton.setAttribute("class", "glyphicon glyphicon-trash");
