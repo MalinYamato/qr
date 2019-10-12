@@ -438,9 +438,11 @@
         document.getElementById("transactionReport").style.display = "block";
         document.getElementById("transactionId").innerHTML = id;
         document.getElementById("main").style.display = "none";
-        result = getAllCoupons(id);
+        result = getCoupon(id);
         if (result != null) {
             populateReport(result);
+        } else {
+            alert("getCoupon returned null!");
         }
     }
 
@@ -697,7 +699,7 @@
         }
     }
 
-    function getAllCoupn(id) {
+    function getCoupon(id) {
         var request = new XMLHttpRequest();
         let jsonObject = {};
         jsonObject["op"] = "getCoupon";
