@@ -568,13 +568,13 @@
     };
 
     function populateReport(coupon) {
-        var tableBody = document.getElementById("transactionTableBody");
+        var table = document.getElementById("transactionTable");
         while (table.hasChildNodes()) {
             table.removeChild(table.lastChild);
         }
-
+        table.appendChild(document.createElement('tbody'));
       for (i = 0; i < coupon.payments.length; i++) {
-          var row = tableBody.insertRow(0);
+          var row = table.insertRow(0);
           row.setAttribute("id", i);
           var cell1 = row.insertCell(0);
           var cell2 = row.insertCell(1);
