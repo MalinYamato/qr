@@ -157,20 +157,7 @@
             margin-top: 0;
         }
 
-        .couponTable tr td {
-        / / border-style: solid;
-        / / border-width: 1 px;
-        / / border-color: black;
-            width: 16.6%;
 
-        }
-
-        .couponTableHeader tr th {
-        / / border-style: solid;
-        / / border-width: 1 px;
-        / / / border-color: black;
-            width: 16.6%;
-        }
 
         .lastHeader {
             width: 10px;
@@ -200,6 +187,33 @@
             width: 100%;
             margin-top: 0;
             visibility: hidden;
+        }
+
+        .couponTableHeader tr th:first-child,
+        .couponTable tr td:first-child {
+            text-align: left;
+          //  background-color: gray;
+            width: 18%;
+     }
+        .couponTableHeader tr th {
+            width: 14%;
+            text-align: center;
+        }
+
+        .couponTable tr td {
+            text-align: right;
+           // background-color: #CCCCCC;
+           // border-style: solid;
+           // border-width: 2px;
+           // border-color: white;
+            width: 14%;
+        }
+
+
+        .couponTableHeader tr .buttonsColumn,
+        .couponTable tr .buttonsColumn {
+           // background-color: white;
+            width: 40%;
         }
 
 
@@ -244,9 +258,7 @@
                     <th>ID</th>
                     <th>Betala</th>
                     <th>Saldo</th>
-                    <th>Editera</th>
-                    <th>Delete</th>
-                    <th class="lastHeader"></th>
+                    <th class="buttonsColumn">Editera</th>
                 </tr>
             </table>
 
@@ -254,63 +266,30 @@
                 <table id='couponTable' class=" couponTable  w3-table-all w3-hoverable ">
 
                     <tbody class="couponTableBody" id="couponTableBody">
-                    <tr>
-                    <tr id="1004">
-                        <td> John</td>
-                        <td>1004</td>
-                        <td>40</td>
-                        <td>-150</td>
-                        <td>
-                            <button class="glyphicon glyphicon-menu-down"></button>
-                            <button class="glyphicon glyphicon-plus"></button>
-                            <button onclick="showQRcode('1004')" class="glyphicon glyphicon-qrcode"></button>
-                        </td>
-                        <td>
-                            <button onclick="destroyCoupon()" class="glyphicon glyphicon-trash"></button>
-                        </td>
-                    </tr>
-                    <tr id="1014">
-                        <td>Nisse</td>
-                        <td>1014</td>
-                        <td>40</td>
-                        <th>100</th>
-                        <td>
-                            <button class="glyphicon glyphicon-menu-down"></button>
-                            <button class="glyphicon glyphicon-plus"></button>
-                            <button onclick="showQRcode('1014')" class="glyphicon glyphicon-qrcode"></button>
-                        </td>
-                        <td>
-                            <button onclick="destroyCoupon()" class="glyphicon glyphicon-trash"></button>
-                        </td>
-                    </tr>
                     <tr id="1003">
                         <td>Lars</td>
                         <td>1003</td>
                         <td>20</td>
                         <td>-80</td>
-                        <td>
-                            <button class="glyphicon glyphicon-menu-down"></button>
-                            <button class="glyphicon glyphicon-plus"></button>
+                        <td class="buttonsColumn" >
+                            <button onclick="topBalance(1001)" class="glyphicon glyphicon-plus"></button>
                             <button onclick="showQRcode('1001')" class="glyphicon glyphicon-qrcode"></button>
-                        </td>
-                        <td>
                             <button onclick="destroyCoupon()" class="glyphicon glyphicon-trash"></button>
+                            <button onclick="topBalance(1001)" class="arrowDown glyphicon glyphicon-menu-down"></button>
                         </td>
                     </tr>
-                    <tr id="1005">
+                    <tr id="1001">
                         <td>Malin</td>
                         <td>1001</td>
                         <td>20</td>
-                        <td><span style="vertical-align: middle;"  >80</span> </td>
-                        <td>
-                            <button onclick="topBalance(1005)" class="glyphicon glyphicon-menu-down"></button>
-                            <button onclick="topBalance(1005)" class="glyphicon glyphicon-plus"></button>
+                        <td>80</td>
+                        <td class="buttonsColumn" >
+                            <button onclick="topBalance(1001)" class="glyphicon glyphicon-plus"></button>
                             <button onclick="showQRcode('1001')" class="glyphicon glyphicon-qrcode"></button>
-
-                        </td>
-                        <td>
                             <button onclick="destroyCoupon()" class="glyphicon glyphicon-trash"></button>
+                            <button onclick="topBalance(1001)" class="arrowDown glyphicon glyphicon-menu-down"></button>
                         </td>
+
                     </tr>
 
                     </tbody>
@@ -331,7 +310,7 @@
                                  />
                         </td>
                         <td>
-                            <input id="formAmount" class="w3-input w3-border" name="amount" type="text" placeholder="Amout"
+                            <input id="formAmount" class="w3-input w3-border" name="amount" type="text" placeholder="Betala"
                                   />
                         </td>
                         <td>
@@ -523,19 +502,17 @@
             var cell4 = row.insertCell(3);
             var cell5 = row.insertCell(4);
             var cell6 = row.insertCell(5);
-            var arrowButton = document.createElement("BUTTON");
-            arrowButton.setAttribute("onclick", "showTransactions('" + elems.coupons[i].couponId + "')");
-            arrowButton.setAttribute("class", "glyphicon glyphicon-menu-down");
-            cell1.appendChild(arrowButton);
             cell1.innerHTML = elems.coupons[i].firstName;
             cell2.innerHTML = elems.coupons[i].couponId;
             cell3.innerHTML = elems.coupons[i].amount;
             cell4.innerHTML = elems.coupons[i].balance;
 
-            var deleteButton = document.createElement("BUTTON");
-            deleteButton.setAttribute("onclick", "topBalance('" + elems.coupons[i].couponId + "')");
-            deleteButton.setAttribute("class", "glyphicon glyphicon-plus");
-            cell5.appendChild(deleteButton);
+            cell5.setAttribute("class=","buttonsColumn");
+
+            var addButton = document.createElement("BUTTON");
+            addButton.setAttribute("onclick", "topBalance('" + elems.coupons[i].couponId + "')");
+            addButton.setAttribute("class", "glyphicon glyphicon-plus");
+            cell5.appendChild(addButton);
 
             var qrButton = document.createElement("BUTTON");
             qrButton.setAttribute("onclick", "showQRcode('" + elems.coupons[i].couponId + "')");
@@ -545,7 +522,12 @@
             var deleteButton = document.createElement("BUTTON");
             deleteButton.setAttribute("onclick", "destroyCoupon('" + elems.coupons[i].couponId + "')");
             deleteButton.setAttribute("class", "glyphicon glyphicon-trash");
-            cell6.appendChild(deleteButton);
+            cell5.appendChild(deleteButton);
+
+            var arrowButton = document.createElement("BUTTON");
+            arrowButton.setAttribute("onclick", "showTransactions('" + elems.coupons[i].couponId + "')");
+            arrowButton.setAttribute("class", "arrowDown glyphicon glyphicon-menu-down");
+            cell5.appendChild(arrowButton);
         }
 
     }
