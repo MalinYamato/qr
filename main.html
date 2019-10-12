@@ -574,6 +574,9 @@
         while (table.hasChildNodes()) {
             table.removeChild(table.lastChild);
         }
+
+        alert(coupon);
+
         table.appendChild(document.createElement('tbody'));
       for (i = 0; i < coupon.payments.length; i++) {
           var row = table.insertRow(0);
