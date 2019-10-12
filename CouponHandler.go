@@ -165,7 +165,7 @@ func CreateCouponHandler(w http.ResponseWriter, r *http.Request) {
 func UpdateCouponHandler(w http.ResponseWriter, r *http.Request) {
 	var status Status
 	var paymentRequest PaymentRequest
-	log.Println("PaymentCouponHandler called")
+	log.Println("UpdateCouponHandler called")
 	status = Status{SUCCESS, ""}
 	//defer r.Body.Close()
 	if r.Method != "POST" {
@@ -187,14 +187,18 @@ func UpdateCouponHandler(w http.ResponseWriter, r *http.Request) {
 			switch paymentRequest.Op {
 			case "updateBalance":
 				{
+					log.Println("balance %d  &d", coupon.Balance, paymentRequest.Balance)
 					coupon.Balance = coupon.Balance + paymentRequest.Balance
 				}
 			case "payment":
 				{
 					coupon.Balance = coupon.Balance - paymentRequest.Amount
 				}
+			default:
+				{
+					log.Println("UpdateCouponHander no such op %s", paymentRequest.Op)
+				}
 			}
-
 			_coupons.Save(coupon)
 			status.Status = SUCCESS
 		}
@@ -204,7 +208,7 @@ func UpdateCouponHandler(w http.ResponseWriter, r *http.Request) {
 			panic(err)
 			return
 		}
-		log.Println("PaymentCouponHandler writing back status of " + coupon.FirstName)
+		log.Println("UpdateCouponHandler writing back status of " + coupon.FirstName)
 		w.Header().Set("Content-Type", "application/json")
 		a, err := w.Write(json_response)
 		if err != nil {
