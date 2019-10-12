@@ -187,7 +187,6 @@ func UpdateCouponHandler(w http.ResponseWriter, r *http.Request) {
 			switch paymentRequest.Op {
 			case "addBalance":
 				{
-					log.Println("balance %d  &d", coupon.Balance, paymentRequest.Balance)
 					coupon.Balance = coupon.Balance + paymentRequest.Balance
 					status.Status = SUCCESS
 				}
