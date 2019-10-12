@@ -185,7 +185,7 @@ func UpdateCouponHandler(w http.ResponseWriter, r *http.Request) {
 			status.Detail = "There are no coupons!"
 		} else {
 			switch paymentRequest.Op {
-			case "updateBalance":
+			case "addBalance":
 				{
 					log.Println("balance %d  &d", coupon.Balance, paymentRequest.Balance)
 					coupon.Balance = coupon.Balance + paymentRequest.Balance
