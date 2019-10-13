@@ -173,7 +173,7 @@
         .couponTableContainer {
             position: relative;
             overflow-y: scroll;
-            height: 200px;
+            max-height: 250px;
             background-color: #fff;
         }
 
@@ -199,10 +199,10 @@
         .couponTableHeader tr th {
             width: 14%;
             text-align: center;
-            background-color: #CCCCCC;
-            border-style: solid;
-            border-width: 2px;
-            border-color: black;
+          //  background-color: #CCCCCC;
+          //  border-style: solid;
+           // border-width: 2px;
+           // border-color: black;
         }
 
 
@@ -232,7 +232,7 @@
         .transactionTableContainer {
             position: relative;
             overflow-y: scroll;
-            max-height: 200px;
+            max-height: 250px;
             background-color: #fff;
         }
 
@@ -248,11 +248,11 @@
         }
 
         .transactionTable td {
-          //  border-style: solid;
-          //  border-color: black;
-          //  border-width: 2px;
-          //  width: 22.5%;
-          //  text-align: right;
+            border-style: solid;
+            border-color: black;
+            border-width: 2px;
+            width: 22.5%;
+            text-align: right;
         }
 
         .transactionTable tr td:first-child,
@@ -263,23 +263,25 @@
 
         .transactionTableHeader tr .remiter,
         .transactionTable tr .remiter {
-            text-align: center;
+            text-align: left;
             width: 36%;
         }
 
         .transactionTableHeader tr .date,
         .transactionTable tr .date {
-            text-align: center;
+            text-align: left;
             width: 24%
         }
 
         .transactionTable tr .number {
+            padding-right: 20px;
             text-align: right;
             width: 15%;
         }
 
         .transactionTableHeader tr .number {
-            text-align: center;
+            padding-right: 20px;
+            text-align: right;
             width: 15%;
         }
 
