@@ -177,9 +177,10 @@
             background-color: #fff;
         }
 
-        .couponTableHeader {
+        .couponTableHeaderFirst {
             margin-bottom: 0;
             margin-top: 20px;
+
         }
 
         #topBalanceForm {
@@ -191,21 +192,26 @@
         .couponTableHeader tr th:first-child,
         .couponTable tr td:first-child {
             text-align: left;
-        / / background-color: gray;
+            background-color: gray;
             width: 18%;
         }
 
         .couponTableHeader tr th {
             width: 14%;
             text-align: center;
+            background-color: #CCCCCC;
+            border-style: solid;
+            border-width: 2px;
+            border-color: black;
         }
+
 
         .couponTable tr td {
             text-align: right;
-        / / background-color: #CCCCCC;
-        / / border-style: solid;
-        / / border-width: 2 px;
-        / / border-color: white;
+            background-color: #CCCCCC;
+            border-style: solid;
+            border-width: 2px;
+            border-color: white;
             width: 14%;
         }
 
@@ -215,6 +221,21 @@
             width: 40%;
         }
 
+        .transactionTableHeaderFirst tr td {
+            font-size: 18px;
+            padding: 10px;
+        }
+        .transactionTableHeaderFirst tr .backButton {
+            margin-right: 10px;
+        }
+
+        .transactionTableContainer {
+            position: relative;
+            overflow-y: scroll;
+            max-height: 200px;
+            background-color: #fff;
+        }
+
         #transactionReport {
             background-color: white;
             display: none;
@@ -222,33 +243,53 @@
         }
 
         .trasactionTableHeader td {
-            width: 20%;
+            width: 22.5%;
             font-size: medium;;
         }
 
         .transactionTable td {
-            border-style: solid;
-            border-color: black;
-            border-width: 2px;
-            width: 13%;
+          //  border-style: solid;
+          //  border-color: black;
+          //  border-width: 2px;
+          //  width: 22.5%;
+          //  text-align: right;
         }
 
-        .transactionTableTH th {
-            width: 13%;
-            border-style: solid;
-            border-color: black;
+        .transactionTable tr td:first-child,
+        .transactionTableHeader tr th:first-child {
+            width: 10%;
+            text-align: center;
+        }
+
+        .transactionTableHeader tr .remiter,
+        .transactionTable tr .remiter {
+            text-align: center;
+            width: 36%;
+        }
+
+        .transactionTableHeader tr .date,
+        .transactionTable tr .date {
+            text-align: center;
+            width: 24%
+        }
+
+        .transactionTable tr .number {
+            text-align: right;
+            width: 15%;
+        }
+
+        .transactionTableHeader tr .number {
+            text-align: center;
+            width: 15%;
+        }
+
+        .transsactionTableHeader tr .empty {
+            width: 1%;
         }
 
 
     </style>
 </head>
-
-
-<script>
-
-
-</script>
-
 
 <div class="container1"> <!-- style="background-image: url('/img/background.jpg');"> -->
 
@@ -275,48 +316,46 @@
 
 
             <div id="transactionReport">
-                <table class="trasactionTableHeader">
+                <table class="transactionTableHeaderFirst">
                     <tr>
-                        <td>KupongId</td>
+                        <td>Transaktions historik</td>
+                        <td>KupongId:</td>
                         <td id="transactionId">1004</td>
-                        <td>
+                        <td class="backButton">
                             <button onclick="hideTransactions()" class="glyphicon glyphicon-menu-up"></button>
                         </td>
-                        <td>Transaktions historik</td>
                     </tr>
                 </table>
-                <table id="transactionTable"   class="transactionTable  w3-table-all w3-hoverable">
+
+                <table class="transactionTableHeader w3-table-all w3-hoverable">
                     <thead>
                     <tr>
                         <th>Id</th>
-                        <th>Avsändare</th>
-                        <th>Datum</th>
-                        <th>Belopp</th>
-                        <th>Saldo</th>
+                        <th class="remiter">Avsändare</th>
+                        <th class="date">Datum</th>
+                        <th class="number">Belopp</th>
+                        <th class="number">Saldo</th>
+                        <th class="empty"></th>
                     </tr>
                     </thead>
-                    <tbody id="transactionTableBody">
-                    <tr>
-                        <td>1</td>
-                        <td>malin.yamato@gmail.com</td>
-                        <td>20191022</td>
-                        <td>200</td>
-                        <td>1000</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>malin.yamato@gmail.com</td>
-                        <td>20191021</td>
-                        <td>-20</td>
-                        <td>1020</td>
-                    </tr>
-                    </tbody>
                 </table>
+                <div class="transactionTableContainer">
+                    <table id="transactionTable" class="transactionTable  w3-table-all w3-hoverable">
+                        <tbody id="transactionTableBody">
+                        <tr>
+                            <td>1</td>
+                            <td class="remiter">malin.yamato@gmail.com</td>
+                            <td class="date">20191022</td>
+                            <td class="number">200</td>
+                            <td class="number">1000</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <div id="main">
-
-                <table id='couponTableHeader' class=" couponTableHeader  w3-table-all w3-hoverable">
+                <table class="couponTableHeader w3-table-all w3-hoverable">
                     <tr class="couponTableHeaderRow">
                         <th>Namn</th>
                         <th>ID</th>
@@ -325,9 +364,12 @@
                         <th class="buttonsColumn">Editera</th>
                     </tr>
                 </table>
-
                 <div class="wrapper couponTableContainer" id="couponTableContainer">
+
                     <table id='couponTable' class=" couponTable  w3-table-all w3-hoverable ">
+                        <thead class="couponTableHeader">
+
+                        </thead>
                         <tbody class="couponTableBody" id="couponTableBody">
                         <tr id="1001">
                             <td>Lars</td>
@@ -359,61 +401,62 @@
                     </table>
                 </div>
 
-            <form id="formId">
-                <table class="formTable w3-table-all">
-                    <tr class="createCouponRow">
-                        <td id="firstChild">
-                            <input id="formName" CLASS="w3-input w3-border" name="name" type="text" placeholder="Namn"
-                            />
-                        </td>
-                        <td>
-                            <input id="formIdNumber" class="w3-input w3-border" name="couponId" type="text"
-                                   placeholder="Id nummer"
-                            />
-                        </td>
-                        <td>
-                            <input id="formAmount" class="w3-input w3-border" name="amount" type="text"
-                                   placeholder="Betala"
-                            />
-                        </td>
-                        <td>
-                            <input id="formBalance" class="w3-input w3-border" name="balance" type="text"
-                                   placeholder="Tillskott"
-                            />
-                        <td class="emtpy"></td>
+                <form id="formId">
+                    <table class="formTable w3-table-all">
+                        <tr class="createCouponRow">
+                            <td id="firstChild">
+                                <input id="formName" CLASS="w3-input w3-border" name="name" type="text"
+                                       placeholder="Namn"
+                                />
+                            </td>
+                            <td>
+                                <input id="formIdNumber" class="w3-input w3-border" name="couponId" type="text"
+                                       placeholder="Id nummer"
+                                />
+                            </td>
+                            <td>
+                                <input id="formAmount" class="w3-input w3-border" name="amount" type="text"
+                                       placeholder="Betala"
+                                />
+                            </td>
+                            <td>
+                                <input id="formBalance" class="w3-input w3-border" name="balance" type="text"
+                                       placeholder="Tillskott"
+                                />
+                            <td class="emtpy"></td>
 
-                        <td>
-                            <button id="formButton" class=" createBtn w3-input w3-border w3-button  w3-blue "
-                                    type="submit"> Skapa
-                            </button>
-                        </td>
-                    </tr>
-                </table>
-            </form>
+                            <td>
+                                <button id="formButton" class=" createBtn w3-input w3-border w3-button  w3-blue "
+                                        type="submit"> Skapa
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
 
 
-            <div class="w3-display-container w3-blue" style="height:40px;">
+                <div class="w3-display-container w3-blue" style="height:40px;">
 
-                <table class="buttonTable  w3-display-topright">
-                    <tr class="">
+                    <table class="buttonTable  w3-display-topright">
+                        <tr class="">
 
-                        <td class="qrCodeButton ">
-                            <button class="  glyphicon glyphicon-qrcode" onclick="showQRcode('9999')"></button>
-                        </td>
+                            <td class="qrCodeButton ">
+                                <button class="  glyphicon glyphicon-qrcode" onclick="showQRcode('9999')"></button>
+                            </td>
 
-                        <td class="qrCodePrintButton " id="qrCodePrint">
-                            <button onclick="printQRcode()" class="glyphicon glyphicon-print "></button>
-                        </td>
-                        <td class="getAllButton " id="getAll">
-                            <button onclick="getAllCoupons()" class="glyphicon glyphicon-repeat  "></button>
-                        </td>
-                    </tr>
-                </table>
-                <div id="qrCode" class=" qrCode w3-display-topright ">
-                    <div class=" " id="output"></div>
+                            <td class="qrCodePrintButton " id="qrCodePrint">
+                                <button onclick="printQRcode()" class="glyphicon glyphicon-print "></button>
+                            </td>
+                            <td class="getAllButton " id="getAll">
+                                <button onclick="getAllCoupons()" class="glyphicon glyphicon-repeat  "></button>
+                            </td>
+                        </tr>
+                    </table>
+                    <div id="qrCode" class=" qrCode w3-display-topright ">
+                        <div class=" " id="output"></div>
+                    </div>
                 </div>
             </div>
-        </div>
         </div> <!-- main -->
         <div class="w3-col" style="width:10%">
         </div>
@@ -438,7 +481,7 @@
         document.getElementById("transactionReport").style.display = "block";
         document.getElementById("transactionId").innerHTML = id;
         document.getElementById("main").style.display = "none";
-        result = getCoupon(id);
+        //  result = getCoupon(id);
     }
 
     function hideTransactions() {
@@ -551,7 +594,7 @@
             if (document.getElementById("formButton").innerText == "Skapa") {
                 submitForm("/CreateCoupon", "createCoupon", remiter);
             } else {
-                submitForm("/UpdateCoupon", "addBalance",remiter);
+                submitForm("/UpdateCoupon", "addBalance", remiter);
             }
             getAllCoupons();
             restoreForm();
@@ -571,32 +614,37 @@
         }
         //alert(JSON.stringify(json.coupon));
         //table.appendChild(document.createElement('tbody'));
-      for (i = 0; i < json.coupon.payments.length; i++) {
-          var row = table.insertRow(0);
-          row.setAttribute("id", i);
-          var cell1 = row.insertCell(0);
-          var cell2 = row.insertCell(1);
-          var cell3 = row.insertCell(2);
-          var cell4 = row.insertCell(3);
-          var cell5 = row.insertCell(4);
-          var date = new Date(json.coupon.payments[i].dateTime);
-          var yr = date.getFullYear();
-          var mo = date.getMonth();
-          var dy = date.getDate();
-          var ho = date.getHours();
-          var mi = date.getMinutes();
-          var se = date.getSeconds();
-          cell1.innerHTML = i +1;
-          cell2.innerHTML = json.coupon.payments[i].remiter;
-          cell3.innerHTML = yr + "-" + mo + "-" + dy + " " + ho + ":" + mi + ":" + se;
-          cell4.innerHTML = json.coupon.payments[i].amount;
-          cell5.innerHTML = json.coupon.payments[i].balance;
-      }}
+        for (i = 0; i < json.coupon.payments.length; i++) {
+            var row = table.insertRow(0);
+            row.setAttribute("id", i);
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            var cell3 = row.insertCell(2);
+            var cell4 = row.insertCell(3);
+            var cell5 = row.insertCell(4);
+            var date = new Date(json.coupon.payments[i].dateTime);
+            var yr = date.getFullYear();
+            var mo = date.getMonth();
+            var dy = date.getDate();
+            var ho = date.getHours();
+            var mi = date.getMinutes();
+            var se = date.getSeconds();
+            cell1.innerHTML = i + 1;
+            cell2.innerHTML = json.coupon.payments[i].remiter;
+            cell3.innerHTML = yr + "-" + mo + "-" + dy + " " + ho + ":" + mi + ":" + se;
+            cell4.innerHTML = json.coupon.payments[i].amount;
+            cell5.innerHTML = json.coupon.payments[i].balance;
+            cell2.setAttribute("class", "remiter");
+            cell3.setAttribute("class", "date");
+            cell4.setAttribute("class", "number");
+            cell5.setAttribute("class", "number");
+        }
+    }
 
 
-        function populateCouponTable(elems) {
+    function populateCouponTable(elems) {
         var i = 0;
-        var table = document.getElementById("couponTable");
+        var table = document.getElementById("couponTableBody");
         while (table.hasChildNodes()) {
             table.removeChild(table.lastChild);
         }
@@ -604,7 +652,7 @@
         var strLen = len.toString() + "px";
         document.getElementById("couponTableContainer").style.height = strLen;
         document.getElementById("couponTableContainer").setAttribute("style", "width:" + strLen + "px");
-        table.appendChild(document.createElement('tbody'));
+        // table.appendChild(document.createElement('tbody'));
         for (i = 0; i < elems.coupons.length; i++) {
             var row = table.insertRow(0);
             row.setAttribute("id", elems.coupons[i].couponId);
@@ -644,7 +692,7 @@
 
     }
 
-    function submitForm(url, method,remiter) {
+    function submitForm(url, method, remiter) {
         const formData = new FormData(document.getElementById("formId"));
         let jsonObject = {};
         for (const [key, value] of formData.entries()) {
