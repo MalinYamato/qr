@@ -173,7 +173,6 @@
             background-color: #fff;
         }
         .couponTable tr td {
-
         }
 
         .couponTableHeader tr th
@@ -208,6 +207,7 @@
         }
 
         .couponTableHeader tr .dummyElement {
+            background-color: #CCCCCC;
             width: 1%;
             height: 100%;
         }
@@ -660,17 +660,16 @@
             var cell4 = row.insertCell(3);
             var cell5 = row.insertCell(4);
             var cell6 = row.insertCell(5);
-            cell1.innerHTML = elems.coupons[i].firstName;
-            cell2.innerHTML = elems.coupons[i].couponId;
-            cell3.innerHTML = elems.coupons[i].amount;
-            cell4.innerHTML = elems.coupons[i].balance;
-
             cell1.setAttribute("class", "nane");
             cell2.setAttribute("class", "id");
             cell3.setAttribute("class", "number");
             cell4.setAttribute("class", "number");
             cell5.setAttribute("class", "buttonsColumn");
             cell6.setAttribute("class", "dummyElement");
+            cell1.innerHTML = elems.coupons[i].firstName;
+            cell2.innerHTML = elems.coupons[i].couponId;
+            cell3.innerHTML = elems.coupons[i].amount;
+            cell4.innerHTML = elems.coupons[i].balance;
 
             var addButton = document.createElement("BUTTON");
             addButton.setAttribute("onclick", "topBalance('" + elems.coupons[i].couponId + "')");
@@ -688,8 +687,6 @@
             arrowButton.setAttribute("onclick", "showTransactions('" + elems.coupons[i].couponId + "')");
             arrowButton.setAttribute("class", "arrowDown glyphicon glyphicon-menu-down");
             cell5.appendChild(arrowButton);
-
-
         }
 
     }
