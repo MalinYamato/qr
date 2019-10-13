@@ -62,8 +62,6 @@
             font-size: 20px
         }
 
-        .couponTable {
-        }
 
         .gi-2x {
             font-size: 2em;
@@ -106,10 +104,6 @@
             visibility: hidden;
         }
 
-        .buttonTable {
-            margin-left: 0;
-            height: 30px;
-        }
 
         .qrCodeButton {
             color: #000;
@@ -130,7 +124,7 @@
             font-size: 30px;
         }
 
-        td:first-child {
+        .createCouponRow td:first-child {
             padding-left: 4px;
         }
 
@@ -157,14 +151,10 @@
             margin-top: 0;
         }
 
-        .lastHeader {
-            width: 10px;
-        }
 
         #main {
             margin-top: 20px;
         }
-
 
         .couponTableContainer {
             position: relative;
@@ -212,15 +202,16 @@
             height: 100%;
         }
 
-
-
-
+        .transactionTableHeaderFirst {
+            width: 100%;
+        }
         .transactionTableHeaderFirst tr td {
-            font-size: 18px;
+          //  font-size: 18px;
             padding: 10px;
+            text-align: left;
         }
         .transactionTableHeaderFirst tr .backButton {
-            margin-right: 10px;
+            text-align: right;
         }
 
         .transactionTableContainer {
@@ -238,7 +229,7 @@
 
         .transactionTableHeader tr th {
             background-color: #CCCCCC;
-            font-size: medium;;
+            //font-size: medium;;
         }
 
         .transactionTable td {
@@ -314,8 +305,7 @@
                 <table class="transactionTableHeaderFirst">
                     <tr>
                         <td>Transaktions historik</td>
-                        <td>KupongId:</td>
-                        <td id="transactionId">1004</td>
+                        <td><span>KupongId: </span><span id="transactionId">9999</span> </td>
                         <td class="backButton">
                             <button onclick="hideTransactions()" class="glyphicon glyphicon-menu-up"></button>
                         </td>
@@ -660,12 +650,6 @@
             var cell4 = row.insertCell(3);
             var cell5 = row.insertCell(4);
             var cell6 = row.insertCell(5);
-            cell1.setAttribute("class", "nane");
-            cell2.setAttribute("class", "id");
-            cell3.setAttribute("class", "number");
-            cell4.setAttribute("class", "number");
-            cell5.setAttribute("class", "buttonsColumn");
-            cell6.setAttribute("class", "dummyElement");
             cell1.innerHTML = elems.coupons[i].firstName;
             cell2.innerHTML = elems.coupons[i].couponId;
             cell3.innerHTML = elems.coupons[i].amount;
@@ -687,6 +671,13 @@
             arrowButton.setAttribute("onclick", "showTransactions('" + elems.coupons[i].couponId + "')");
             arrowButton.setAttribute("class", "arrowDown glyphicon glyphicon-menu-down");
             cell5.appendChild(arrowButton);
+
+            cell1.setAttribute("class", "nane");
+            cell2.setAttribute("class", "id");
+            cell3.setAttribute("class", "number");
+            cell4.setAttribute("class", "number");
+            cell5.setAttribute("class", "buttonsColumn");
+            cell6.setAttribute("class", "dummyElement");
         }
 
     }
