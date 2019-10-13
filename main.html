@@ -161,14 +161,10 @@
             width: 10px;
         }
 
-        .couponTable tr {
-            height: 0px;
+        #main {
+            margin-top: 20px;
         }
 
-        .couponTableHeader {
-            #margin-bottom: 0;
-
-        }
 
         .couponTableContainer {
             position: relative;
@@ -176,50 +172,48 @@
             max-height: 250px;
             background-color: #fff;
         }
-
-        .couponTableHeaderFirst {
-            margin-bottom: 0;
-            margin-top: 20px;
-
-        }
-
-        #topBalanceForm {
-            width: 100%;
-            margin-top: 0;
-            visibility: hidden;
-        }
-
-        .couponTableHeader tr th:first-child,
-        .couponTable tr td:first-child {
-            text-align: left;
-            background-color: gray;
-            width: 18%;
-        }
-
-        .couponTableHeader tr th {
-            width: 14%;
-            text-align: center;
-          //  background-color: #CCCCCC;
-          //  border-style: solid;
-           // border-width: 2px;
-           // border-color: black;
-        }
-
-
         .couponTable tr td {
-            text-align: right;
+
+        }
+
+        .couponTableHeader tr th
+         {
             background-color: #CCCCCC;
-            border-style: solid;
-            border-width: 2px;
-            border-color: white;
-            width: 14%;
+         //   border-style: solid;
+         //   border-width: 2px;
+         //   border-color: white;
+        }
+
+        .couponTable tr .name,
+        .couponTableHeader tr .name {
+            width: 20%;
+            text-align: left;
+        }
+        .couponTable tr .id,
+        .couponTableHeader tr .id {
+              width: 13.2%;
+              text-align: left;
+          }
+
+        .couponTable tr .number,
+        .couponTableHeader tr .number {
+            width: 13.3%;
+            text-align: right;
         }
 
         .couponTableHeader tr .buttonsColumn,
         .couponTable tr .buttonsColumn {
-        / / background-color: white;
             width: 40%;
+            text-align: center;
         }
+
+        .couponTableHeader tr .dummyElement {
+            width: 1%;
+            height: 100%;
+        }
+
+
+
 
         .transactionTableHeaderFirst tr td {
             font-size: 18px;
@@ -242,17 +236,17 @@
             margin-top: 20px;
         }
 
-        .trasactionTableHeader td {
-            width: 22.5%;
+        .transactionTableHeader tr th {
+            background-color: #CCCCCC;
             font-size: medium;;
         }
 
         .transactionTable td {
-            border-style: solid;
-            border-color: black;
-            border-width: 2px;
-            width: 22.5%;
-            text-align: right;
+         //   border-style: solid;
+         //   border-color: black;
+         //   border-width: 2px;
+          //    width: 22.5%;
+          //  text-align: right;
         }
 
         .transactionTable tr td:first-child,
@@ -288,7 +282,6 @@
         .transsactionTableHeader tr .empty {
             width: 1%;
         }
-
 
     </style>
 </head>
@@ -359,12 +352,14 @@
             <div id="main">
                 <table class="couponTableHeader w3-table-all w3-hoverable">
                     <tr class="couponTableHeaderRow">
-                        <th>Namn</th>
-                        <th>ID</th>
-                        <th>Betala</th>
-                        <th>Saldo</th>
+                        <th class="name">Namn</th>
+                        <th class="id">ID</th>
+                        <th class="number">Betala</th>
+                        <th class="number">Saldo</th>
                         <th class="buttonsColumn">Editera</th>
+                        <td class="dummyElement"></td>
                     </tr>
+
                 </table>
                 <div class="wrapper couponTableContainer" id="couponTableContainer">
 
@@ -374,10 +369,10 @@
                         </thead>
                         <tbody class="couponTableBody" id="couponTableBody">
                         <tr id="1001">
-                            <td>Lars</td>
-                            <td>1003</td>
-                            <td>20</td>
-                            <td>-80</td>
+                            <td class="name">Lars</td>
+                            <td class="id">1003</td>
+                            <td class="number">20</td>
+                            <td class="number">-80</td>
                             <td class="buttonsColumn">
                                 <button onclick="topBalance(1001)" class="glyphicon glyphicon-plus"></button>
                                 <button onclick="showQRcode('1001')" class="glyphicon glyphicon-qrcode"></button>
@@ -387,10 +382,10 @@
                             </td>
                         </tr>
                         <tr id="1002">
-                            <td>Malin</td>
-                            <td>1002</td>
-                            <td>20</td>
-                            <td>80</td>
+                            <td class="name">Malin</td>
+                            <td class="id">1002</td>
+                            <td class="number">20</td>
+                            <td class="number">80</td>
                             <td class="buttonsColumn">
                                 <button onclick="topBalance(1002)" class="glyphicon glyphicon-plus"></button>
                                 <button onclick="showQRcode('1002')" class="glyphicon glyphicon-qrcode"></button>
@@ -400,6 +395,7 @@
                             </td>
                         </tr>
                         </tbody>
+
                     </table>
                 </div>
 
@@ -669,27 +665,31 @@
             cell3.innerHTML = elems.coupons[i].amount;
             cell4.innerHTML = elems.coupons[i].balance;
 
+            cell1.setAttribute("class", "nane");
+            cell2.setAttribute("class", "id");
+            cell3.setAttribute("class", "number");
+            cell4.setAttribute("class", "number");
             cell5.setAttribute("class", "buttonsColumn");
+            cell6.setAttribute("class", "dummyElement");
 
             var addButton = document.createElement("BUTTON");
             addButton.setAttribute("onclick", "topBalance('" + elems.coupons[i].couponId + "')");
             addButton.setAttribute("class", "glyphicon glyphicon-plus");
             cell5.appendChild(addButton);
-
             var qrButton = document.createElement("BUTTON");
             qrButton.setAttribute("onclick", "showQRcode('" + elems.coupons[i].couponId + "')");
             qrButton.setAttribute("class", "glyphicon glyphicon-qrcode");
             cell5.appendChild(qrButton);
-
             var deleteButton = document.createElement("BUTTON");
             deleteButton.setAttribute("onclick", "destroyCoupon('" + elems.coupons[i].couponId + "')");
             deleteButton.setAttribute("class", "glyphicon glyphicon-trash");
             cell5.appendChild(deleteButton);
-
             var arrowButton = document.createElement("BUTTON");
             arrowButton.setAttribute("onclick", "showTransactions('" + elems.coupons[i].couponId + "')");
             arrowButton.setAttribute("class", "arrowDown glyphicon glyphicon-menu-down");
             cell5.appendChild(arrowButton);
+
+
         }
 
     }
