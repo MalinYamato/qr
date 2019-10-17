@@ -313,25 +313,38 @@ func GetEncryptCouponHandler(w http.ResponseWriter, r *http.Request) {
 			status.Status = ERROR
 			status.Detail = "Json decoder of paymentRequest error> "
 			//panic(err)
-		}
-		coupon, stat := _coupons.findCouponByCouponId(couponRequest.CouponID)
-		if stat == false {
-			status.Status = WARNING
-			status.Detail = "There are no coupons!"
 		} else {
-			sc := EncryptedCoupon{
-				coupon.CouponID,
-				coupon.FirstName,
-				coupon.Amount}
-			ajson, err := json.Marshal(sc)
-			if err != nil {
-				log.Println("HandlingCoupon json.Marchal returned error %s", err)
-				panic(err)
-				return
+			coupon, stat := _coupons.findCouponByCouponId(couponRequest.CouponID)
+			if stat == false {
+				status.Status = WARNING
+				status.Detail = "There are no coupons!"
+			} else {
+				sc := EncryptedCoupon{
+					coupon.CouponID,
+					coupon.FirstName,
+					coupon.Amount}
+				ajson, err := json.Marshal(sc)
+				if err != nil {
+					log.Println("HandlingCoupon json.Marchal returned error %s", err)
+					panic(err)
+					return
+				}
+				key := readKeyFile("private.key")
+				encrypted, err := encrypt(ajson, key)
+				if err != nil {
+					status.Status = ERROR
+					status.Detail = "Fai to encrypt data"
+				} else {
+					encoded, err := encodeHex(encrypted)
+					if err != nil {
+						status.Status = ERROR
+						status.Detail = "Fail  to encode data"
+					} else {
+						encryptedResponse.Body = string(encoded)
+						status.Status = SUCCESS
+					}
+				}
 			}
-			key := readKeyFile("private.key")
-			encryptedResponse.Body = string(encodeHex(encrypt(ajson, key)))
-			status.Status = SUCCESS
 		}
 	}
 	encryptedResponse.Status = status
@@ -341,6 +354,7 @@ func GetEncryptCouponHandler(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 		return
 	}
+
 	log.Println("CouponHandler writing back")
 	w.Header().Set("Content-Type", "application/json")
 	a, err := w.Write(json_response)

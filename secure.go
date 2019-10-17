@@ -65,12 +65,12 @@ func decodeHex(data []byte) ([]byte, error) {
 	fmt.Println("decoded ", decoded)
 	return decoded, nil
 }
-func encodeHex(data []byte) []byte {
+func encodeHex(data []byte) ([]byte, error) {
 	encoded := make([]byte, hex.EncodedLen(len(data)))
 	hex.Encode(encoded, data)
 
 	fmt.Printf("enoded %s\n", encoded)
-	return encoded
+	return encoded, nil
 }
 
 func generateRandomBytes(n int) ([]byte, error) {
@@ -87,7 +87,7 @@ func createHash(key string) []byte {
 	return hash[:]
 }
 
-func encrypt(data []byte, pvtKey []byte) []byte {
+func encrypt(data []byte, pvtKey []byte) ([]byte, error) {
 	key := make([]byte, hex.DecodedLen(len(pvtKey)))
 	_, err := hex.Decode(key, pvtKey)
 	if err != nil {
@@ -104,7 +104,7 @@ func encrypt(data []byte, pvtKey []byte) []byte {
 		panic(err.Error())
 	}
 	ciphertext := gcm.Seal(nonce, nonce, data, nil)
-	return ciphertext
+	return ciphertext, nil
 }
 
 func decrypt(data []byte, pvtKey []byte) ([]byte, error) {
@@ -148,10 +148,10 @@ func test_main() {
 
 	pvtKey := readKeyFile("private.key")
 
-	ciphertext := encrypt([]byte(clearText), pvtKey)
+	ciphertext, _ := encrypt([]byte(clearText), pvtKey)
 	fmt.Println(ciphertext)
 
-	encoded := encodeHex(ciphertext)
+	encoded, _ := encodeHex(ciphertext)
 	// <--------------network ------------->
 	decoded, _ := decodeHex(encoded)
 	plaintext, _ := decrypt(decoded, pvtKey)
