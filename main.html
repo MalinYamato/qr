@@ -554,7 +554,7 @@
             if (id != "9999") {
                 var row = document.getElementById(id);
                 JObj = {
-                    encryptedBody : json_data.encryptedBody
+                    body : json_data.body
                   //  name: row.cells[0].innerHTML,
                   //  couponId: row.cells[1].innerHTML,
                   //  amount: parseInt(row.cells[2].innerHTML),
@@ -780,17 +780,17 @@
             if (request.status == 200) {
                 json_response = JSON.parse(request.response);
                 if (json_response.status.status != "SUCCESS") {
-                    alert("getCoupon() returned " + json_response.status.status + ++
+                    alert("getCoupon() returned " + json_response.status.status + " " +
                         json_response.status.detail);
                     return null;
                 }
-                alert("getCoupons() SUCCESS " + json_response.coupons[0].firstName);
+                alert("getCoupons() " + json_response.status.status);
                 if (cb && typeof(cb) === "function") {
                     cb(id,json_response);
                 } else {
                     alert("getCoupons() callback falied! ");
+                    return null;
                 }
-
             } else {
                 console.log("getUser problem " + status);
                 alert("getCoupon() ERROR");
