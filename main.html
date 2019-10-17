@@ -784,11 +784,10 @@
                         json_response.status.detail);
                     return null;
                 }
-                alert("getCoupons() " + json_response.status.status);
                 if (cb && typeof(cb) === "function") {
                     cb(id,json_response);
                 } else {
-                    alert("getCoupons() callback falied! ");
+                    alert("getCoupons() callback failed! ");
                     return null;
                 }
             } else {
