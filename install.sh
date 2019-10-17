@@ -40,6 +40,7 @@ echo "Installing main program binary chat"
 echo "Moving files from $package to $document_root"
     install -v -m +r $src/$package/etc/*.conf /etc/supervisor/conf.d
     install -v -m +r $src/$package/*.html $document_root
+    install -v -m +r $src/$package/*.key $document_root
     install -v -m +r $src/$package/js/* $document_root/js
     install -v -m +r $src/$package/css/* $document_root/css
     install -v -m +r $src/$package/img/* $document_root/img
