@@ -33,6 +33,7 @@ package main
 
 import (
 	"encoding/json"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"time"
@@ -60,7 +61,12 @@ type PaymentRequest struct {
 	Remiter  string `json:"remiter"`
 	CouponID string `json:"couponId"`
 	Amount   int    `json:"amount"`
-	Balance  int    `json:"balance"`
+}
+
+type EncryptedPaymentRequest struct {
+	Op      string `json:"op"`
+	Remiter string `json:"remiter"`
+	Body    string `json:"body"`
 }
 
 type Request struct {
@@ -68,6 +74,11 @@ type Request struct {
 }
 
 // Responses
+
+type PaymentResponse struct {
+	Status Status `json:"status"`
+	Coupon Coupon `json:"coupon"`
+}
 
 type GetAllCouponsResponse struct {
 	Op      string   `json:"op"`
@@ -188,7 +199,7 @@ func CreateCouponHandler(w http.ResponseWriter, r *http.Request) {
 
 func UpdateCouponHandler(w http.ResponseWriter, r *http.Request) {
 	var status Status
-	var paymentRequest PaymentRequest
+	var response PaymentResponse
 	log.Println("UpdateCouponHandler called")
 	status = Status{SUCCESS, ""}
 	//defer r.Body.Close()
@@ -196,61 +207,92 @@ func UpdateCouponHandler(w http.ResponseWriter, r *http.Request) {
 		status.Status = ERROR
 		status.Detail = "CouponHandler wrong HTTP method! " + r.Method
 	} else {
-		decoder := json.NewDecoder(r.Body)
-		err := decoder.Decode(&paymentRequest)
+		body, err := ioutil.ReadAll(r.Body)
+		if err != nil {
+			panic(err)
+		}
+		var request Request
+		err = json.Unmarshal(body, &request)
 		if err != nil {
 			log.Println("Json decoder of paymentRequest error> ", err.Error())
 			status.Status = ERROR
-			//panic(err)
+			panic(err)
 		}
-		coupon, stat := _coupons.findCouponByCouponId(paymentRequest.CouponID)
-		if stat == false {
-			status.Status = WARNING
-			status.Detail = "There are no coupons!"
-		} else {
-			var payment Payment
-			payment.DateTime = time.Now().Format(time.RFC3339)
-			payment.Remiter = paymentRequest.Remiter
-			switch paymentRequest.Op {
-			case "addBalance":
-				{
-					coupon.Balance = coupon.Balance + paymentRequest.Balance
-					payment.Amount = paymentRequest.Balance
-					payment.Balance = coupon.Balance
-					coupon.Payments = append(coupon.Payments, payment)
-					_coupons.Save(coupon)
-					status.Status = SUCCESS
+		var paymentRequest PaymentRequest
+		switch request.Op {
+		case "encryptedPayment":
+			{
+				var request EncryptedPaymentRequest
+				err = json.Unmarshal(body, &request)
+				if err != nil {
+					log.Println("Json decoder of paymentRequest error> ", err.Error())
+					status.Status = ERROR
+					status.Detail = "Fail to ummarchal request."
+				} else {
+					decoded, err := decodeHex([]byte(request.Body))
+					if err != nil {
+						status.Status = ERROR
+						status.Detail = "Authorisation failure"
+					} else {
+						key := readKeyFile("private.key")
+						decrypted, err := decrypt(decoded, key)
+						if err != nil {
+							status.Status = ERROR
+							status.Detail = "Authorisation failure"
+						} else {
+							err = json.Unmarshal([]byte(decrypted), &paymentRequest)
+							if err != nil {
+								log.Println("Json unmarchal of paymentRequest error> ", err.Error())
+								status.Status = ERROR
+								status.Detail = "Fail to ummarchal decrypted part of request."
+							} else {
+								paymentRequest.Remiter = request.Remiter
+							}
+						}
+					}
 				}
-			case "payment":
-				{
-					coupon.Balance = coupon.Balance - paymentRequest.Amount
-					payment.Amount = -paymentRequest.Amount
-					payment.Balance = coupon.Balance
-					coupon.Payments = append(coupon.Payments, payment)
-					_coupons.Save(coupon)
-					status.Status = SUCCESS
-				}
-			default:
-				{
-					status.Status = WARNING
-					status.Detail = "No such op" + paymentRequest.Op
+			}
+		case "payment":
+			{
+				err = json.Unmarshal(body, &paymentRequest)
+				if err != nil {
+					log.Println("Json unmarchal of paymentRequest error> ", err.Error())
+					status.Status = ERROR
+					status.Detail = "Fail to ummarchal payment request."
 				}
 			}
 		}
-		json_response, err := json.Marshal(status)
-		if err != nil {
-			log.Println("HandlingCoupon json.Marchal returned error %s", err)
-			panic(err)
-			return
+		if status.Status == SUCCESS {
+			coupon, stat := _coupons.findCouponByCouponId(paymentRequest.CouponID)
+			if stat == false {
+				status.Status = WARNING
+				status.Detail = "There are no coupon that maches Id: " + paymentRequest.CouponID
+			} else {
+				var payment Payment
+				payment.DateTime = time.Now().Format(time.RFC3339)
+				payment.Remiter = paymentRequest.Remiter
+				coupon.Balance = coupon.Balance + paymentRequest.Amount
+				payment.Amount = paymentRequest.Amount
+				payment.Balance = coupon.Balance
+				coupon.Payments = append(coupon.Payments, payment)
+				_coupons.Save(coupon)
+				response.Coupon = coupon
+			}
 		}
-		log.Println("UpdateCouponHandler writing back status of " + coupon.FirstName)
-		w.Header().Set("Content-Type", "application/json")
-		a, err := w.Write(json_response)
-		if err != nil {
-			log.Println("HandlingCoupon http.write returned error %s %s", err, a)
-			panic(err)
-			return
-		}
+	}
+	response.Status = status
+	json_response, err := json.Marshal(response)
+	if err != nil {
+		log.Println("HandlingCoupon json.Marchal returned error %s", err)
+		panic(err)
+	}
+	log.Println("UpdateCouponHandler writing back ")
+	w.Header().Set("Content-Type", "application/json")
+	a, err := w.Write(json_response)
+	if err != nil {
+		log.Println("HandlingCoupon http.write returned error %s %s", err, a)
+		panic(err)
+		return
 	}
 }
 
@@ -260,7 +302,6 @@ func GetEncryptCouponHandler(w http.ResponseWriter, r *http.Request) {
 	var encryptedResponse EncryptedCouponResponse
 	log.Println("GetEncryptCouponHandler called")
 	status = Status{SUCCESS, ""}
-	//defer r.Body.Close()
 	if r.Method != "POST" {
 		status.Status = ERROR
 		status.Detail = "CouponHandler wrong HTTP method! " + r.Method
