@@ -552,16 +552,17 @@
                 t.getDay() + " " + t.getHours() + ":" + t.getMinutes();
 
             var record;
+            var jrecord;
             if (id != "9999") {
                 var row = document.getElementById(id);
-                record = json_data.body;
-                  //  body :
+                record = {
+                    body :  json_data.body
                   //  name: row.cells[0].innerHTML,
                   //  couponId: row.cells[1].innerHTML,
                   //  amount: parseInt(row.cells[2].innerHTML),
                   //  balance: parseInt((row.cells[3].innerHTML)),
                   //  issueDate: fullDate
-               // };
+                 };
             } else {
                 var e = document.getElementById("formId").elements;
                 var name = e.namedItem("name").value;
@@ -569,24 +570,23 @@
                 var amount = e.namedItem("amount").value;
                 var balance = e.namedItem("balance").value;
                 var JObj;
-                JObj = {
+                record = {
                     name: name,
                     couponId: couponId,
                     amount: parseInt(amount),
                     balance: parseInt(balance),
                     issueDate: fullDate
                 };
-                record = JSON.stringify(JObj);
             }
+            jrecord = JSON.stringify(record);
 
             var elem = document.getElementById('output');
             elem.textContent = "";
-
             if (qrcode != null) {
                 qrcode.clear();
             }
             qrcode = new QRCode("output", {
-                text: record,
+                text: jrecord,
                 width: 128,
                 height: 128,
                 colorDark: "#000000",
