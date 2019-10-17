@@ -618,7 +618,7 @@
         getAllCoupons();
     };
 
-    function populateReport(json) {
+    function populateReport(id, json) {
         var table = document.getElementById("transactionTableBody");
         while (table.hasChildNodes()) {
             table.removeChild(table.lastChild);
