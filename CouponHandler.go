@@ -288,7 +288,7 @@ func GetEncryptCouponHandler(w http.ResponseWriter, r *http.Request) {
 				panic(err)
 				return
 			}
-			key := readKeyFile("private.kdy")
+			key := readKeyFile("private.key")
 			encryptedResponse.Body = string(encodeHex(encrypt(ajson, key)))
 			status.Status = SUCCESS
 		}
