@@ -555,14 +555,15 @@
             var jrecord;
             if (id != "9999") {
                 var row = document.getElementById(id);
-                record = {
-                    body :  json_data.body
+                jrecord = json_data.body
+                    //{
+                    //body :
                   //  name: row.cells[0].innerHTML,
                   //  couponId: row.cells[1].innerHTML,
                   //  amount: parseInt(row.cells[2].innerHTML),
                   //  balance: parseInt((row.cells[3].innerHTML)),
                   //  issueDate: fullDate
-                 };
+                 //};
             } else {
                 var e = document.getElementById("formId").elements;
                 var name = e.namedItem("name").value;
@@ -577,8 +578,9 @@
                     balance: parseInt(balance),
                     issueDate: fullDate
                 };
+                jrecord = JSON.stringify(record);
             }
-            jrecord = JSON.stringify(record);
+
 
             var elem = document.getElementById('output');
             elem.textContent = "";
@@ -587,8 +589,8 @@
             }
             qrcode = new QRCode("output", {
                 text: jrecord,
-                width: 128,
-                height: 128,
+                width: 256,
+                height: 256,
                 colorDark: "#000000",
                 colorLight: "#ffffff",
                 correctLevel: QRCode.CorrectLevel.H
