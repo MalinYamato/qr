@@ -486,17 +486,15 @@
 <script>
 
     function showTransactions(id) {
-
         document.getElementById("transactionReport").style.display = "block";
         document.getElementById("transactionId").innerHTML = id;
         document.getElementById("main").style.display = "none";
-        result = getCoupon(id);
+        getCoupon("/GetCoupon", id, populateReport);
     }
 
     function hideTransactions() {
         document.getElementById("transactionReport").style.display = "none";
         document.getElementById("main").style.display = "block";
-
     }
 
     function topBalance(couponId) {
@@ -546,51 +544,55 @@
     var qrcode = null;
 
     function showQRcode(id) {
-        document.getElementById("qrCode").style.visibility = "visible";
-        var t = new Date();
-        var fullDate = t.getFullYear() + "-" + t.getMonth() + "-" +
-            t.getDay() + " " + t.getHours() + ":" + t.getMinutes();
-        var JObj;
-        if (id != "9999") {
-            var row = document.getElementById(id);
-            JObj = {
-                name: row.cells[0].innerHTML,
-                couponId: row.cells[1].innerHTML,
-                amount: parseInt(row.cells[2].innerHTML),
-                balance: parseInt((row.cells[3].innerHTML)),
-                issueDate: fullDate
-            };
-        } else {
-            var e = document.getElementById("formId").elements;
-            var name = e.namedItem("name").value;
-            var couponId = e.namedItem("couponId").value;
-            var amount = e.namedItem("amount").value;
-            var balance = e.namedItem("balance").value;
-            JObj = {
-                name: name,
-                couponId: couponId,
-                amount: parseInt(amount),
-                balance: parseInt(balance),
-                issueDate: fullDate
-            };
-        }
+        getCoupon("/GetEncryptedCoupon",id, function(id, json_data) {
 
-        Jstring = JSON.stringify(JObj);
-        var elem = document.getElementById('output');
-        elem.textContent = "";
+            document.getElementById("qrCode").style.visibility = "visible";
+            var t = new Date();
+            var fullDate = t.getFullYear() + "-" + t.getMonth() + "-" +
+                t.getDay() + " " + t.getHours() + ":" + t.getMinutes();
+            var JObj;
+            if (id != "9999") {
+                var row = document.getElementById(id);
+                JObj = {
+                    encryptedBody : json_data.encryptedBody
+                  //  name: row.cells[0].innerHTML,
+                  //  couponId: row.cells[1].innerHTML,
+                  //  amount: parseInt(row.cells[2].innerHTML),
+                  //  balance: parseInt((row.cells[3].innerHTML)),
+                  //  issueDate: fullDate
+                };
+            } else {
+                var e = document.getElementById("formId").elements;
+                var name = e.namedItem("name").value;
+                var couponId = e.namedItem("couponId").value;
+                var amount = e.namedItem("amount").value;
+                var balance = e.namedItem("balance").value;
+                JObj = {
+                    name: name,
+                    couponId: couponId,
+                    amount: parseInt(amount),
+                    balance: parseInt(balance),
+                    issueDate: fullDate
+                };
+            }
 
-        if (qrcode != null) {
-            qrcode.clear();
-        }
-        qrcode = new QRCode("output", {
-            text: Jstring,
-            width: 128,
-            height: 128,
-            colorDark: "#000000",
-            colorLight: "#ffffff",
-            correctLevel: QRCode.CorrectLevel.H
+            Jstring = JSON.stringify(JObj);
+            var elem = document.getElementById('output');
+            elem.textContent = "";
+
+            if (qrcode != null) {
+                qrcode.clear();
+            }
+            qrcode = new QRCode("output", {
+                text: Jstring,
+                width: 128,
+                height: 128,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
         });
-    }
+        }
 
     function URL() {
         // return "{{.Protocol}}://{{.Host}}:{{.Port}}";
@@ -614,7 +616,6 @@
 
     window.onload = function () {
         getAllCoupons();
-        // setScrollbar();
     };
 
     function populateReport(json) {
@@ -652,7 +653,7 @@
     }
 
 
-    function populateCouponTable(elems) {
+    function populateCouponTable(id,elems) {
         var i = 0;
         var table = document.getElementById("couponTableBody");
         while (table.hasChildNodes()) {
@@ -763,12 +764,16 @@
         }
     }
 
-    function getCoupon(id) {
+    function getCoupon( url ,id, cb) {
+        if (id == "9999") {
+            cb(id,null);
+            return;
+        }
         var request = new XMLHttpRequest();
         let jsonObject = {};
         jsonObject["op"] = "getCoupon";
         jsonObject["couponId"] = id;
-        request.open("POST", URL() + "/GetCoupon", true);
+        request.open("POST", URL() + url, true);
         request.setRequestHeader('Content-Type', 'application/json');
         request.send(JSON.stringify(jsonObject));
         request.onload = function () {
@@ -779,8 +784,13 @@
                         json_response.status.detail);
                     return null;
                 }
-                //alert("getAllCoupons() SUCCESS " + json_response.coupons[0].firstName);
-                populateReport(json_response);
+                alert("getCoupons() SUCCESS " + json_response.coupons[0].firstName);
+                if (cb && typeof(cb) === "function") {
+                    cb(id,json_response);
+                } else {
+                    alert("getCoupons() callback falied! ");
+                }
+
             } else {
                 console.log("getUser problem " + status);
                 alert("getCoupon() ERROR");

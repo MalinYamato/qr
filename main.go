@@ -157,6 +157,7 @@ func NewMux(config *Config) *http.ServeMux {
 	mux.Handle("/CreateCoupon", requireLogin(http.HandlerFunc(CreateCouponHandler)))
 	mux.Handle("/GetAllCoupons", requireLogin(http.HandlerFunc(GetAllCouponsHandler)))
 	mux.HandleFunc("/GetCoupon", GetCouponHandler)
+	mux.HandleFunc("/GetEncryptedCoupon", GetEncryptCouponHandler)
 
 	mux.HandleFunc("/logout", logoutHandler)
 

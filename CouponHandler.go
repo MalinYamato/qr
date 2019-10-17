@@ -74,10 +74,24 @@ type GetAllCouponsResponse struct {
 	Status  Status   `json:"status"`
 	Coupons []Coupon `json:"coupons"`
 }
+
 type GetCouponResponse struct {
-	Op     string `json:"op"`
-	Status Status `json:"status"`
-	Coupon Coupon `json:"coupon"`
+	Op              string `json:"op"`
+	Status          Status `json:"status"`
+	Coupon          Coupon `json:"coupon"`
+	EncryptedCoupon string `json:"encryptedCoupon"`
+}
+
+type EncryptedCoupon struct {
+	CouponID string `json:"couponId"`
+	Name     string `json:"name"`
+	Amount   int    `json:"amount"`
+}
+
+type EncryptedCouponResponse struct {
+	Status   Status `json:"status"`
+	CouponID string `json:"couponId"`
+	Body     string `json:"body"`
 }
 
 func GetAllCouponsHandler(w http.ResponseWriter, r *http.Request) {
@@ -237,6 +251,62 @@ func UpdateCouponHandler(w http.ResponseWriter, r *http.Request) {
 			panic(err)
 			return
 		}
+	}
+}
+
+func GetEncryptCouponHandler(w http.ResponseWriter, r *http.Request) {
+	var status Status
+	var couponRequest GetCouponRequest
+	var encryptedResponse EncryptedCouponResponse
+	log.Println("GetEncryptCouponHandler called")
+	status = Status{SUCCESS, ""}
+	//defer r.Body.Close()
+	if r.Method != "POST" {
+		status.Status = ERROR
+		status.Detail = "CouponHandler wrong HTTP method! " + r.Method
+	} else {
+		decoder := json.NewDecoder(r.Body)
+		err := decoder.Decode(&couponRequest)
+		if err != nil {
+			log.Println("Json decoder of paymentRequest error> ", err.Error())
+			status.Status = ERROR
+			status.Detail = "Json decoder of paymentRequest error> "
+			//panic(err)
+		}
+		coupon, stat := _coupons.findCouponByCouponId(couponRequest.CouponID)
+		if stat == false {
+			status.Status = WARNING
+			status.Detail = "There are no coupons!"
+		} else {
+			sc := EncryptedCoupon{
+				coupon.CouponID,
+				coupon.FirstName,
+				coupon.Amount}
+			ajson, err := json.Marshal(sc)
+			if err != nil {
+				log.Println("HandlingCoupon json.Marchal returned error %s", err)
+				panic(err)
+				return
+			}
+			key := readKeyFile("private.kdy")
+			encryptedResponse.Body = string(encodeHex(encrypt(ajson, key)))
+			status.Status = SUCCESS
+		}
+	}
+	encryptedResponse.Status = status
+	json_response, err := json.Marshal(encryptedResponse)
+	if err != nil {
+		log.Println("HandlingCoupon json.Marchal returned error %s", err)
+		panic(err)
+		return
+	}
+	log.Println("CouponHandler writing back")
+	w.Header().Set("Content-Type", "application/json")
+	a, err := w.Write(json_response)
+	if err != nil {
+		log.Println("HandlingCoupon http.write returned error %s %s", err, a)
+		panic(err)
+		return
 	}
 }
 
