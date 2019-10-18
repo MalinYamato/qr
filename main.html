@@ -373,7 +373,7 @@
                     <tr class="couponTableHeaderRow">
                         <th class="name">Namn</th>
                         <th class="id">ID</th>
-                        <th class="number">Betala</th>
+                        <th class="number">Betalning</th>
                         <th class="number">Saldo</th>
                         <th class="buttonsColumn">Editera</th>
                         <td class="dummyElement"></td>
@@ -414,7 +414,6 @@
                             </td>
                         </tr>
                         </tbody>
-
                     </table>
                 </div>
 
@@ -422,7 +421,7 @@
                     <table class="formTable w3-table-all">
                         <tr class="createCouponRow">
                             <td id="firstChild">
-                                <input id="formName" CLASS="w3-input w3-border" name="name" type="text"
+                                <input id="formName" class="w3-input w3-border" name="name" type="text"
                                        placeholder="Namn"
                                 />
                             </td>
@@ -432,13 +431,13 @@
                                 />
                             </td>
                             <td>
-                                <input id="formAmount" class="w3-input w3-border" name="amount" type="text"
+                                <input id="formPay" class="w3-input w3-border" name="pay" type="text"
                                        placeholder="Betala"
                                 />
                             </td>
                             <td>
-                                <input id="formBalance" class="w3-input w3-border" name="balance" type="text"
-                                       placeholder="Tillskott"
+                                <input id="formDeposit" class="w3-input w3-border" name="deposit" type="text"
+                                       placeholder="Insättning"
                                 />
                             <td class="emtpy"></td>
 
@@ -498,21 +497,23 @@
     }
 
     function topBalance(couponId) {
-        document.getElementById("formButton").innerHTML = "Öka saldot";
-        document.getElementById("formName").style.visibility = "hidden";
-        document.getElementById("formAmount").style.visibility = "hidden";
+        document.getElementById("formButton").innerHTML = "Utför insättning";
+        document.getElementById("formName").style.visibility = "visible";
+        document.getElementById("formDeposit").style.visibility = "visible";
+        document.getElementById("formPay").style.visibility = "hidden";
         document.getElementById("formIdNumber").value = couponId;
         document.getElementById("formIdNumber").readOnly = true;
+        document.getElementById("formName").readOnly = true;
     }
 
     function restoreForm() {
         document.getElementById("formButton").innerHTML = "Skapa";
         document.getElementById("formName").style.visibility = "visible";
-        document.getElementById("formAmount").style.visibility = "visible";
+        document.getElementById("formPay").style.visibility = "visible";
         document.getElementById("formIdNumber").readOnly = false;
+        document.getElementById("formName").readOnly = false;
         document.getElementById("formIdNumber").value = "";
-        document.getElementById("formBalance").value = ""
-        ;
+        document.getElementById("formDebosit").value = "";
     }
 
     function printQRcode() {
@@ -556,31 +557,23 @@
             if (id != "9999") {
                 var row = document.getElementById(id);
                 jrecord = json_data.body
-                    //{
-                    //body :
-                  //  name: row.cells[0].innerHTML,
-                  //  couponId: row.cells[1].innerHTML,
-                  //  amount: parseInt(row.cells[2].innerHTML),
-                  //  balance: parseInt((row.cells[3].innerHTML)),
-                  //  issueDate: fullDate
-                 //};
+
             } else {
                 var e = document.getElementById("formId").elements;
                 var name = e.namedItem("name").value;
                 var couponId = e.namedItem("couponId").value;
-                var amount = e.namedItem("amount").value;
+                var pay = e.namedItem("pay").value;
                 var balance = e.namedItem("balance").value;
                 var JObj;
                 record = {
                     name: name,
                     couponId: couponId,
-                    amount: parseInt(amount),
+                    pay: parseInt(pay),
                     balance: parseInt(balance),
                     issueDate: fullDate
                 };
                 jrecord = JSON.stringify(record);
             }
-
 
             var elem = document.getElementById('output');
             elem.textContent = "";
@@ -610,10 +603,8 @@
             if (document.getElementById("formButton").innerText == "Skapa") {
                 submitForm("/CreateCoupon", "createCoupon", remiter);
             } else {
-                submitForm("/UpdateCoupon", "addBalance", remiter);
+                submitForm("/UpdateCoupon", "creditPayment", remiter);
             }
-            getAllCoupons();
-            restoreForm();
         });
     });
 
@@ -647,7 +638,7 @@
             cell1.innerHTML = i + 1;
             cell2.innerHTML = json.coupon.payments[i].remiter;
             cell3.innerHTML = yr + "-" + mo + "-" + dy + " " + ho + ":" + mi + ":" + se;
-            cell4.innerHTML = json.coupon.payments[i].amount;
+            cell4.innerHTML = json.coupon.payments[i].pay;
             cell5.innerHTML = json.coupon.payments[i].balance;
             cell2.setAttribute("class", "remiter");
             cell3.setAttribute("class", "date");
@@ -679,7 +670,7 @@
             var cell6 = row.insertCell(5);
             cell1.innerHTML = elems.coupons[i].firstName;
             cell2.innerHTML = elems.coupons[i].couponId;
-            cell3.innerHTML = elems.coupons[i].amount;
+            cell3.innerHTML = elems.coupons[i].pay;
             cell4.innerHTML = elems.coupons[i].balance;
 
             var addButton = document.createElement("BUTTON");
@@ -713,7 +704,7 @@
         const formData = new FormData(document.getElementById("formId"));
         let jsonObject = {};
         for (const [key, value] of formData.entries()) {
-            if (key == "amount" || key == "balance") {
+            if (key == "pay" || key == "deposit") {
                 jsonObject[key] = parseInt(value);
             } else {
                 jsonObject[key] = value;
@@ -733,10 +724,13 @@
             success: function (response) {
                 alert("success " + response.status);
                 console.log("submitForm " + response.status);
+                getAllCoupons();
+                restoreForm();
             },
             error: function (jqXhr, textStatus, errorMessage) {
                 console.log("Error: ");
                 alert("ERROR");
+                restoreForm();
             }
         }).done(function (response) {
             console.log("submitForm " + response.status);

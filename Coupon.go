@@ -52,7 +52,7 @@ type Coupon struct {
 	CouponID    string    `json:"couponId"`
 	Nic         string    `json:"nic,omitempty"`
 	Balance     int       `json:"balance"`
-	Amount      int       `json:"amount"`
+	Pay         int       `json:"pay"`
 	IssueTime   int64     `json:"issueTime,omitempty"`
 	Email       string    `json:"email,omitempty"`
 	FirstName   string    `json:"firstName"`

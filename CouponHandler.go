@@ -44,8 +44,8 @@ type CreateCouponsRequest struct {
 	CouponId string `json:"couponId"`
 	Remiter  string `json:"remiter"`
 	Name     string `json:"name"`
-	Balance  int    `json:"balance"`
-	Amount   int    `json:"amount"`
+	Pay      int    `json:"pay"`
+	Deposit  int    `json:"deposit"`
 }
 type GetCouponRequest struct {
 	Op       string `json:"op"`
@@ -60,7 +60,8 @@ type PaymentRequest struct {
 	Op       string `json:"op"`
 	Remiter  string `json:"remiter"`
 	CouponID string `json:"couponId"`
-	Amount   int    `json:"amount"`
+	Pay      int    `json:"pay"`
+	Deposit  int    `json:"deposit"`
 }
 
 type EncryptedPaymentRequest struct {
@@ -169,14 +170,14 @@ func CreateCouponHandler(w http.ResponseWriter, r *http.Request) {
 		var payment Payment
 		payment.DateTime = time.Now().Format(time.RFC3339)
 		payment.Remiter = requestCreateCoupon.Remiter
-		payment.Amount = requestCreateCoupon.Balance
-		payment.Balance = requestCreateCoupon.Balance
+		payment.Amount = requestCreateCoupon.Deposit
+		payment.Balance = requestCreateCoupon.Deposit
 		coupon.Payments = append(coupon.Payments, payment)
 
 		coupon.CouponID = requestCreateCoupon.CouponId
 		coupon.FirstName = requestCreateCoupon.Name
-		coupon.Balance = requestCreateCoupon.Balance
-		coupon.Amount = requestCreateCoupon.Amount
+		coupon.Balance = requestCreateCoupon.Deposit
+		coupon.Pay = requestCreateCoupon.Pay
 		log.Println("Creating coupon of " + coupon.FirstName)
 		_coupons.Save(coupon)
 
@@ -252,7 +253,7 @@ func UpdateCouponHandler(w http.ResponseWriter, r *http.Request) {
 					}
 				}
 			}
-		case "payment":
+		case "deposit":
 			{
 				err = json.Unmarshal(body, &paymentRequest)
 				if err != nil {
@@ -269,10 +270,10 @@ func UpdateCouponHandler(w http.ResponseWriter, r *http.Request) {
 				status.Detail = "There are no coupon that maches Id: " + paymentRequest.CouponID
 			} else {
 				var payment Payment
+				coupon.Balance = coupon.Balance - paymentRequest.Pay + paymentRequest.Deposit
 				payment.DateTime = time.Now().Format(time.RFC3339)
 				payment.Remiter = paymentRequest.Remiter
-				coupon.Balance = coupon.Balance + paymentRequest.Amount
-				payment.Amount = paymentRequest.Amount
+				payment.Amount = paymentRequest.Pay
 				payment.Balance = coupon.Balance
 				coupon.Payments = append(coupon.Payments, payment)
 				_coupons.Save(coupon)
@@ -322,7 +323,7 @@ func GetEncryptCouponHandler(w http.ResponseWriter, r *http.Request) {
 				sc := EncryptedCoupon{
 					coupon.CouponID,
 					coupon.FirstName,
-					coupon.Amount}
+					coupon.Pay}
 				ajson, err := json.Marshal(sc)
 				if err != nil {
 					log.Println("HandlingCoupon json.Marchal returned error %s", err)
