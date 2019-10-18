@@ -97,7 +97,7 @@ type GetCouponResponse struct {
 type EncryptedCoupon struct {
 	CouponID string `json:"couponId"`
 	Name     string `json:"name"`
-	Amount   int    `json:"amount"`
+	Pay      int    `json:"pay"`
 }
 
 type EncryptedCouponResponse struct {
@@ -270,7 +270,10 @@ func UpdateCouponHandler(w http.ResponseWriter, r *http.Request) {
 				status.Detail = "There are no coupon that maches Id: " + paymentRequest.CouponID
 			} else {
 				var payment Payment
+				log.Printf(" balance %d Pay %d Deposit %d \n", coupon.Balance,
+					paymentRequest.Pay, paymentRequest.Deposit)
 				coupon.Balance = coupon.Balance - paymentRequest.Pay + paymentRequest.Deposit
+				log.Printf("new balance %s", coupon.Balance)
 				payment.DateTime = time.Now().Format(time.RFC3339)
 				payment.Remiter = paymentRequest.Remiter
 				payment.Amount = paymentRequest.Pay
