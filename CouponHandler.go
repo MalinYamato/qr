@@ -270,13 +270,15 @@ func UpdateCouponHandler(w http.ResponseWriter, r *http.Request) {
 				status.Detail = "There are no coupon that maches Id: " + paymentRequest.CouponID
 			} else {
 				var payment Payment
-				log.Printf(" balance %d Pay %d Deposit %d \n", coupon.Balance,
-					paymentRequest.Pay, paymentRequest.Deposit)
-				coupon.Balance = coupon.Balance - paymentRequest.Pay + paymentRequest.Deposit
-				log.Printf("new balance %s", coupon.Balance)
+				if request.Op == "deposit" {
+					payment.Amount = paymentRequest.Deposit
+					coupon.Balance = coupon.Balance + paymentRequest.Deposit
+				} else {
+					payment.Amount = -1 * paymentRequest.Pay
+					coupon.Balance = coupon.Balance - paymentRequest.Pay
+				}
 				payment.DateTime = time.Now().Format(time.RFC3339)
 				payment.Remiter = paymentRequest.Remiter
-				payment.Amount = paymentRequest.Pay
 				payment.Balance = coupon.Balance
 				coupon.Payments = append(coupon.Payments, payment)
 				_coupons.Save(coupon)
