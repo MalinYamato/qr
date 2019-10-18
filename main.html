@@ -603,7 +603,7 @@
             if (document.getElementById("formButton").innerText == "Skapa") {
                 submitForm("/CreateCoupon", "createCoupon", remiter);
             } else {
-                submitForm("/UpdateCoupon", "creditPayment", remiter);
+                submitForm("/UpdateCoupon", "deposit", remiter);
             }
         });
     });
@@ -638,7 +638,7 @@
             cell1.innerHTML = i + 1;
             cell2.innerHTML = json.coupon.payments[i].remiter;
             cell3.innerHTML = yr + "-" + mo + "-" + dy + " " + ho + ":" + mi + ":" + se;
-            cell4.innerHTML = json.coupon.payments[i].pay;
+            cell4.innerHTML = json.coupon.payments[i].amount;
             cell5.innerHTML = json.coupon.payments[i].balance;
             cell2.setAttribute("class", "remiter");
             cell3.setAttribute("class", "date");
