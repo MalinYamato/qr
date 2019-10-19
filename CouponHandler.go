@@ -198,6 +198,42 @@ func CreateCouponHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func extract(body []byte) (PaymentRequest, Status) {
+	var status Status
+	var request EncryptedPaymentRequest
+	var paymentRequest PaymentRequest
+	err := json.Unmarshal(body, &request)
+	if err != nil {
+		log.Println("Json decoder of paymentRequest error> ", err.Error())
+		status.Status = ERROR
+		status.Detail = "Fail to ummarchal request."
+	} else {
+		decoded, err := decodeHex([]byte(request.Body))
+		if err != nil {
+			status.Status = ERROR
+			status.Detail = "Authorisation failure"
+		} else {
+			key := readKeyFile("private.key")
+			decrypted, err := decrypt(decoded, key)
+			if err != nil {
+				status.Status = ERROR
+				status.Detail = "Authorisation failure"
+			} else {
+				err = json.Unmarshal([]byte(decrypted), &paymentRequest)
+				if err != nil {
+					log.Println("Json unmarchal of paymentRequest error> ", err.Error())
+					status.Status = ERROR
+					status.Detail = "Fail to ummarchal decrypted part of request."
+				} else {
+					paymentRequest.Remiter = request.Remiter
+					status.Status = SUCCESS
+				}
+			}
+		}
+	}
+	return paymentRequest, status
+}
+
 func UpdateCouponHandler(w http.ResponseWriter, r *http.Request) {
 	var status Status
 	var response PaymentResponse
@@ -223,36 +259,14 @@ func UpdateCouponHandler(w http.ResponseWriter, r *http.Request) {
 		switch request.Op {
 		case "encryptedPayment":
 			{
-				var request EncryptedPaymentRequest
-				err = json.Unmarshal(body, &request)
-				if err != nil {
-					log.Println("Json decoder of paymentRequest error> ", err.Error())
-					status.Status = ERROR
-					status.Detail = "Fail to ummarchal request."
-				} else {
-					decoded, err := decodeHex([]byte(request.Body))
-					if err != nil {
-						status.Status = ERROR
-						status.Detail = "Authorisation failure"
-					} else {
-						key := readKeyFile("private.key")
-						decrypted, err := decrypt(decoded, key)
-						if err != nil {
-							status.Status = ERROR
-							status.Detail = "Authorisation failure"
-						} else {
-							err = json.Unmarshal([]byte(decrypted), &paymentRequest)
-							if err != nil {
-								log.Println("Json unmarchal of paymentRequest error> ", err.Error())
-								status.Status = ERROR
-								status.Detail = "Fail to ummarchal decrypted part of request."
-							} else {
-								paymentRequest.Remiter = request.Remiter
-							}
-						}
-					}
-				}
+				paymentRequest, status = extract(body)
 			}
+			break
+		case "getCoupon":
+			{
+				paymentRequest, status = extract(body)
+			}
+			break
 		case "deposit":
 			{
 				err = json.Unmarshal(body, &paymentRequest)
@@ -262,6 +276,7 @@ func UpdateCouponHandler(w http.ResponseWriter, r *http.Request) {
 					status.Detail = "Fail to ummarchal payment request."
 				}
 			}
+			break
 		}
 		if status.Status == SUCCESS {
 			coupon, stat := _coupons.findCouponByCouponId(paymentRequest.CouponID)
@@ -269,19 +284,21 @@ func UpdateCouponHandler(w http.ResponseWriter, r *http.Request) {
 				status.Status = WARNING
 				status.Detail = "There are no coupon that maches Id: " + paymentRequest.CouponID
 			} else {
-				var payment Payment
-				if request.Op == "deposit" {
-					payment.Amount = paymentRequest.Deposit
-					coupon.Balance = coupon.Balance + paymentRequest.Deposit
-				} else {
-					payment.Amount = -1 * paymentRequest.Pay
-					coupon.Balance = coupon.Balance - paymentRequest.Pay
+				if request.Op != "getCoupon" {
+					var payment Payment
+					if request.Op == "deposit" {
+						payment.Amount = paymentRequest.Deposit
+						coupon.Balance = coupon.Balance + paymentRequest.Deposit
+					} else {
+						payment.Amount = -1 * paymentRequest.Pay
+						coupon.Balance = coupon.Balance - paymentRequest.Pay
+					}
+					payment.DateTime = time.Now().Format(time.RFC3339)
+					payment.Remiter = paymentRequest.Remiter
+					payment.Balance = coupon.Balance
+					coupon.Payments = append(coupon.Payments, payment)
+					_coupons.Save(coupon)
 				}
-				payment.DateTime = time.Now().Format(time.RFC3339)
-				payment.Remiter = paymentRequest.Remiter
-				payment.Balance = coupon.Balance
-				coupon.Payments = append(coupon.Payments, payment)
-				_coupons.Save(coupon)
 				response.Coupon = coupon
 			}
 		}
