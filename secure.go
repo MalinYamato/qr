@@ -124,7 +124,12 @@ func decrypt(data []byte, pvtKey []byte) ([]byte, error) {
 	}
 	nonceSize := gcm.NonceSize()
 	nonce, ciphertext := data[:nonceSize], data[nonceSize:]
-	return gcm.Open(nil, nonce, ciphertext, nil)
+	plaintext, err := gcm.Open(nil, nonce, ciphertext, nil)
+	fmt.Printf("decrypted %s\n", plaintext)
+	if err != nil {
+		panic(err.Error())
+	}
+	fmt.Printf("%s\n", plaintext)
 }
 
 func readKeyFile(path string) []byte {
