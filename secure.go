@@ -130,6 +130,7 @@ func decrypt(data []byte, pvtKey []byte) ([]byte, error) {
 		panic(err.Error())
 	}
 	fmt.Printf("%s\n", plaintext)
+	return plaintext, err
 }
 
 func readKeyFile(path string) []byte {
